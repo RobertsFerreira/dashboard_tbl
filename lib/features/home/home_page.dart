@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
+import 'package:dashboard_tbl/features/users/external/user_external.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,12 +14,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  final int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Future<void> _incrementCounter() async {
+    final UserExternal userExternal = UserExternal(DioClient());
+    const idCompany = "1566d92f-9119-44d5-830e-9c3f94eb657c";
+    final users = await userExternal.getUserByTypeUser(idCompany: idCompany);
+    for (final user in users) {
+      log(user.toString());
+    }
   }
 
   @override
@@ -39,7 +46,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () async => _incrementCounter(),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

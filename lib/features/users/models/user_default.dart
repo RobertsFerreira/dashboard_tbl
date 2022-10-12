@@ -5,13 +5,13 @@ class UserDefault {
   final String cpf;
   final DateTime birthDate;
   final String idCompany;
-  final TypesUserModel typeUser;
+  final TypesUserModel typesUser;
 
   UserDefault({
     required this.name,
     required this.cpf,
     required this.birthDate,
     required this.idCompany,
-    required this.typeUser,
+    required this.typesUser,
   });
 }

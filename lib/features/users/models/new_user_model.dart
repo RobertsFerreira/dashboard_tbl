@@ -8,7 +8,7 @@ class NewUserModel extends UserDefault {
     required super.cpf,
     required super.birthDate,
     required super.idCompany,
-    required super.typeUser,
+    required super.typesUser,
   });
 
   Map<String, dynamic> toMap() {
@@ -17,9 +17,13 @@ class NewUserModel extends UserDefault {
       'cpf': cpf,
       'birthDate': birthDate,
       'idCompany': idCompany,
-      'typeUser': typeUser,
+      'typeUser': typesUser,
     };
   }
 
   String toJson() => jsonEncode(toMap());
+
+  @override
+  String toString() =>
+      'NewUserModel(name: $name, cpf: $cpf, birthDate: $birthDate, idCompany: $idCompany, typesUser: $typesUser)';
 }
