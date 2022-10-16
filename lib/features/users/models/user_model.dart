@@ -8,6 +8,7 @@ import 'user_default.dart';
 class UserModel extends UserDefault {
   final String id;
   final bool enabled;
+  final bool isLeaderGroup;
 
   UserModel({
     required super.name,
@@ -17,14 +18,37 @@ class UserModel extends UserDefault {
     required super.typesUser,
     required this.id,
     required this.enabled,
+    this.isLeaderGroup = false,
   });
+
+  UserModel copyWith({
+    String? id,
+    String? name,
+    String? cpf,
+    DateTime? birthDate,
+    String? idCompany,
+    TypesUserModel? typesUser,
+    bool? enabled,
+    bool? isLeaderGroup,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? super.name,
+      cpf: cpf ?? super.cpf,
+      birthDate: birthDate ?? super.birthDate,
+      idCompany: idCompany ?? super.idCompany,
+      typesUser: typesUser ?? super.typesUser,
+      enabled: enabled ?? this.enabled,
+      isLeaderGroup: isLeaderGroup ?? this.isLeaderGroup,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
       'cpf': cpf,
-      'birth_date': birthDate,
+      'birth_date': birthDate.toIso8601String(),
       'id_company': idCompany,
       'types_user': typesUser,
       'enabled': enabled,
