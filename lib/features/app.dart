@@ -1,6 +1,7 @@
 import 'package:asuka/asuka.dart';
-import 'package:dashboard_tbl/features/group/pages/group_cadaster_page.dart';
 import 'package:flutter/material.dart';
+
+import 'group/pages/group_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -11,9 +12,9 @@ class App extends StatelessWidget {
       title: 'Flutter Demo',
       builder: Asuka.builder,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const GroupCadasterPage(),
+      home: GroupPage(),
     );
   }
 }

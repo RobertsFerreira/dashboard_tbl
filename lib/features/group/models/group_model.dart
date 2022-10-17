@@ -7,33 +7,35 @@ import 'group_default.dart';
 
 class GroupModel extends GroupDefault {
   final String id;
+  final UserModel userLeader;
 
   GroupModel({
     required this.id,
     required super.idClass,
     required super.reference,
-    required super.idUserLeader,
+    required this.userLeader,
     required super.users,
   });
 
   factory GroupModel.fromMap(Map<String, dynamic> json) {
     final map = MapFields.load(json);
     final usersMap = map.getList<Map<String, dynamic>>('users', []);
+    final user = json['user'] ?? {};
     return GroupModel(
       id: map.getString('id', ''),
       idClass: map.getString('id_class', ''),
       reference: map.getString('reference', ''),
-      idUserLeader: map.getString('id_user_leader', ''),
+      userLeader: UserModel.fromMap(user),
       users: usersMap.map((e) => UserModel.fromMap(e)).toList(),
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toUpdate() {
     return {
       'id': id,
       'id_class': idClass,
       'reference': reference,
-      'id_user_leader': idUserLeader,
+      'id_user_leader': userLeader.id,
       'users': users.map((e) => e.toMap()).toList(),
     };
   }
@@ -41,5 +43,5 @@ class GroupModel extends GroupDefault {
   factory GroupModel.fromJson(String source) =>
       GroupModel.fromMap(jsonDecode(source));
 
-  String toJson() => jsonEncode(toMap());
+  // String toJson() => jsonEncode(toMap());
 }

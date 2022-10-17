@@ -6,10 +6,11 @@ import '../../users/models/user_model.dart';
 import 'group_default.dart';
 
 class NewGroupModel extends GroupDefault {
+  final String idUserLeader;
   NewGroupModel({
     required super.idClass,
     required super.reference,
-    required super.idUserLeader,
+    required this.idUserLeader,
     required super.users,
   });
 

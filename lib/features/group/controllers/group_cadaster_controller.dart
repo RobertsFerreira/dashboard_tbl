@@ -84,7 +84,7 @@ abstract class _GrupoCadasterControllerBase with Store {
       );
       this.users = users;
     } catch (e) {
-      users = [];
+      rethrow;
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../core/components/buttons/custom_button_default.dart';
 import '../controllers/group_cadaster_controller.dart';
 
 class GroupCadasterPage extends StatefulWidget {
@@ -23,6 +24,9 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cadastro de Grupo'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -149,37 +153,37 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                 builder: (_) {
                   final isValidSave = controller.isValidSave;
                   final loading = controller.loading;
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: isValidSave
-                              ? () async {
-                                  await controller.saveGroup();
-                                  asuka.Asuka.showSnackBar(
-                                    SnackBar(
-                                      content: Text(controller.message),
-                                    ),
-                                  );
-                                }
-                              : null,
-                          child: loading
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : const Text('Salvar'),
-                        ),
-                      ),
-                      const SizedBox(width: 30),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Cancelar'),
-                        ),
-                      ),
-                    ],
-                  );
+                  return loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: CustomButtonDefault(
+                                onPressed: isValidSave
+                                    ? () async {
+                                        await controller.saveGroup();
+                                        asuka.Asuka.showSnackBar(
+                                          SnackBar(
+                                            content: Text(controller.message),
+                                          ),
+                                        );
+                                      }
+                                    : null,
+                                text: 'Salvar',
+                              ),
+                            ),
+                            const SizedBox(width: 30),
+                            Expanded(
+                              child: CustomButtonDefault(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                text: 'Cancelar',
+                              ),
+                            ),
+                          ],
+                        );
                 },
               ),
             ),
