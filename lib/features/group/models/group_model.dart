@@ -19,14 +19,23 @@ class GroupModel extends GroupDefault {
 
   factory GroupModel.fromMap(Map<String, dynamic> json) {
     final map = MapFields.load(json);
-    final usersMap = map.getList<Map<String, dynamic>>('users', []);
-    final user = json['user'] ?? {};
+    final usersMap = map.getList<Map<String, dynamic>>('users_groups', []);
+    final userMap = json['user'] ?? {};
+    final user = UserModel.fromMap(userMap);
+    final userLeader = user.copyWith(isLeaderGroup: true);
+    List<UserModel> users = usersMap.map((e) => UserModel.fromMap(e)).toList();
+    if (users.isEmpty) {
+      //TODO: remover depois que for limpo os grupos sem usuários
+      users = [user];
+    }
+    final index = users.indexWhere((element) => element.id == user.id);
+    users[index] = users[index].copyWith(isLeaderGroup: true);
     return GroupModel(
       id: map.getString('id', ''),
       idClass: map.getString('id_class', ''),
       reference: map.getString('reference', ''),
-      userLeader: UserModel.fromMap(user),
-      users: usersMap.map((e) => UserModel.fromMap(e)).toList(),
+      userLeader: userLeader,
+      users: users,
     );
   }
 
@@ -36,7 +45,6 @@ class GroupModel extends GroupDefault {
       'id_class': idClass,
       'reference': reference,
       'id_user_leader': userLeader.id,
-      'users': users.map((e) => e.toMap()).toList(),
     };
   }
 

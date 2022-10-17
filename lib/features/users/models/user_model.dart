@@ -7,7 +7,7 @@ import 'user_default.dart';
 
 class UserModel extends UserDefault {
   final String id;
-  final bool enabled;
+  final bool active;
   final bool isLeaderGroup;
 
   UserModel({
@@ -17,7 +17,7 @@ class UserModel extends UserDefault {
     required super.idCompany,
     required super.typesUser,
     required this.id,
-    required this.enabled,
+    required this.active,
     this.isLeaderGroup = false,
   });
 
@@ -28,7 +28,7 @@ class UserModel extends UserDefault {
     DateTime? birthDate,
     String? idCompany,
     TypesUserModel? typesUser,
-    bool? enabled,
+    bool? active,
     bool? isLeaderGroup,
   }) {
     return UserModel(
@@ -38,7 +38,7 @@ class UserModel extends UserDefault {
       birthDate: birthDate ?? super.birthDate,
       idCompany: idCompany ?? super.idCompany,
       typesUser: typesUser ?? super.typesUser,
-      enabled: enabled ?? this.enabled,
+      active: active ?? this.active,
       isLeaderGroup: isLeaderGroup ?? this.isLeaderGroup,
     );
   }
@@ -51,7 +51,7 @@ class UserModel extends UserDefault {
       'birth_date': birthDate.toIso8601String(),
       'id_company': idCompany,
       'types_user': typesUser,
-      'enabled': enabled,
+      'active': active,
     };
   }
 
@@ -65,7 +65,7 @@ class UserModel extends UserDefault {
       birthDate: map.getDateTime('birth_date', DateTime.now()),
       idCompany: map.getString('id_company', ''),
       typesUser: TypesUserModel.fromMap(typesUser),
-      enabled: map.getBool('enabled', false),
+      active: map.getBool('active', false),
     );
   }
 
@@ -76,5 +76,5 @@ class UserModel extends UserDefault {
 
   @override
   String toString() =>
-      'UserModel(id: $id, enabled: $enabled, name: $name, cpf: $cpf, birthDate: $birthDate, idCompany: $idCompany, typesUser: $typesUser)';
+      'UserModel(id: $id, active: $active, name: $name, cpf: $cpf, birthDate: $birthDate, idCompany: $idCompany, typesUser: $typesUser)';
 }
