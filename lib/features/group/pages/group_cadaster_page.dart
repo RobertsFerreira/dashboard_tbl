@@ -32,7 +32,7 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(8, 25, 8, 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -86,42 +86,48 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
             Observer(
               builder: (_) {
                 final users = controller.users;
-                final containsLider = controller.containsLider;
                 final userLeader = controller.userLeader;
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: users.length,
-                    itemBuilder: (_, index) {
-                      final user = users[index];
-                      return Padding(
-                        padding:
-                            const EdgeInsets.only(left: 8, right: 8, top: 4),
-                        child: GestureDetector(
-                          onTap: () => controller.addUserGroup(user),
-                          child: Card(
-                            child: ListTile(
-                              title: Text('Nome: ${user.name}'),
-                              subtitle: Text('CPF: ${user.cpf}'),
-                              trailing: Checkbox(
-                                value: user.isLeaderGroup,
-                                onChanged:
-                                    containsLider && userLeader!.id != user.id
-                                        ? null
-                                        : (value) {
-                                            controller.setUserLeader(
-                                              index,
-                                              user,
-                                              value,
-                                            );
-                                          },
+                return users.isEmpty
+                    ? const Center(
+                        child: Text('Sem usuários cadastrados'),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: users.length,
+                          itemBuilder: (_, index) {
+                            final user = users[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                                top: 4,
                               ),
-                            ),
-                          ),
+                              child: GestureDetector(
+                                onTap: () => controller.addUserGroup(user),
+                                child: Card(
+                                  child: ListTile(
+                                    title: Text('Nome: ${user.name}'),
+                                    subtitle: Text('CPF: ${user.cpf}'),
+                                    trailing: Checkbox(
+                                      value: user.isLeaderGroup,
+                                      onChanged: containsLider &&
+                                              userLeader!.id != user.id
+                                          ? null
+                                          : (value) {
+                                              controller.setUserLeader(
+                                                index,
+                                                user,
+                                                value,
+                                              );
+                                            },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
-                    },
-                  ),
-                );
               },
             ),
             const Divider(),
@@ -151,8 +157,8 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
               padding: const EdgeInsets.all(8.0),
               child: Observer(
                 builder: (_) {
-                  final isValidSave = controller.isValidSave;
                   final loading = controller.loading;
+                  final isValidSave = controller.isValidSave;
                   return loading
                       ? const Center(child: CircularProgressIndicator())
                       : Row(
@@ -161,13 +167,17 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                             Expanded(
                               child: CustomButtonDefault(
                                 onPressed: isValidSave
-                                    ? () async {
-                                        await controller.saveGroup();
+                                    ? () {
+                                        saveGroup();
                                         asuka.Asuka.showSnackBar(
                                           SnackBar(
                                             content: Text(controller.message),
                                           ),
                                         );
+                                        if (!controller.message
+                                            .contains('Erro')) {
+                                          Navigator.pop(context);
+                                        }
                                       }
                                     : null,
                                 text: 'Salvar',
@@ -192,5 +202,13 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
         ),
       ),
     );
+  }
+
+  Future<void> saveGroup() async {
+    await controller.saveGroup();
+  }
+
+  bool get containsLider {
+    return controller.containsLider();
   }
 }

@@ -20,6 +20,9 @@ abstract class _GrupoCadasterControllerBase with Store {
   bool loading = false;
 
   @observable
+  bool isValidSave = false;
+
+  @observable
   String reference = '';
 
   @observable
@@ -39,8 +42,8 @@ abstract class _GrupoCadasterControllerBase with Store {
   @observable
   UserModel? userLeader;
 
-  @computed
-  bool get containsLider {
+  @action
+  bool containsLider() {
     return users
             .where((element) => element.isLeaderGroup == true)
             .toList()
@@ -48,9 +51,9 @@ abstract class _GrupoCadasterControllerBase with Store {
         userLeader != null;
   }
 
-  @computed
-  bool get isValidSave {
-    return userLeader != null &&
+  @action
+  void _isValidSave() {
+    isValidSave = userLeader != null &&
         reference.isNotEmpty &&
         codeClass.isNotEmpty &&
         usersGroup.isNotEmpty;
@@ -68,13 +71,20 @@ abstract class _GrupoCadasterControllerBase with Store {
     } else {
       addUserGroup(user);
     }
+    _isValidSave();
   }
 
   @action
-  void setReference(String value) => reference = value;
+  void setReference(String value) {
+    reference = value;
+    _isValidSave();
+  }
 
   @action
-  void setCodeClass(String value) => codeClass = value;
+  void setCodeClass(String value) {
+    codeClass = value;
+    _isValidSave();
+  }
 
   @action
   Future<void> _getAllUsers() async {

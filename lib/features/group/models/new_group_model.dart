@@ -30,7 +30,7 @@ class NewGroupModel extends GroupDefault {
       'id_class': idClass,
       'reference': reference,
       'id_user_leader': idUserLeader,
-      'users': users.map((e) => e.toMap()).toList(),
+      'users_groups': users.map((e) => e.toMap()).toList(),
     };
   }
 

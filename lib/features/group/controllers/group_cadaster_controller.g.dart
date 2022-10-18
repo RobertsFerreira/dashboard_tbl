@@ -9,21 +9,6 @@ part of 'group_cadaster_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$GrupoCadasterController on _GrupoCadasterControllerBase, Store {
-  Computed<bool>? _$containsLiderComputed;
-
-  @override
-  bool get containsLider =>
-      (_$containsLiderComputed ??= Computed<bool>(() => super.containsLider,
-              name: '_GrupoCadasterControllerBase.containsLider'))
-          .value;
-  Computed<bool>? _$isValidSaveComputed;
-
-  @override
-  bool get isValidSave =>
-      (_$isValidSaveComputed ??= Computed<bool>(() => super.isValidSave,
-              name: '_GrupoCadasterControllerBase.isValidSave'))
-          .value;
-
   late final _$loadingAtom =
       Atom(name: '_GrupoCadasterControllerBase.loading', context: context);
 
@@ -37,6 +22,22 @@ mixin _$GrupoCadasterController on _GrupoCadasterControllerBase, Store {
   set loading(bool value) {
     _$loadingAtom.reportWrite(value, super.loading, () {
       super.loading = value;
+    });
+  }
+
+  late final _$isValidSaveAtom =
+      Atom(name: '_GrupoCadasterControllerBase.isValidSave', context: context);
+
+  @override
+  bool get isValidSave {
+    _$isValidSaveAtom.reportRead();
+    return super.isValidSave;
+  }
+
+  @override
+  set isValidSave(bool value) {
+    _$isValidSaveAtom.reportWrite(value, super.isValidSave, () {
+      super.isValidSave = value;
     });
   }
 
@@ -165,6 +166,28 @@ mixin _$GrupoCadasterController on _GrupoCadasterControllerBase, Store {
       ActionController(name: '_GrupoCadasterControllerBase', context: context);
 
   @override
+  bool containsLider() {
+    final _$actionInfo = _$_GrupoCadasterControllerBaseActionController
+        .startAction(name: '_GrupoCadasterControllerBase.containsLider');
+    try {
+      return super.containsLider();
+    } finally {
+      _$_GrupoCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _isValidSave() {
+    final _$actionInfo = _$_GrupoCadasterControllerBaseActionController
+        .startAction(name: '_GrupoCadasterControllerBase._isValidSave');
+    try {
+      return super._isValidSave();
+    } finally {
+      _$_GrupoCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setUserLeader(int index, UserModel user, bool? value) {
     final _$actionInfo = _$_GrupoCadasterControllerBaseActionController
         .startAction(name: '_GrupoCadasterControllerBase.setUserLeader');
@@ -223,14 +246,13 @@ mixin _$GrupoCadasterController on _GrupoCadasterControllerBase, Store {
   String toString() {
     return '''
 loading: ${loading},
+isValidSave: ${isValidSave},
 reference: ${reference},
 codeClass: ${codeClass},
 message: ${message},
 users: ${users},
 usersGroup: ${usersGroup},
-userLeader: ${userLeader},
-containsLider: ${containsLider},
-isValidSave: ${isValidSave}
+userLeader: ${userLeader}
     ''';
   }
 }
