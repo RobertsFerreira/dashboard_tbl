@@ -1,4 +1,3 @@
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -87,47 +86,54 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
               builder: (_) {
                 final users = controller.users;
                 final userLeader = controller.userLeader;
-                return users.isEmpty
-                    ? const Center(
-                        child: Text('Sem usuários cadastrados'),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                          itemCount: users.length,
-                          itemBuilder: (_, index) {
-                            final user = users[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                                top: 4,
-                              ),
-                              child: GestureDetector(
-                                onTap: () => controller.addUserGroup(user),
-                                child: Card(
-                                  child: ListTile(
-                                    title: Text('Nome: ${user.name}'),
-                                    subtitle: Text('CPF: ${user.cpf}'),
-                                    trailing: Checkbox(
-                                      value: user.isLeaderGroup,
-                                      onChanged: containsLider &&
-                                              userLeader!.id != user.id
-                                          ? null
-                                          : (value) {
-                                              controller.setUserLeader(
-                                                index,
-                                                user,
-                                                value,
-                                              );
-                                            },
+                return Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      const Text('Usuários Cadastrados na turma'),
+                      users.isEmpty
+                          ? const Center(
+                              child: Text('Sem usuários cadastrados'),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                itemCount: users.length,
+                                itemBuilder: (_, index) {
+                                  final user = users[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 8,
+                                      right: 8,
+                                      top: 4,
                                     ),
-                                  ),
-                                ),
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          controller.addUserGroup(user),
+                                      child: ListTile(
+                                        title: Text('Nome: ${user.name}'),
+                                        subtitle: Text('CPF: ${user.cpf}'),
+                                        trailing: Checkbox(
+                                          value: user.isLeaderGroup,
+                                          onChanged: containsLider &&
+                                                  userLeader!.id != user.id
+                                              ? null
+                                              : (value) {
+                                                  controller.setUserLeader(
+                                                    index,
+                                                    user,
+                                                    value,
+                                                  );
+                                                },
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      );
+                            ),
+                    ],
+                  ),
+                );
               },
             ),
             const Divider(),
@@ -135,18 +141,26 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
               builder: (_) {
                 final usersGroup = controller.usersGroup;
                 return Expanded(
-                  child: ListView.builder(
-                    itemCount: usersGroup.length,
-                    itemBuilder: (_, index) {
-                      final user = usersGroup[index];
-                      return GestureDetector(
-                        onTap: () => controller.removeUserGroup(user),
-                        child: ListTile(
-                          title: Text('Nome: ${user.name}'),
-                          subtitle: Text('CPF: ${user.cpf}'),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      const Text('Usuários participantes do grupo'),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: usersGroup.length,
+                          itemBuilder: (_, index) {
+                            final user = usersGroup[index];
+                            return GestureDetector(
+                              onTap: () => controller.removeUserGroup(user),
+                              child: ListTile(
+                                title: Text('Nome: ${user.name}'),
+                                subtitle: Text('CPF: ${user.cpf}'),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 );
               },
@@ -169,15 +183,29 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                                 onPressed: isValidSave
                                     ? () {
                                         saveGroup();
-                                        asuka.Asuka.showSnackBar(
-                                          SnackBar(
-                                            content: Text(controller.message),
-                                          ),
+                                        showDialog(
+                                          context: context,
+                                          builder: ((ctx) {
+                                            return AlertDialog(
+                                              title: const Text('Resultado'),
+                                              content: const Text(
+                                                'Grupo cadastrado com sucesso',
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(ctx);
+                                                    if (!controller.message
+                                                        .contains('Error')) {
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                  child: const Text('Ok'),
+                                                ),
+                                              ],
+                                            );
+                                          }),
                                         );
-                                        if (!controller.message
-                                            .contains('Erro')) {
-                                          Navigator.pop(context);
-                                        }
                                       }
                                     : null,
                                 text: 'Salvar',

@@ -41,6 +41,22 @@ mixin _$GroupController on _GroupControllerBase, Store {
     });
   }
 
+  late final _$messageAtom =
+      Atom(name: '_GroupControllerBase.message', context: context);
+
+  @override
+  String get message {
+    _$messageAtom.reportRead();
+    return super.message;
+  }
+
+  @override
+  set message(String value) {
+    _$messageAtom.reportWrite(value, super.message, () {
+      super.message = value;
+    });
+  }
+
   late final _$turmasAtom =
       Atom(name: '_GroupControllerBase.turmas', context: context);
 
@@ -100,6 +116,7 @@ mixin _$GroupController on _GroupControllerBase, Store {
     return '''
 groups: ${groups},
 turma: ${turma},
+message: ${message},
 turmas: ${turmas},
 anos: ${anos}
     ''';

@@ -18,6 +18,9 @@ class GroupExternal {
       } else {
         final status = response.statusCode;
         final message = response.data;
+        if (status == 204) {
+          return [];
+        }
         throw Exception(
           'Erro ao buscar grupos -- Status: $status -- Message: $message',
         );

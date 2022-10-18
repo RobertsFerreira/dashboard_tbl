@@ -76,26 +76,76 @@ class _GroupPageState extends State<GroupPage> {
               child: Observer(
                 builder: (_) {
                   final groups = groupController.groups;
-                  return groups.isEmpty
-                      ? const Center(
-                          child: Text('Sem grupos cadastrados'),
-                        )
-                      : ListView.builder(
-                          itemCount: groups.length,
-                          itemBuilder: (_, index) {
-                            final group = groups[index];
-                            return ListTile(
-                              title: Text(
-                                group.reference,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                              subtitle: Text(
-                                'Líder do grupo: ${group.userLeader.name}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            );
-                          },
-                        );
+                  final message = groupController.message;
+                  if (message != '') {
+                    return Center(
+                      child: Text(message),
+                    );
+                  } else if (groups.isEmpty) {
+                    return const Center(
+                      child: Text('Sem grupos cadastrados'),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: groups.length,
+                    itemBuilder: (_, index) {
+                      final group = groups[index];
+                      return GestureDetector(
+                        onTap: () {
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (ctx) {
+                          //       return SizedBox(
+                          //         height: 200,
+                          //         width: 800,
+                          //         child: Scaffold(
+                          //           body: Center(
+                          //             child: Column(
+                          //               children: [
+                          //                 Expanded(
+                          //                   child: ListView.builder(
+                          //                     itemCount: group.users.length,
+                          //                     itemBuilder: (_, index) {
+                          //                       final aluno =
+                          //                           group.users[index];
+                          //                       return Card(
+                          //                         child: ListTile(
+                          //                           title: Text(aluno.name),
+                          //                         ),
+                          //                       );
+                          //                     },
+                          //                   ),
+                          //                 ),
+                          //                 const Divider(),
+                          //                 const SizedBox(height: 8),
+                          //                 CustomButtonDefault(
+                          //                   text: 'Fechar',
+                          //                   onPressed: () {
+                          //                     Navigator.pop(ctx);
+                          //                   },
+                          //                 )
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       );
+                          //     });
+                        },
+                        child: Card(
+                          child: ListTile(
+                            title: Text(
+                              group.reference,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                            subtitle: Text(
+                              'Líder do grupo: ${group.userLeader.name}',
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
             ),
