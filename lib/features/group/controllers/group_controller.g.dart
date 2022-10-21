@@ -57,6 +57,22 @@ mixin _$GroupController on _GroupControllerBase, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: '_GroupControllerBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   late final _$turmasAtom =
       Atom(name: '_GroupControllerBase.turmas', context: context);
 
@@ -117,6 +133,7 @@ mixin _$GroupController on _GroupControllerBase, Store {
 groups: ${groups},
 turma: ${turma},
 message: ${message},
+loading: ${loading},
 turmas: ${turmas},
 anos: ${anos}
     ''';

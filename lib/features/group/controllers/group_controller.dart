@@ -24,6 +24,9 @@ abstract class _GroupControllerBase with Store {
   String message = '';
 
   @observable
+  bool loading = false;
+
+  @observable
   List<DropdownMenuItem<String>> turmas = [
     const DropdownMenuItem(
       value: '9a701066-27e2-49d2-ae07-0c0f8fea9524',
@@ -60,6 +63,7 @@ abstract class _GroupControllerBase with Store {
 
   @action
   Future<void> getGroups() async {
+    loading = true;
     message = '';
     try {
       final groupsList = await service.getAllGroups(turma);
@@ -68,5 +72,6 @@ abstract class _GroupControllerBase with Store {
       log(e.toString());
       message = e.toString();
     }
+    loading = false;
   }
 }

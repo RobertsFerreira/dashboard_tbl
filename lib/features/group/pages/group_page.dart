@@ -51,13 +51,13 @@ class _GroupPageState extends State<GroupPage> {
                 ),
                 const SizedBox(width: 8),
                 CustomButtonDefault(
-                  onPressed: groupController.getGroups,
+                  onTap: groupController.getGroups,
                   text: 'Buscar',
                 ),
                 const SizedBox(width: 8),
                 CustomButtonDefault(
                   text: 'Cadastrar',
-                  onPressed: () {
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -77,7 +77,12 @@ class _GroupPageState extends State<GroupPage> {
                 builder: (_) {
                   final groups = groupController.groups;
                   final message = groupController.message;
-                  if (message != '') {
+                  final loading = groupController.loading;
+                  if (loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (message != '') {
                     return Center(
                       child: Text(message),
                     );

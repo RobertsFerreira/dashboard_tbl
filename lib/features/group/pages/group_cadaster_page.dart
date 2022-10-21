@@ -180,7 +180,7 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                           children: [
                             Expanded(
                               child: CustomButtonDefault(
-                                onPressed: isValidSave
+                                onTap: isValidSave
                                     ? () {
                                         saveGroup();
                                         showDialog(
@@ -214,7 +214,7 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                             const SizedBox(width: 30),
                             Expanded(
                               child: CustomButtonDefault(
-                                onPressed: () {
+                                onTap: () {
                                   Navigator.pop(context);
                                 },
                                 text: 'Cancelar',
