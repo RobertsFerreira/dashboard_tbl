@@ -1,13 +1,13 @@
 import 'dart:convert';
 
+import 'package:dashboard_tbl/features/quiz/models/question/new_question_model.dart';
 import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
-import 'package:map_fields/map_fields.dart';
 
-import '../../users/models/user_model.dart';
-import 'question/new_question_model.dart';
+import '../../group/models/group_model.dart';
 import 'quiz_default_model.dart';
 
 class NewQuizModel extends QuizDefaultModel {
+  final List<GroupModel> groups;
   NewQuizModel({
     required super.idClass,
     required super.teacher,
@@ -15,21 +15,8 @@ class NewQuizModel extends QuizDefaultModel {
     required super.numberQuestion,
     required super.idCompany,
     required super.questions,
+    required this.groups,
   });
-
-  factory NewQuizModel.fromMap(Map<String, dynamic> map) {
-    final mapFields = MapFields.load(map);
-    final user = mapFields.getMap<String, dynamic>('user');
-    final questionsMap = mapFields.getList<Map<String, dynamic>>('questions');
-    return NewQuizModel(
-      idClass: mapFields.getString('id_class', ''),
-      teacher: UserModel.fromMap(user),
-      date: mapFields.getDateTime('date', DateTime.now()),
-      numberQuestion: mapFields.getInt('number_question', -1),
-      idCompany: mapFields.getString('id_company', ''),
-      questions: questionsMap.map((e) => NewQuestionModel.fromMap(e)).toList(),
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -38,11 +25,14 @@ class NewQuizModel extends QuizDefaultModel {
       'date': date.toDateHasura(),
       'number_question': numberQuestion,
       'id_company': idCompany,
+      'questions': questions
+          .map(
+            (e) => (e as NewQuestionModel).toMap(),
+          )
+          .toList(),
+      'groups': groups.map((e) => e.toMap()).toList(),
     };
   }
 
   String toJson() => jsonEncode(toMap());
-
-  factory NewQuizModel.fromJson(String source) =>
-      NewQuizModel.fromMap(jsonDecode(source));
 }
