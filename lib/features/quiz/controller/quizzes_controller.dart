@@ -31,7 +31,7 @@ abstract class _QuizzesControllerBase with Store {
       idClass,
       idCompany,
       dataInicial,
-      dataInicial,
+      dataFinal,
     );
     quizzes = quizzesList;
     print(quizzes.map((e) => e.teacher).first);

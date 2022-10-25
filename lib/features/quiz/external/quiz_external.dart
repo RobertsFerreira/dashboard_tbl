@@ -19,8 +19,8 @@ class QuizExternal {
       final response = await _client.get(
         '/quizzes/$idCompany/$idClass',
         queryParameters: {
-          'from': from.toDateHasura(),
-          'to': to.toDateHasura(),
+          'from': from.toDateHasuraWithoutTime(),
+          'to': to.toDateHasuraWithoutTime(),
         },
       );
 
