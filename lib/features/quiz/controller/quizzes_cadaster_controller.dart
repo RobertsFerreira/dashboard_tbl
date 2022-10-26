@@ -1,11 +1,14 @@
 import 'dart:developer';
 
 import 'package:dashboard_tbl/features/group/models/group_model.dart';
+import 'package:dashboard_tbl/features/quiz/models/new_quiz_model.dart';
+import 'package:dashboard_tbl/features/types_user/models/types_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/infra/clients/dio_client.dart';
 import '../../group/external/group_external.dart';
+import '../../users/models/user_model.dart';
 
 part 'quizzes_cadaster_controller.g.dart';
 
@@ -38,9 +41,47 @@ abstract class _QuizzesCadasterControllerBase with Store {
   @observable
   String idTurma = '';
 
+  @observable
+  UserModel user = UserModel(
+    id: '8378ba1e-20a8-4163-8cfe-ea2dfd8792e9',
+    name: 'João',
+    active: true,
+    birthDate: DateTime.now(),
+    cpf: '123456789',
+    idCompany: '1566d92f-9119-44d5-830e-9c3f94eb657c',
+    typesUser: TypesUserModel(
+      id: 'd8a292ba-78e2-4ef0-9917-b6424f4e271f',
+      name: 'professor',
+      description: '',
+    ),
+    isLeaderGroup: false,
+  );
+
   @action
-  void setTurma(String value) {
-    idTurma = value;
+  void setTurma(String? value) {
+    if (value != null) {
+      idTurma = value;
+    }
+  }
+
+  @observable
+  String idProfessor = '';
+
+  @action
+  void setProfessor(String? value) {
+    if (value != null) {
+      idProfessor = value;
+    }
+  }
+
+  @observable
+  DateTime dateQuiz = DateTime.now();
+
+  @action
+  void setDateQuiz(DateTime? value) {
+    if (value != null) {
+      dateQuiz = value;
+    }
   }
 
   @observable
@@ -51,7 +92,16 @@ abstract class _QuizzesCadasterControllerBase with Store {
 
   @action
   void addGroup(GroupModel group) {
-    groupsQuiz.add(group);
+    if (!groupsQuiz.contains(group)) {
+      groupsQuiz.add(group);
+    }
+  }
+
+  @action
+  void removeGroup(GroupModel group) {
+    if (groupsQuiz.contains(group)) {
+      groupsQuiz.remove(group);
+    }
   }
 
   @observable
@@ -65,13 +115,73 @@ abstract class _QuizzesCadasterControllerBase with Store {
     loading = true;
     message = '';
     try {
-      final groupsList = await serviceGroup.getAllGroups(idTurma);
-      groups = groupsList;
+      if (idTurma.isNotEmpty) {
+        final groupsList = await serviceGroup.getAllGroups(idTurma);
+        groups = groupsList;
+      }
     } catch (e) {
       log(e.toString());
       message = e.toString();
     } finally {
       loading = false;
     }
+  }
+
+  @observable
+  String titleQuiz = '';
+
+  @action
+  void setTitleQuiz(String value) {
+    titleQuiz = value;
+  }
+
+  @observable
+  int numberQuestion = 0;
+
+  @action
+  void setNumberQuestions(String value) {
+    final numberQst = int.tryParse(value);
+    if (numberQst != null) {
+      numberQuestion = numberQuestion;
+    }
+  }
+
+  @observable
+  NewQuizModel newQuiz = NewQuizModel(
+    title: '',
+    date: DateTime.now(),
+    numberQuestion: 0,
+    groups: [],
+    teacher: UserModel(
+      id: '',
+      name: '',
+      active: true,
+      birthDate: DateTime.now(),
+      cpf: '',
+      idCompany: '',
+      typesUser: TypesUserModel(
+        id: '',
+        name: '',
+        description: '',
+      ),
+      isLeaderGroup: false,
+    ),
+    idClass: '',
+    idCompany: '',
+    questions: [],
+  );
+
+  @action
+  void createQuiz() {
+    newQuiz = NewQuizModel(
+      title: titleQuiz,
+      date: dateQuiz,
+      numberQuestion: numberQuestion,
+      groups: groupsQuiz,
+      teacher: user,
+      idClass: idTurma,
+      idCompany: user.idCompany,
+      questions: [],
+    );
   }
 }

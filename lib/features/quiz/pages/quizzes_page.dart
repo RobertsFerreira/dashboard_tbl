@@ -1,5 +1,5 @@
 import 'package:dashboard_tbl/core/components/date_picker/custom_date_picker.dart';
-import 'package:dashboard_tbl/features/quiz/pages/quiz/quiz_cadaster_page.dart';
+import 'package:dashboard_tbl/features/quiz/pages/cadaster_quiz/quiz_cadaster_page.dart';
 import 'package:dashboard_tbl/utils/extensions/custom_extension_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -130,13 +130,14 @@ class _QuizzesPageState extends State<QuizzesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (ctx) {
                 return const QuizCadasterPage();
               },
             ),
+            (route) => false,
           );
         },
         child: const Icon(Icons.add_to_queue_outlined),

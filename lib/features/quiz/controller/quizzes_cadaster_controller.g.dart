@@ -41,6 +41,54 @@ mixin _$QuizzesCadasterController on _QuizzesCadasterControllerBase, Store {
     });
   }
 
+  late final _$userAtom =
+      Atom(name: '_QuizzesCadasterControllerBase.user', context: context);
+
+  @override
+  UserModel get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(UserModel value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
+  late final _$idProfessorAtom = Atom(
+      name: '_QuizzesCadasterControllerBase.idProfessor', context: context);
+
+  @override
+  String get idProfessor {
+    _$idProfessorAtom.reportRead();
+    return super.idProfessor;
+  }
+
+  @override
+  set idProfessor(String value) {
+    _$idProfessorAtom.reportWrite(value, super.idProfessor, () {
+      super.idProfessor = value;
+    });
+  }
+
+  late final _$dateQuizAtom =
+      Atom(name: '_QuizzesCadasterControllerBase.dateQuiz', context: context);
+
+  @override
+  DateTime get dateQuiz {
+    _$dateQuizAtom.reportRead();
+    return super.dateQuiz;
+  }
+
+  @override
+  set dateQuiz(DateTime value) {
+    _$dateQuizAtom.reportWrite(value, super.dateQuiz, () {
+      super.dateQuiz = value;
+    });
+  }
+
   late final _$groupsQuizAtom =
       Atom(name: '_QuizzesCadasterControllerBase.groupsQuiz', context: context);
 
@@ -105,6 +153,54 @@ mixin _$QuizzesCadasterController on _QuizzesCadasterControllerBase, Store {
     });
   }
 
+  late final _$titleQuizAtom =
+      Atom(name: '_QuizzesCadasterControllerBase.titleQuiz', context: context);
+
+  @override
+  String get titleQuiz {
+    _$titleQuizAtom.reportRead();
+    return super.titleQuiz;
+  }
+
+  @override
+  set titleQuiz(String value) {
+    _$titleQuizAtom.reportWrite(value, super.titleQuiz, () {
+      super.titleQuiz = value;
+    });
+  }
+
+  late final _$numberQuestionAtom = Atom(
+      name: '_QuizzesCadasterControllerBase.numberQuestion', context: context);
+
+  @override
+  int get numberQuestion {
+    _$numberQuestionAtom.reportRead();
+    return super.numberQuestion;
+  }
+
+  @override
+  set numberQuestion(int value) {
+    _$numberQuestionAtom.reportWrite(value, super.numberQuestion, () {
+      super.numberQuestion = value;
+    });
+  }
+
+  late final _$newQuizAtom =
+      Atom(name: '_QuizzesCadasterControllerBase.newQuiz', context: context);
+
+  @override
+  NewQuizModel get newQuiz {
+    _$newQuizAtom.reportRead();
+    return super.newQuiz;
+  }
+
+  @override
+  set newQuiz(NewQuizModel value) {
+    _$newQuizAtom.reportWrite(value, super.newQuiz, () {
+      super.newQuiz = value;
+    });
+  }
+
   late final _$getGroupsAsyncAction =
       AsyncAction('_QuizzesCadasterControllerBase.getGroups', context: context);
 
@@ -118,11 +214,33 @@ mixin _$QuizzesCadasterController on _QuizzesCadasterControllerBase, Store {
           name: '_QuizzesCadasterControllerBase', context: context);
 
   @override
-  void setTurma(String value) {
+  void setTurma(String? value) {
     final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
         .startAction(name: '_QuizzesCadasterControllerBase.setTurma');
     try {
       return super.setTurma(value);
+    } finally {
+      _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setProfessor(String? value) {
+    final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
+        .startAction(name: '_QuizzesCadasterControllerBase.setProfessor');
+    try {
+      return super.setProfessor(value);
+    } finally {
+      _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDateQuiz(DateTime? value) {
+    final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
+        .startAction(name: '_QuizzesCadasterControllerBase.setDateQuiz');
+    try {
+      return super.setDateQuiz(value);
     } finally {
       _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -140,14 +258,64 @@ mixin _$QuizzesCadasterController on _QuizzesCadasterControllerBase, Store {
   }
 
   @override
+  void removeGroup(GroupModel group) {
+    final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
+        .startAction(name: '_QuizzesCadasterControllerBase.removeGroup');
+    try {
+      return super.removeGroup(group);
+    } finally {
+      _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTitleQuiz(String value) {
+    final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
+        .startAction(name: '_QuizzesCadasterControllerBase.setTitleQuiz');
+    try {
+      return super.setTitleQuiz(value);
+    } finally {
+      _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setNumberQuestions(String value) {
+    final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
+        .startAction(name: '_QuizzesCadasterControllerBase.setNumberQuestions');
+    try {
+      return super.setNumberQuestions(value);
+    } finally {
+      _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void createQuiz() {
+    final _$actionInfo = _$_QuizzesCadasterControllerBaseActionController
+        .startAction(name: '_QuizzesCadasterControllerBase.createQuiz');
+    try {
+      return super.createQuiz();
+    } finally {
+      _$_QuizzesCadasterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 turmas: ${turmas},
 idTurma: ${idTurma},
+user: ${user},
+idProfessor: ${idProfessor},
+dateQuiz: ${dateQuiz},
 groupsQuiz: ${groupsQuiz},
 groups: ${groups},
 loading: ${loading},
-message: ${message}
+message: ${message},
+titleQuiz: ${titleQuiz},
+numberQuestion: ${numberQuestion},
+newQuiz: ${newQuiz}
     ''';
   }
 }
