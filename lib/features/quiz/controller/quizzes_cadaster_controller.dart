@@ -43,11 +43,11 @@ abstract class _QuizzesCadasterControllerBase with Store {
 
   @observable
   UserModel user = UserModel(
-    id: '8378ba1e-20a8-4163-8cfe-ea2dfd8792e9',
+    id: '9ff83c06-1af0-4219-a808-3494980e1dc0',
     name: 'João',
     active: true,
     birthDate: DateTime.now(),
-    cpf: '123456789',
+    cpf: '1233213123123',
     idCompany: '1566d92f-9119-44d5-830e-9c3f94eb657c',
     typesUser: TypesUserModel(
       id: 'd8a292ba-78e2-4ef0-9917-b6424f4e271f',
