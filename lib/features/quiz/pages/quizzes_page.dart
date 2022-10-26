@@ -130,14 +130,13 @@ class _QuizzesPageState extends State<QuizzesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (ctx) {
                 return const QuizCadasterPage();
               },
             ),
-            (route) => false,
           );
         },
         child: const Icon(Icons.add_to_queue_outlined),

@@ -171,6 +171,22 @@ abstract class _QuizzesCadasterControllerBase with Store {
     questions: [],
   );
 
+  @computed
+  bool get isValidCadaster =>
+      titleQuiz.isNotEmpty &&
+      numberQuestion > 0 &&
+      groupsQuiz.isNotEmpty &&
+      idTurma.isNotEmpty &&
+      idProfessor.isNotEmpty;
+
+  @computed
+  bool get canPop =>
+      titleQuiz.isEmpty &&
+      numberQuestion == 0 &&
+      groupsQuiz.isEmpty &&
+      idTurma.isEmpty &&
+      idProfessor.isEmpty;
+
   @action
   void createQuiz() {
     newQuiz = NewQuizModel(

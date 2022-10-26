@@ -9,6 +9,20 @@ part of 'quizzes_cadaster_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$QuizzesCadasterController on _QuizzesCadasterControllerBase, Store {
+  Computed<bool>? _$isValidCadasterComputed;
+
+  @override
+  bool get isValidCadaster =>
+      (_$isValidCadasterComputed ??= Computed<bool>(() => super.isValidCadaster,
+              name: '_QuizzesCadasterControllerBase.isValidCadaster'))
+          .value;
+  Computed<bool>? _$canPopComputed;
+
+  @override
+  bool get canPop => (_$canPopComputed ??= Computed<bool>(() => super.canPop,
+          name: '_QuizzesCadasterControllerBase.canPop'))
+      .value;
+
   late final _$turmasAtom =
       Atom(name: '_QuizzesCadasterControllerBase.turmas', context: context);
 
@@ -315,7 +329,9 @@ loading: ${loading},
 message: ${message},
 titleQuiz: ${titleQuiz},
 numberQuestion: ${numberQuestion},
-newQuiz: ${newQuiz}
+newQuiz: ${newQuiz},
+isValidCadaster: ${isValidCadaster},
+canPop: ${canPop}
     ''';
   }
 }
