@@ -16,6 +16,7 @@ class NewQuizModel extends QuizDefaultModel {
     required super.idCompany,
     required super.questions,
     required this.groups,
+    required super.title,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +32,7 @@ class NewQuizModel extends QuizDefaultModel {
           )
           .toList(),
       'groups': groups.map((e) => e.toMap()).toList(),
+      'title': title,
     };
   }
 

@@ -20,7 +20,7 @@ class GroupModel extends GroupDefault {
   factory GroupModel.fromMap(Map<String, dynamic> json) {
     final map = MapFields.load(json);
     final usersMap = map.getList<Map<String, dynamic>>('users_groups', []);
-    final userMap = map.getMap<String, dynamic>('user');
+    final userMap = map.getMap<String, dynamic>('user_leader');
     final user = UserModel.fromMap(userMap);
     final userLeader = user.copyWith(isLeaderGroup: true);
     List<UserModel> users = usersMap.map((e) => UserModel.fromMap(e)).toList();

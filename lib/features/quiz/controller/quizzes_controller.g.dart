@@ -9,6 +9,38 @@ part of 'quizzes_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$QuizzesController on _QuizzesControllerBase, Store {
+  late final _$loadingAtom =
+      Atom(name: '_QuizzesControllerBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  late final _$messageAtom =
+      Atom(name: '_QuizzesControllerBase.message', context: context);
+
+  @override
+  String get message {
+    _$messageAtom.reportRead();
+    return super.message;
+  }
+
+  @override
+  set message(String value) {
+    _$messageAtom.reportWrite(value, super.message, () {
+      super.message = value;
+    });
+  }
+
   late final _$quizzesAtom =
       Atom(name: '_QuizzesControllerBase.quizzes', context: context);
 
@@ -97,9 +129,36 @@ mixin _$QuizzesController on _QuizzesControllerBase, Store {
     return _$getAllQuizzesAsyncAction.run(() => super.getAllQuizzes());
   }
 
+  late final _$_QuizzesControllerBaseActionController =
+      ActionController(name: '_QuizzesControllerBase', context: context);
+
+  @override
+  void setDataInicial(DateTime? date) {
+    final _$actionInfo = _$_QuizzesControllerBaseActionController.startAction(
+        name: '_QuizzesControllerBase.setDataInicial');
+    try {
+      return super.setDataInicial(date);
+    } finally {
+      _$_QuizzesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDataFinal(DateTime? date) {
+    final _$actionInfo = _$_QuizzesControllerBaseActionController.startAction(
+        name: '_QuizzesControllerBase.setDataFinal');
+    try {
+      return super.setDataFinal(date);
+    } finally {
+      _$_QuizzesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+loading: ${loading},
+message: ${message},
 quizzes: ${quizzes},
 dataInicial: ${dataInicial},
 dataFinal: ${dataFinal},

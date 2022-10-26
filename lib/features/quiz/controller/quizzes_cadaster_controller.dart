@@ -5,26 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/infra/clients/dio_client.dart';
-import '../external/group_external.dart';
+import '../../group/external/group_external.dart';
 
-part 'group_controller.g.dart';
+part 'quizzes_cadaster_controller.g.dart';
 
-class GroupController = _GroupControllerBase with _$GroupController;
+class QuizzesCadasterController = _QuizzesCadasterControllerBase
+    with _$QuizzesCadasterController;
 
-abstract class _GroupControllerBase with Store {
-  final GroupExternal service = GroupExternal(DioClient());
+abstract class _QuizzesCadasterControllerBase with Store {
+  final serviceGroup = GroupExternal(DioClient());
 
-  @observable
-  List<GroupModel> groups = [];
-
-  @observable
-  String turma = '';
-
-  @observable
-  String message = '';
-
-  @observable
-  bool loading = false;
+  _QuizzesCadasterControllerBase() {
+    getGroups();
+  }
 
   @observable
   List<DropdownMenuItem<String>> turmas = [
@@ -43,30 +36,36 @@ abstract class _GroupControllerBase with Store {
   ];
 
   @observable
-  List<DropdownMenuItem<String>> anos = [
-    const DropdownMenuItem(
-      value: '2021-1',
-      child: Text('2021-1'),
-    ),
-    const DropdownMenuItem(
-      value: '2021-2',
-      child: Text('2021-2'),
-    ),
-    const DropdownMenuItem(
-      value: '2022-1',
-      child: Text('2022-1'),
-    ),
-  ];
+  String idTurma = '';
 
   @action
-  void setTurma(String value) => turma = value;
+  void setTurma(String value) {
+    idTurma = value;
+  }
+
+  @observable
+  List<GroupModel> groupsQuiz = [];
+
+  @observable
+  List<GroupModel> groups = [];
+
+  @action
+  void addGroup(GroupModel group) {
+    groupsQuiz.add(group);
+  }
+
+  @observable
+  bool loading = false;
+
+  @observable
+  String message = '';
 
   @action
   Future<void> getGroups() async {
     loading = true;
     message = '';
     try {
-      final groupsList = await service.getAllGroups(turma);
+      final groupsList = await serviceGroup.getAllGroups(idTurma);
       groups = groupsList;
     } catch (e) {
       log(e.toString());

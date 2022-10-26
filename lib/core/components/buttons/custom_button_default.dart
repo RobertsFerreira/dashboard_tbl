@@ -4,11 +4,15 @@ class CustomButtonDefault extends StatelessWidget {
   final String text;
   final void Function()? onTap;
   final IconData? icon;
+  final double height;
+  final double width;
   const CustomButtonDefault({
     super.key,
     required this.text,
     this.onTap,
     this.icon,
+    this.height = 40,
+    this.width = 120,
   });
 
   @override
@@ -18,8 +22,8 @@ class CustomButtonDefault extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(10),
       ),
-      height: 40,
-      width: 120,
+      height: height,
+      width: width,
       child: GestureDetector(
         onTap: onTap,
         child: Row(
