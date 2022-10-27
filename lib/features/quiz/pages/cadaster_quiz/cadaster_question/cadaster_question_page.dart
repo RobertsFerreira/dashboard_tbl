@@ -33,7 +33,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
             const Text('Cadastrar Perguntas'),
             Observer(
               builder: (_) {
-                final numberQuestion = controller.quiz.questions.length;
+                final numberQuestion = controller.newQuiz.questions.length;
                 return Text(
                   'Nº Perguntas Cadastradas: ($numberQuestion/${quizModel.numberQuestion})',
                 );
@@ -54,6 +54,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                       labelText: 'Descrição',
                       border: OutlineInputBorder(),
                     ),
+                    controller: controller.controllerDescriptionQuestion,
                     onChanged: controller.setDescriptionQuestion,
                   ),
                 ),
@@ -65,6 +66,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                       labelText: 'Número de Respostas',
                       border: OutlineInputBorder(),
                     ),
+                    enabled: false,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -87,6 +89,14 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
             ),
             const SizedBox(height: 10),
             const Divider(),
+            const SizedBox(height: 10),
+            const Text(
+              'Perguntas a Cadastrar',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 10),
             Expanded(
               child: Observer(
@@ -125,6 +135,50 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
             ),
             const SizedBox(height: 10),
             const Divider(),
+            const SizedBox(height: 10),
+            const Text(
+              'Perguntas Cadastradas',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: Observer(
+                builder: (_) {
+                  final listQuestions = controller.newQuiz.questions;
+                  return ListView.builder(
+                    itemCount: listQuestions.length,
+                    itemBuilder: (_, index) {
+                      final question = listQuestions[index];
+                      return Column(
+                        children: [
+                          Card(
+                            child: ExpansionTile(
+                              title: Text(question.description),
+                              subtitle: Text(
+                                'Nº Respostas: ${question.answers.length}',
+                              ),
+                              children: [
+                                for (var answer in question.answers)
+                                  ListTile(
+                                    title: Text(answer.description),
+                                    subtitle:
+                                        Text('Pontuação: ${answer.score}'),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          if (index <= listQuestions.length - 1)
+                            const SizedBox(height: 10),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -11,6 +11,18 @@ class NewQuestionModel extends QuestionDefaultModel {
     required super.answers,
   });
 
+  bool get isValidQuestion {
+    return idCompany.isEmpty &&
+        description.isNotEmpty &&
+        numberAnswer == answers.length &&
+        containsCorrectAnswer &&
+        answers.every((answer) => answer.score == 4);
+  }
+
+  bool get containsCorrectAnswer {
+    return answers.firstWhere((element) => element.correct == true).correct;
+  }
+
   NewQuestionModel copyWith({
     String? idCompany,
     String? description,

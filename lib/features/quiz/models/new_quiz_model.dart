@@ -20,6 +20,14 @@ class NewQuizModel extends QuizDefaultModel {
     required super.title,
   });
 
+  bool get isValidQuestions {
+    return questions.length == numberQuestion &&
+        questions.isNotEmpty &&
+        questions.every(
+          (question) => (question as NewQuestionModel).isValidQuestion,
+        );
+  }
+
   NewQuizModel copyWith({
     String? idClass,
     UserModel? teacher,

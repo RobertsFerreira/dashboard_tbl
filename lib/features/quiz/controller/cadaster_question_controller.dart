@@ -21,11 +21,11 @@ abstract class _CadasterQuestionControllerBase with Store {
   _CadasterQuestionControllerBase({required this.quiz}) {
     setQuiz(quiz);
     controllerNumberAnswers.text = '0';
+    controllerDescriptionQuestion.text = '';
   }
 
   final controllerNumberAnswers = TextEditingController();
-  final controllerDescriptionAnswer = TextEditingController();
-  final controllerScoreAnswer = TextEditingController();
+  final controllerDescriptionQuestion = TextEditingController();
 
   @observable
   late NewQuizModel newQuiz = quiz;
@@ -81,40 +81,26 @@ abstract class _CadasterQuestionControllerBase with Store {
 
   @computed
   bool get containsCorrectAnswer {
-    return answers
-        .where((element) => element.correct == true)
-        .toList()
-        .isNotEmpty;
+    return newQuiz.questions.every(
+      (question) => (question as NewQuestionModel).containsCorrectAnswer,
+    );
   }
 
   @computed
   bool get saveQuestion {
-    return newQuiz.questions.length + 1 == newQuiz.numberQuestion;
+    return newQuiz.questions.length + 1 == quiz.numberQuestion ||
+        newQuiz.questions.length + 1 == quiz.numberQuestion + 1;
   }
 
   @computed
   bool get canSave {
-    return answers
-                .where((element) => element.description.isNotEmpty)
-                .toList()
-                .length ==
-            answers.length &&
-        answers
-                .where(
-                  (element) => element.score >= 0,
-                )
-                .toList()
-                .length ==
-            answers.length &&
-        containsCorrectAnswer &&
-        answers.length == numberAnswers &&
-        answers.map((e) => e.score).fold(0, (a, b) => a + b) == 4;
+    return newQuiz.isValidQuestions;
   }
 
   @action
   void addQuestion() {
     final newQuestion = NewQuestionModel(
-      idCompany: newQuiz.idCompany,
+      idCompany: quiz.idCompany,
       description: descriptionQuestion,
       numberAnswer: numberAnswers,
       answers: answers,
@@ -130,7 +116,7 @@ abstract class _CadasterQuestionControllerBase with Store {
   void incrementNumberAnswers() {
     numberAnswers++;
     controllerNumberAnswers.text = numberAnswers.toString();
-    final answer = NewAnswerModel.empty();
+    final answer = NewAnswerModel.empty().copyWith(idCompany: quiz.idCompany);
     answers.add(answer);
   }
 
@@ -147,6 +133,8 @@ abstract class _CadasterQuestionControllerBase with Store {
     loading = true;
     messageError = '';
     try {
+      addQuestion();
+      newQuiz;
       final result = quizService;
     } catch (e) {
       messageError = e.toString();
@@ -161,5 +149,6 @@ abstract class _CadasterQuestionControllerBase with Store {
     controllerNumberAnswers.text = '0';
     answers = [];
     descriptionQuestion = '';
+    controllerDescriptionQuestion.text = '';
   }
 }

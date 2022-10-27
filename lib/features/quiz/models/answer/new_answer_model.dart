@@ -12,6 +12,10 @@ class NewAnswerModel extends AnswerDefaultModel {
     required super.score,
   });
 
+  bool get isValidAnswer {
+    return idCompany.isEmpty && description.isNotEmpty && score >= 0;
+  }
+
   //copyWith
   NewAnswerModel copyWith({
     String? idCompany,
