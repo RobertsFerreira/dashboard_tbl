@@ -21,6 +21,7 @@ class AnswerComponent extends StatelessWidget {
       children: [
         Expanded(
           child: TextFormField(
+            enabled: false,
             decoration: InputDecoration(
               labelText: 'Resposta ${index + 1}',
               border: const OutlineInputBorder(),

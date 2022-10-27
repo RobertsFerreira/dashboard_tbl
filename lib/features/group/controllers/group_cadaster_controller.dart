@@ -64,6 +64,7 @@ abstract class _GrupoCadasterControllerBase with Store {
     users[index] = user.copyWith(
       isLeaderGroup: value,
     );
+    users = users;
     userLeader = value != null && value ? users[index] : null;
     textEditingController.text = userLeader?.name ?? '';
     if (value != null && value == false) {

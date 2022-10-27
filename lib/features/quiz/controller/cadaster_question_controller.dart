@@ -1,7 +1,13 @@
+import 'dart:developer';
+
+import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
+import '../external/quiz_external.dart';
 import '../models/answer/new_answer_model.dart';
+import '../models/new_quiz_model.dart';
+import '../models/question/new_question_model.dart';
 
 part 'cadaster_question_controller.g.dart';
 
@@ -9,22 +15,48 @@ class CadasterQuestionController = _CadasterQuestionControllerBase
     with _$CadasterQuestionController;
 
 abstract class _CadasterQuestionControllerBase with Store {
-  final controllerNumberQuestions = TextEditingController();
+  final quizService = QuizExternal(DioClient());
+  final NewQuizModel quiz;
 
-  _CadasterQuestionControllerBase() {
-    controllerNumberQuestions.text = '0';
+  _CadasterQuestionControllerBase({required this.quiz}) {
+    setQuiz(quiz);
+    controllerNumberAnswers.text = '0';
+  }
+
+  final controllerNumberAnswers = TextEditingController();
+  final controllerDescriptionAnswer = TextEditingController();
+  final controllerScoreAnswer = TextEditingController();
+
+  @observable
+  late NewQuizModel newQuiz = quiz;
+
+  @action
+  void setQuiz(NewQuizModel value) {
+    newQuiz = quiz;
   }
 
   @observable
-  int numberQuestions = 0;
+  bool loading = false;
+
+  @observable
+  String messageError = '';
+
+  @observable
+  int numberAnswers = 0;
 
   @observable
   List<NewAnswerModel> answers = [];
 
+  @observable
+  String descriptionQuestion = '';
+
+  @action
+  void setDescriptionQuestion(String value) => descriptionQuestion = value;
+
   @action
   void setDescriptionAnswer(int index, String value) {
-    final answer = answers[index];
-    answers[index] = answer.copyWith(description: value);
+    answers[index] = answers[index].copyWith(description: value);
+    answers = answers;
   }
 
   @action
@@ -33,29 +65,101 @@ abstract class _CadasterQuestionControllerBase with Store {
     final score = int.tryParse(value);
     if (score != null) {
       answers[index] = answer.copyWith(score: score);
+      answers = answers;
     }
   }
 
   @action
-  void setCorrectAnswer(int index, bool? value) {
-    final answer = answers[index];
+  void setCorrectAnswer(
+    int index,
+    NewAnswerModel answer,
+    bool? value,
+  ) {
     answers[index] = answer.copyWith(correct: value);
+    answers = answers;
+  }
+
+  @computed
+  bool get containsCorrectAnswer {
+    return answers
+        .where((element) => element.correct == true)
+        .toList()
+        .isNotEmpty;
+  }
+
+  @computed
+  bool get saveQuestion {
+    return newQuiz.questions.length + 1 == newQuiz.numberQuestion;
+  }
+
+  @computed
+  bool get canSave {
+    return answers
+                .where((element) => element.description.isNotEmpty)
+                .toList()
+                .length ==
+            answers.length &&
+        answers
+                .where(
+                  (element) => element.score >= 0,
+                )
+                .toList()
+                .length ==
+            answers.length &&
+        containsCorrectAnswer &&
+        answers.length == numberAnswers &&
+        answers.map((e) => e.score).fold(0, (a, b) => a + b) == 4;
   }
 
   @action
-  void increment() {
-    numberQuestions++;
-    controllerNumberQuestions.text = numberQuestions.toString();
+  void addQuestion() {
+    final newQuestion = NewQuestionModel(
+      idCompany: newQuiz.idCompany,
+      description: descriptionQuestion,
+      numberAnswer: numberAnswers,
+      answers: answers,
+    );
+    newQuiz.questions.add(newQuestion);
+    newQuiz = newQuiz.copyWith(
+      questions: newQuiz.questions.cast<NewQuestionModel>(),
+    );
+    clearFields();
+  }
+
+  @action
+  void incrementNumberAnswers() {
+    numberAnswers++;
+    controllerNumberAnswers.text = numberAnswers.toString();
     final answer = NewAnswerModel.empty();
     answers.add(answer);
   }
 
   @action
-  void decrement() {
-    if (numberQuestions > 0) {
-      numberQuestions--;
-      controllerNumberQuestions.text = numberQuestions.toString();
+  void decrementNumberAnswers() {
+    if (numberAnswers > 0) {
+      numberAnswers--;
+      controllerNumberAnswers.text = numberAnswers.toString();
       answers.removeLast();
     }
+  }
+
+  void saveQuiz() {
+    loading = true;
+    messageError = '';
+    try {
+      final result = quizService;
+    } catch (e) {
+      messageError = e.toString();
+      log(e.toString());
+    } finally {
+      loading = false;
+    }
+  }
+
+  void clearFields() {
+    numberAnswers = 0;
+    controllerNumberAnswers.text = '0';
+    answers = [];
+    descriptionQuestion = '';
   }
 }

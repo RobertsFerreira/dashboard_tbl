@@ -160,20 +160,23 @@ class _QuizCadasterPageState extends State<QuizCadasterPage> {
                   children: [
                     Observer(
                       builder: (_) {
+                        final isValidCadaster = controller.isValidCadaster;
                         return CustomButtonDefault(
                           text: 'Proximo',
-                          onTap: () async {
-                            controller.createQuiz();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => CadasterQuestionPage(
-                                  newQuiz: controller.newQuiz,
-                                ),
-                              ),
-                              (route) => false,
-                            );
-                          },
+                          onTap: isValidCadaster
+                              ? () async {
+                                  controller.createQuiz();
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => CadasterQuestionPage(
+                                        newQuiz: controller.newQuiz,
+                                      ),
+                                    ),
+                                    (route) => false,
+                                  );
+                                }
+                              : null,
                         );
                       },
                     ),

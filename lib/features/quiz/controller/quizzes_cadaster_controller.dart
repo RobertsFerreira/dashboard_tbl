@@ -94,6 +94,7 @@ abstract class _QuizzesCadasterControllerBase with Store {
   void addGroup(GroupModel group) {
     if (!groupsQuiz.contains(group)) {
       groupsQuiz.add(group);
+      groupsQuiz = groupsQuiz;
     }
   }
 
@@ -101,6 +102,7 @@ abstract class _QuizzesCadasterControllerBase with Store {
   void removeGroup(GroupModel group) {
     if (groupsQuiz.contains(group)) {
       groupsQuiz.remove(group);
+      groupsQuiz = groupsQuiz;
     }
   }
 
@@ -142,7 +144,7 @@ abstract class _QuizzesCadasterControllerBase with Store {
   void setNumberQuestions(String value) {
     final numberQst = int.tryParse(value);
     if (numberQst != null) {
-      numberQuestion = numberQuestion;
+      numberQuestion = numberQst;
     }
   }
 
@@ -172,12 +174,13 @@ abstract class _QuizzesCadasterControllerBase with Store {
   );
 
   @computed
-  bool get isValidCadaster =>
-      titleQuiz.isNotEmpty &&
-      numberQuestion > 0 &&
-      groupsQuiz.isNotEmpty &&
-      idTurma.isNotEmpty &&
-      idProfessor.isNotEmpty;
+  bool get isValidCadaster {
+    return titleQuiz.isNotEmpty &&
+        numberQuestion > 0 &&
+        groupsQuiz.isNotEmpty &&
+        idTurma.isNotEmpty &&
+        idProfessor.isNotEmpty;
+  }
 
   @computed
   bool get canPop =>
