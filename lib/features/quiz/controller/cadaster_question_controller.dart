@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:asuka/asuka.dart';
 import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -70,21 +71,14 @@ abstract class _CadasterQuestionControllerBase with Store {
   }
 
   @action
-  void setCorrectAnswer(
-    int index,
-    NewAnswerModel answer,
-    bool? value,
-  ) {
+  void setCorrectAnswer(int index, NewAnswerModel answer, bool? value) {
     answers[index] = answer.copyWith(correct: value);
     answers = answers;
   }
 
   @computed
-  bool get containsCorrectAnswer {
-    return newQuiz.questions.every(
-      (question) => (question as NewQuestionModel).containsCorrectAnswer,
-    );
-  }
+  bool get containsCorrectAnswer =>
+      answers.any((answer) => answer.correct == true);
 
   @computed
   bool get saveQuestion {
@@ -94,7 +88,11 @@ abstract class _CadasterQuestionControllerBase with Store {
 
   @computed
   bool get canSave {
-    return newQuiz.isValidQuestions;
+    return newQuiz.questions.length == quiz.numberQuestion ||
+        (descriptionQuestion.isNotEmpty &&
+            numberAnswers > 0 &&
+            containsCorrectAnswer &&
+            answers.every((answer) => answer.score == 4));
   }
 
   @action
@@ -129,13 +127,47 @@ abstract class _CadasterQuestionControllerBase with Store {
     }
   }
 
-  void saveQuiz() {
+  Future<void> saveQuiz() async {
     loading = true;
     messageError = '';
     try {
-      addQuestion();
-      newQuiz;
-      final result = quizService;
+      if (newQuiz.questions.length < quiz.numberQuestion) addQuestion();
+      final result = await quizService.insertQuiz(quiz);
+      if (result) {
+        Asuka.showDialog(
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text('Sucesso'),
+              content: const Text('Quiz cadastrado com sucesso'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text('Ok'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        Asuka.showDialog(
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text('Erro'),
+              content: const Text('Erro ao cadastrar o quiz'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text('Ok'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     } catch (e) {
       messageError = e.toString();
       log(e.toString());

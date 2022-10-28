@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
 import 'package:map_fields/map_fields.dart';
 
@@ -59,4 +61,6 @@ class QuizModel extends QuizDefaultModel {
       'title': title,
     };
   }
+
+  String toJson() => jsonEncode(toMap());
 }

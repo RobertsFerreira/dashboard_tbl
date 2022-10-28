@@ -42,7 +42,7 @@ class AnswerComponent extends StatelessWidget {
         Expanded(
           child: TextFormField(
             decoration: const InputDecoration(
-              labelText: 'Pontuação',
+              labelText: 'Pontuação Máxima',
               border: OutlineInputBorder(),
             ),
             onChanged: onChangedScore,

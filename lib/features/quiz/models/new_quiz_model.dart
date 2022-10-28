@@ -53,7 +53,7 @@ class NewQuizModel extends QuizDefaultModel {
   Map<String, dynamic> toMap() {
     return {
       'id_class': idClass,
-      'id_user': teacher.id,
+      'user': teacher.toMap(),
       'date': date.toDateHasura(),
       'number_question': numberQuestion,
       'id_company': idCompany,

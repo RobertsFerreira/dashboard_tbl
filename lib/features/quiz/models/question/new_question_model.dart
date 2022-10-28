@@ -12,7 +12,7 @@ class NewQuestionModel extends QuestionDefaultModel {
   });
 
   bool get isValidQuestion {
-    return idCompany.isEmpty &&
+    return idCompany.isNotEmpty &&
         description.isNotEmpty &&
         numberAnswer == answers.length &&
         containsCorrectAnswer &&
@@ -53,6 +53,7 @@ class NewQuestionModel extends QuestionDefaultModel {
       'id_company': idCompany,
       'description': description,
       'number_answer': numberAnswer,
+      'answers': answers.map((e) => (e as NewAnswerModel).toMap()).toList(),
     };
   }
 }

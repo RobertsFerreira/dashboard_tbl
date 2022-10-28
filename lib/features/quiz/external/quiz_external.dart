@@ -3,6 +3,7 @@ import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
 import 'package:map_fields/map_fields.dart';
 
 import '../../../core/interfaces/clients/client_http.dart';
+import '../models/new_quiz_model.dart';
 
 class QuizExternal {
   final ClientHttp _client;
@@ -38,6 +39,23 @@ class QuizExternal {
           'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
         );
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> insertQuiz(NewQuizModel quiz) async {
+    try {
+      if (quiz.isValidQuestions) {
+        final json = quiz.toJson();
+        final response = await _client.post('/quizzes', body: json);
+        if (response.statusCode == 201) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return false;
     } catch (e) {
       rethrow;
     }

@@ -1,4 +1,5 @@
 import 'package:dashboard_tbl/features/quiz/models/new_quiz_model.dart';
+import 'package:dashboard_tbl/features/quiz/pages/quizzes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -164,8 +165,8 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                                 for (var answer in question.answers)
                                   ListTile(
                                     title: Text(answer.description),
-                                    subtitle:
-                                        Text('Pontuação: ${answer.score}'),
+                                    subtitle: Text(
+                                        'Pontuação Máxima: ${answer.score}'),
                                   ),
                               ],
                             ),
@@ -187,11 +188,45 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                   builder: (_) {
                     final saveQuestion = controller.saveQuestion;
                     final canSave = controller.canSave;
+                    final messageError = controller.messageError;
                     return CustomButtonDefault(
                       onTap: canSave
                           ? saveQuestion
-                              ? () => controller.saveQuiz()
-                              : () => controller.addQuestion()
+                              ? () async {
+                                  controller.saveQuiz();
+                                  if (messageError.isNotEmpty) {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (ctx) {
+                                          return const QuizzesPage();
+                                        },
+                                      ),
+                                      (route) => false,
+                                    );
+                                  }
+                                }
+                              : () {
+                                  controller.addQuestion();
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return AlertDialog(
+                                        title: const Text('Sucesso'),
+                                        content: const Text(
+                                          'Pergunta cadastrada com sucesso!',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: const Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                           : null,
                       text: saveQuestion ? 'Salvar' : 'Adicionar',
                     );

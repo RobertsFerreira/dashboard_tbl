@@ -41,7 +41,7 @@ class GroupModel extends GroupDefault {
       'id_class': idClass,
       'reference': reference,
       'user': userLeader.toMap(),
-      'users': users.map((e) => e.toMap()).toList(),
+      'users_groups': users.map((e) => e.toMap()).toList(),
     };
   }
 
