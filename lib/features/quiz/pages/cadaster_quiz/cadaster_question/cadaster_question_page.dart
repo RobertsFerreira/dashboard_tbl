@@ -194,7 +194,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                           ? saveQuestion
                               ? () async {
                                   controller.saveQuiz();
-                                  if (messageError.isNotEmpty) {
+                                  if (messageError.isEmpty) {
                                     Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                         builder: (ctx) {
