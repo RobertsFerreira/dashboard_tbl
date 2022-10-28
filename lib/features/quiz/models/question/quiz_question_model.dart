@@ -7,10 +7,11 @@ import 'question_default_model.dart';
 
 class QuestionModel extends QuestionDefaultModel {
   final String id;
+  final String idQuiz;
 
   QuestionModel({
     required this.id,
-    required super.idQuiz,
+    required this.idQuiz,
     required super.idCompany,
     required super.description,
     required super.numberAnswer,

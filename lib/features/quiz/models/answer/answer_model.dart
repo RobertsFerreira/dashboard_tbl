@@ -6,11 +6,12 @@ import 'answer_default_model.dart';
 
 class AnswerModel extends AnswerDefaultModel {
   final String id;
+  final String idQuestion;
 
   AnswerModel({
     required this.id,
     required super.idCompany,
-    required super.idQuestion,
+    required this.idQuestion,
     required super.description,
     required super.correct,
     required super.score,

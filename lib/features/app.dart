@@ -2,7 +2,7 @@ import 'package:asuka/asuka.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'login/pages/login_page.dart';
+import 'home/home_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -19,7 +19,7 @@ class App extends StatelessWidget {
           seedColor: Colors.blue,
         ),
       ),
-      home: const LoginPage(),
+      home: const HomePage(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

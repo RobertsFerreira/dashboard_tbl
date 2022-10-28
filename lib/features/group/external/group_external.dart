@@ -10,7 +10,7 @@ class GroupExternal {
 
   Future<List<GroupModel>> getAllGroups(String idClass) async {
     try {
-      final response = await _client.get('/group/$idClass');
+      final response = await _client.get('/groups/$idClass');
       if (response.statusCode == 200) {
         final map = MapFields.load(response.data);
         final listGroups = map.getList<Map<String, dynamic>>('groups', []);
@@ -33,7 +33,7 @@ class GroupExternal {
   Future<bool> insertGroupsCab(NewGroupModel group) async {
     try {
       final json = group.toJson();
-      final response = await _client.post('/group', body: json);
+      final response = await _client.post('/groups', body: json);
       if (response.statusCode == 201) {
         return true;
       }

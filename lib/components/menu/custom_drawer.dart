@@ -2,6 +2,7 @@ import 'package:dashboard_tbl/features/group/pages/group_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/components/buttons/custom_button_default.dart';
+import '../../features/quiz/pages/quizzes_page.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -41,9 +42,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
             icon: Icons.class_,
           ),
           const SizedBox(height: 20),
-          const CustomButtonDefault(
+          CustomButtonDefault(
             text: 'Quizzes',
-            onTap: null,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => const QuizzesPage(),
+              ),
+            ),
             icon: Icons.question_mark,
           ),
         ],
