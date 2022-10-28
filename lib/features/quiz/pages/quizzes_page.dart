@@ -110,7 +110,7 @@ class _QuizzesPageState extends State<QuizzesPage> {
                       return Card(
                         child: ListTile(
                           title: Text(
-                            '${quiz.title} - Professor: ${quiz.teacher.name}',
+                            '${quiz.title} - Professor Aplicador: ${quiz.teacher.name}',
                           ),
                           subtitle: Text(
                             'Número de questões: ${quiz.numberQuestion}',
