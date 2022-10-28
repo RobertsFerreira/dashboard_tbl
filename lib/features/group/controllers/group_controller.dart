@@ -71,7 +71,8 @@ abstract class _GroupControllerBase with Store {
     } catch (e) {
       log(e.toString());
       message = e.toString();
+    } finally {
+      loading = false;
     }
-    loading = false;
   }
 }

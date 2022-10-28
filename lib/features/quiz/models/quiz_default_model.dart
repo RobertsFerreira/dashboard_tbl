@@ -7,6 +7,7 @@ class QuizDefaultModel {
   final DateTime date;
   final int numberQuestion;
   final String idCompany;
+  final String title;
   final List<QuestionDefaultModel> questions;
 
   QuizDefaultModel({
@@ -16,5 +17,6 @@ class QuizDefaultModel {
     required this.numberQuestion,
     required this.idCompany,
     required this.questions,
+    required this.title,
   });
 }
