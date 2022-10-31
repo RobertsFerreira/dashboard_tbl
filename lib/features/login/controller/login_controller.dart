@@ -1,5 +1,7 @@
 import 'package:dashboard_tbl/features/login/models/login_model.dart';
 import 'package:dashboard_tbl/features/users/models/user_model.dart';
+import 'package:dio/dio.dart';
+import 'package:map_fields/map_fields.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/infra/clients/dio_client.dart';
@@ -52,7 +54,13 @@ abstract class _LoginControllerBase with Store {
         error = 'CPF ou senha inválidos';
       }
     } catch (e) {
-      error = e.toString();
+      if (e is DioError) {
+        final data = e.response?.data;
+        final maps = MapFields.load(data);
+        error = maps.getString('message');
+      } else {
+        error = e.toString();
+      }
     } finally {
       loading = false;
     }
