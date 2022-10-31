@@ -20,7 +20,7 @@ class LoginExternal {
 
       if (response.statusCode == 200) {
         final map = MapFields.load(response.data);
-        final userMap = map.getMap<String, dynamic>('token');
+        final userMap = map.getMap<String, dynamic>('user');
         final user = UserModel.fromMap(userMap);
         return user;
       } else {

@@ -1,5 +1,7 @@
+import 'package:dashboard_tbl/features/home/home_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/infra/global/user_global.dart';
 import '../controller/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -42,7 +44,25 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: controller.login,
+              onPressed: () async {
+                await controller.login();
+                final userLogged = UserGlobal.instance.user;
+                if (userLogged.typesUser.name == 'professor') {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (ctx) {
+                      return const HomePage();
+                    }),
+                    (route) => false,
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Usuário não é professor'),
+                    ),
+                  );
+                }
+              },
               child: const Text('Login'),
             ),
           ],
