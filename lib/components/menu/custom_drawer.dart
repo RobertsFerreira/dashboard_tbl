@@ -1,4 +1,5 @@
 import 'package:dashboard_tbl/features/group/pages/group_page.dart';
+import 'package:dashboard_tbl/features/login/page/login_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/components/buttons/custom_button_default.dart';
@@ -51,6 +52,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             icon: Icons.question_mark,
+          ),
+          const SizedBox(height: 20),
+          CustomButtonDefault(
+            text: 'Logout',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => const LoginPage(),
+              ),
+            ),
+            icon: Icons.exit_to_app,
           ),
         ],
       ),
