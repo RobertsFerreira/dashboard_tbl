@@ -1,4 +1,5 @@
-import 'package:asuka/snackbars/asuka_snack_bar.dart';
+import 'package:asuka/asuka.dart';
+import 'package:dashboard_tbl/features/home/home_for_studente_page.dart';
 import 'package:dashboard_tbl/features/home/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,14 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(builder: (ctx) {
           return const HomePage();
+        }),
+        (route) => false,
+      );
+    } else if (userLogged.typesUser.name == 'professor') {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (ctx) {
+          return const HomePageForStudent();
         }),
         (route) => false,
       );
