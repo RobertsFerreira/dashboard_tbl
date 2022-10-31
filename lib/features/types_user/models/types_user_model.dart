@@ -34,4 +34,12 @@ class TypesUserModel {
 
   factory TypesUserModel.fromJson(String source) =>
       TypesUserModel.fromMap(json.decode(source));
+
+  factory TypesUserModel.empty() {
+    return TypesUserModel(
+      id: '',
+      name: '',
+      description: '',
+    );
+  }
 }

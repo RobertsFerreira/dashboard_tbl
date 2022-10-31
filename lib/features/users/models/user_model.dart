@@ -77,4 +77,16 @@ class UserModel extends UserDefault {
   @override
   String toString() =>
       'UserModel(id: $id, active: $active, name: $name, cpf: $cpf, birthDate: $birthDate, idCompany: $idCompany, typesUser: $typesUser)';
+
+  factory UserModel.empty() {
+    return UserModel(
+      id: '',
+      name: '',
+      cpf: '',
+      birthDate: DateTime.now(),
+      idCompany: '',
+      typesUser: TypesUserModel.empty(),
+      active: false,
+    );
+  }
 }
