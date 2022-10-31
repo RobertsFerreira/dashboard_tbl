@@ -16,6 +16,9 @@ class UserExternal {
     try {
       final response = await client.get(
         '/user/$idCompany',
+        queryParameters: {
+          'type_user': typeUser ?? 'aluno',
+        },
       );
       if (response.statusCode == 200) {
         final data = response.data;
