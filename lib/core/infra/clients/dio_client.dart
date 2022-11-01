@@ -5,7 +5,8 @@ import 'package:dio/dio.dart';
 
 class DioClient extends ClientHttp {
   final String _url =
-      Platform.isLinux ? "http://localhost" : "http://robertferreira.ddns.net";
+      Platform.isLinux ? "http://localhost" : "http://192.168.0.107";
+  // "http://robertferreira.ddns.net";
   static const int _port = 17000;
   late Dio _dio;
 

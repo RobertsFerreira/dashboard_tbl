@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dashboard_tbl/features/login/models/login_model.dart';
 import 'package:dashboard_tbl/features/users/models/user_model.dart';
 import 'package:map_fields/map_fields.dart';
@@ -11,7 +13,7 @@ class LoginExternal {
 
   Future<UserModel> login(LoginModel loginModel) async {
     try {
-      final body = loginModel.toMap();
+      final body = jsonEncode(loginModel.toMap());
 
       final response = await httpClient.post(
         '/login',

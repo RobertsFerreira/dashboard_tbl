@@ -16,26 +16,30 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
         appBar: AppBar(
           title: const Text('Quizzes'),
         ),
-        body: Column(
-          children: [
-            Row(
-              children: [
-                CustomButtonDefault(
-                  text: 'Data 1',
-                  onTap: () {
-                    customDatePicker(context);
-                  },
-                ),
-                const SizedBox(width: 20),
-                CustomButtonDefault(
-                  text: 'Data 2',
-                  onTap: () {
-                    customDatePicker(context);
-                  },
-                ),
-              ],
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  CustomButtonDefault(
+                    text: 'Data 1',
+                    onTap: () {
+                      customDatePicker(context);
+                    },
+                  ),
+                  const SizedBox(width: 20),
+                  CustomButtonDefault(
+                    text: 'Data 2',
+                    onTap: () {
+                      customDatePicker(context);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ));
   }
 }
