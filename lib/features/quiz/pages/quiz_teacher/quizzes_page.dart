@@ -1,11 +1,11 @@
 import 'package:dashboard_tbl/core/components/date_picker/custom_date_picker.dart';
-import 'package:dashboard_tbl/features/quiz/pages/cadaster_quiz/quiz_cadaster_page.dart';
 import 'package:dashboard_tbl/utils/extensions/custom_extension_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../core/components/buttons/custom_button_default.dart';
-import '../controller/quizzes_controller.dart';
+import '../../../../core/components/buttons/custom_button_default.dart';
+import '../../controller/quizzes_controller.dart';
+import 'cadaster_quiz/quiz_cadaster_page.dart';
 
 class QuizzesPage extends StatefulWidget {
   const QuizzesPage({Key? key}) : super(key: key);

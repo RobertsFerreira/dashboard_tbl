@@ -3,7 +3,7 @@ import 'package:dashboard_tbl/features/login/page/login_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/components/buttons/custom_button_default.dart';
-import '../../features/quiz/pages/quizzes_page.dart';
+import '../../features/quiz/pages/quiz_teacher/quizzes_page.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});

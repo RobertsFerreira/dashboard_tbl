@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
         }),
         (route) => false,
       );
-    } else if (userLogged.typesUser.name == 'professor') {
+    } else if (userLogged.typesUser.name == 'aluno') {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (ctx) {

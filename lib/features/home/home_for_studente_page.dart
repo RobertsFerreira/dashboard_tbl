@@ -1,3 +1,4 @@
+import 'package:dashboard_tbl/components/menu/custom_drawer_student.dart';
 import 'package:flutter/material.dart';
 
 class HomePageForStudent extends StatefulWidget {
@@ -12,11 +13,13 @@ class _HomePageForStudentState extends State<HomePageForStudent> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(),
+        const CustomDrawerStudent(),
         const SizedBox(width: 20),
-        const Divider(),
+        const VerticalDivider(),
         const SizedBox(width: 20),
-        Container(),
+        Expanded(
+          child: Container(),
+        ),
       ],
     );
   }

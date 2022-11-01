@@ -1,11 +1,11 @@
 import 'package:dashboard_tbl/features/quiz/models/new_quiz_model.dart';
-import 'package:dashboard_tbl/features/quiz/pages/quizzes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../../../core/components/buttons/custom_button_default.dart';
-import '../../../components/answer_component.dart';
-import '../../../controller/cadaster_question_controller.dart';
+import '../../../../../../core/components/buttons/custom_button_default.dart';
+import '../../../../components/answer_component.dart';
+import '../../../../controller/cadaster_question_controller.dart';
+import '../../quizzes_page.dart';
 
 class CadasterQuestionPage extends StatefulWidget {
   final NewQuizModel newQuiz;

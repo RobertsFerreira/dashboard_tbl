@@ -2,9 +2,9 @@ import 'package:dashboard_tbl/features/quiz/controller/quizzes_cadaster_controll
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../../core/components/buttons/custom_button_default.dart';
-import '../../../../core/components/date_picker/custom_date_picker.dart';
-import '../../../../core/components/dropdown/custom_dropdown.dart';
+import '../../../../../core/components/buttons/custom_button_default.dart';
+import '../../../../../core/components/date_picker/custom_date_picker.dart';
+import '../../../../../core/components/dropdown/custom_dropdown.dart';
 import 'cadaster_question/cadaster_question_page.dart';
 
 class QuizCadasterPage extends StatefulWidget {
