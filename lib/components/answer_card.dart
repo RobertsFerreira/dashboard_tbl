@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class QuestionCard extends StatelessWidget {
+class AnswerCard extends StatelessWidget {
   final int index;
   final int pointSelect;
   final Function(int?)? onChanged;
   final String text;
   final int limitScore;
-  const QuestionCard({
+  const AnswerCard({
     Key? key,
     required this.index,
     required this.pointSelect,
@@ -25,7 +25,9 @@ class QuestionCard extends StatelessWidget {
               children: [
                 const SizedBox(width: 10),
                 CircleAvatar(
-                  child: Text((index + 1).toString()),
+                  child: Text(
+                    (index + 1).toString(),
+                  ),
                 ),
                 const SizedBox(width: 15),
                 Expanded(
@@ -51,12 +53,14 @@ class QuestionCard extends StatelessWidget {
                       ),
                       items: List.generate(
                         limitScore,
-                        (index) => DropdownMenuItem<int>(
-                          value: index,
-                          child: Text(
-                            index.toString(),
-                          ),
-                        ),
+                        (index) {
+                          return DropdownMenuItem<int>(
+                            value: index,
+                            child: Text(
+                              index.toString(),
+                            ),
+                          );
+                        },
                       ),
                       onChanged: onChanged,
                     ),

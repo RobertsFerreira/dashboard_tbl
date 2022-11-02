@@ -18,6 +18,35 @@ class QuestionModel extends QuestionDefaultModel {
     required super.answers,
   });
 
+  factory QuestionModel.empty() {
+    return QuestionModel(
+      id: '',
+      idQuiz: '',
+      idCompany: '',
+      description: '',
+      numberAnswer: 0,
+      answers: [],
+    );
+  }
+
+  QuestionModel copyWith({
+    String? id,
+    String? idQuiz,
+    String? idCompany,
+    String? description,
+    int? numberAnswer,
+    List<AnswerModel>? answers,
+  }) {
+    return QuestionModel(
+      id: id ?? this.id,
+      idQuiz: idQuiz ?? this.idQuiz,
+      idCompany: idCompany ?? this.idCompany,
+      description: description ?? this.description,
+      numberAnswer: numberAnswer ?? this.numberAnswer,
+      answers: answers ?? this.answers,
+    );
+  }
+
   factory QuestionModel.fromMap(Map<String, dynamic> map) {
     final mapFields = MapFields.load(map);
     final listAnswers = mapFields.getList<Map<String, dynamic>>('answers', []);
