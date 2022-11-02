@@ -56,8 +56,12 @@ abstract class _LoginControllerBase with Store {
     } catch (e) {
       if (e is DioError) {
         final data = e.response?.data;
-        final maps = MapFields.load(data);
-        error = maps.getString('message');
+        if (data == null) {
+          error = e.message;
+        } else {
+          final maps = MapFields.load(data);
+          error = maps.getString('message');
+        }
       } else {
         error = e.toString();
       }
