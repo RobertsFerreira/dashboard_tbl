@@ -51,10 +51,10 @@ class QuizStudentsExternal {
       final listAnswers = answers
           .map<Map<String, dynamic>>(
             (e) => {
-              'id_answers': e.id,
+              'id_answer': e.id,
               'id_user': userLogged.id,
               'id_company': userLogged.idCompany,
-              'score_answers': e.pointSelect,
+              'score_answer': e.pointSelect,
               'scored_score': e.scoreValid,
             },
           )
@@ -68,6 +68,29 @@ class QuizStudentsExternal {
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
+        return true;
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        throw Exception(
+          'Erro ao inserir respostas -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> updateQuizAnswered(String idQuiz, String idGroup) async {
+    try {
+      final body = {
+        'id_quiz': idQuiz,
+        'id_group': idGroup,
+      };
+
+      final response = await _client.post('/quizzes/answers/users', body: body);
+
+      if (response.statusCode == 200) {
         return true;
       } else {
         final statusCode = response.statusCode;

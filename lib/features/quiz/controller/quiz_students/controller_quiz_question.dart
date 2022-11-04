@@ -1,4 +1,4 @@
-import 'package:asuka/asuka.dart';
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:dashboard_tbl/features/quiz/external/quiz_student/quiz_student_external.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -108,9 +108,9 @@ abstract class _ControllerQuizQuestionBase with Store {
       }
     }
     for (var answer in answerStudent) {
-      final index = answerStudent.indexOf(answer);
+      final indexStudent = answerStudent.indexOf(answer);
       answer = answer.setScoreValide();
-      answerStudent[index] = answer;
+      answerStudent[indexStudent] = answer;
     }
     if (index != null) {
       answersQuestionsStudents[index] = answerStudent;
@@ -122,6 +122,7 @@ abstract class _ControllerQuizQuestionBase with Store {
   @action
   Future<void> insertAnswersUSer() async {
     try {
+      saveAnswersStudent();
       if (answersQuestionsStudents.isNotEmpty) {
         for (final answerStudent in answersQuestionsStudents) {
           final result =
@@ -132,8 +133,16 @@ abstract class _ControllerQuizQuestionBase with Store {
           }
         }
       }
+      asuka.Asuka.showDialog(builder: (ctx) {
+        return const AlertDialog(
+          title: Text('Sucesso'),
+          content: Text(
+            'Respostas salvas com sucesso, esperando todos do grupo terminarem',
+          ),
+        );
+      });
     } catch (e) {
-      Asuka.showSnackBar(
+      asuka.Asuka.showSnackBar(
         SnackBar(
           content: Text(
             e.toString(),
