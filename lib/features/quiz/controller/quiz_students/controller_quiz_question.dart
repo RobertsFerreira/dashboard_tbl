@@ -1,6 +1,9 @@
+import 'package:asuka/asuka.dart';
+import 'package:dashboard_tbl/features/quiz/external/quiz_student/quiz_student_external.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/infra/clients/dio_client.dart';
 import '../../models/answer/answer_model.dart';
 import '../../models/answer/answer_student.dart';
 import '../../models/question/quiz_question_model.dart';
@@ -12,6 +15,8 @@ class ControllerQuizQuestion = _ControllerQuizQuestionBase
     with _$ControllerQuizQuestion;
 
 abstract class _ControllerQuizQuestionBase with Store {
+  final QuizStudentsExternal _quizStudentsExternal =
+      QuizStudentsExternal(DioClient());
   final QuizModel quiz;
   _ControllerQuizQuestionBase(this.quiz) {
     _init(quiz);
@@ -111,6 +116,30 @@ abstract class _ControllerQuizQuestionBase with Store {
       answersQuestionsStudents[index] = answerStudent;
     } else {
       answersQuestionsStudents.add(answerStudent);
+    }
+  }
+
+  @action
+  Future<void> insertAnswersUSer() async {
+    try {
+      if (answersQuestionsStudents.isNotEmpty) {
+        for (final answerStudent in answersQuestionsStudents) {
+          final result =
+              await _quizStudentsExternal.insertAnswersUSer(answerStudent);
+
+          if (!result) {
+            throw Exception('Erro ao salvar as respostas');
+          }
+        }
+      }
+    } catch (e) {
+      Asuka.showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+          ),
+        ),
+      );
     }
   }
 

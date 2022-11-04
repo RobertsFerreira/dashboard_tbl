@@ -122,7 +122,11 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                   ),
                   ButtonNavigator(
                     text: 'Salvar',
-                    onPressed: controller.saveAnswersStudent,
+                    onPressed: (controller.currentIndex + 1) ==
+                            controller.quiz.numberQuestion
+                        ? controller.insertAnswersUSer
+                        : controller.saveAnswersStudent,
+                    //testar essa função amanhã
                   ),
                 ],
               );

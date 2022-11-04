@@ -2,7 +2,9 @@ import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
 import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
 import 'package:map_fields/map_fields.dart';
 
+import '../../../../core/infra/global/user_global.dart';
 import '../../../../core/interfaces/clients/client_http.dart';
+import '../../models/answer/answer_student.dart';
 
 class QuizStudentsExternal {
   final ClientHttp _client;
@@ -36,6 +38,42 @@ class QuizStudentsExternal {
         }
         throw Exception(
           'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> insertAnswersUSer(List<AnswerStudent> answers) async {
+    try {
+      final userLogged = UserGlobal.instance.user;
+      final listAnswers = answers
+          .map<Map<String, dynamic>>(
+            (e) => {
+              'id_answers': e.id,
+              'id_user': userLogged.id,
+              'id_company': userLogged.idCompany,
+              'score_answers': e.pointSelect,
+              'scored_score': e.scoreValid,
+            },
+          )
+          .toList();
+
+      final response = await _client.post(
+        '/quizzes/answers/users',
+        body: {
+          'answers': listAnswers,
+        },
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return true;
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        throw Exception(
+          'Erro ao inserir respostas -- Status: $statusCode -- Message: $message',
         );
       }
     } catch (e) {
