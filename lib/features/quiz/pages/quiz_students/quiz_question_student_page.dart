@@ -45,7 +45,9 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.centerRight,
                 icon: const Icon(Icons.close),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ],
           ),

@@ -15,7 +15,7 @@ class UserExternal {
     List<UserModel> users = [];
     try {
       final response = await client.get(
-        '/user/$idCompany',
+        '/users/$idCompany',
         queryParameters: {
           'type_user': typeUser ?? 'aluno',
         },

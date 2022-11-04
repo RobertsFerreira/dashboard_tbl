@@ -13,7 +13,7 @@ class UserGlobal {
 
   UserModel get user => _user;
 
-  void setUser(UserModel user) {
-    _user = user;
+  void setUser(UserModel? user) {
+    _user = user ?? UserModel.empty();
   }
 }
