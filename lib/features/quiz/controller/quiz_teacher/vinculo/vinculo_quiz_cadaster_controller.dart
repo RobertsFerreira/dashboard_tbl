@@ -1,29 +1,34 @@
 import 'dart:developer';
 
-import 'package:dashboard_tbl/core/infra/global/user_global.dart';
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../core/infra/clients/dio_client.dart';
-import '../../group/external/group_external.dart';
-import '../../group/models/group_model.dart';
-import '../external/quiz_external.dart';
-import '../models/quiz_model.dart';
+import '../../../../../core/infra/clients/dio_client.dart';
+import '../../../../../core/infra/global/user_global.dart';
+import '../../../../group/external/group_external.dart';
+import '../../../../group/models/group_model.dart';
+import '../../../external/quiz_external.dart';
+import '../../../models/quiz_model.dart';
 
-part 'vinculo_quiz_controller.g.dart';
+part 'vinculo_quiz_cadaster_controller.g.dart';
 
-class VinculoQuizController = _VinculoQuizControllerBase
-    with _$VinculoQuizController;
+class VinculoQuizCadasterController = _VinculoQuizCadasterControllerBase
+    with _$VinculoQuizCadasterController;
 
-abstract class _VinculoQuizControllerBase with Store {
+abstract class _VinculoQuizCadasterControllerBase with Store {
   final serviceGroup = GroupExternal(DioClient());
 
   final quizService = QuizExternal(DioClient());
 
-  _VinculoQuizControllerBase() {
+  _VinculoQuizCadasterControllerBase() {
     idTurma = turmas.first.value ?? '';
-    getGroups();
-    getQuizzes();
+    _init();
+  }
+
+  Future<void> _init() async {
+    await getGroups();
+    await getQuizzes();
   }
 
   @observable
@@ -147,8 +152,50 @@ abstract class _VinculoQuizControllerBase with Store {
                 child: Text(quiz.title),
               ))
           .toList();
+      quizzesDropdown = quizzesDropdown;
     } catch (e) {
       log(e.toString());
+      message = e.toString();
+    } finally {
+      loading = false;
+    }
+  }
+
+  @computed
+  bool get validVinculo =>
+      idTurma.isNotEmpty && idQuiz.isNotEmpty && groupsQuiz.isNotEmpty;
+
+  @action
+  Future<void> vincularQuiz() async {
+    loading = true;
+    message = '';
+    try {
+      final result = await quizService.vinculeQuiz(
+        UserGlobal.instance.user.idCompany,
+        groupsQuiz,
+        idQuiz,
+        dateQuiz,
+      );
+      if (result) {
+        asuka.AsukaSnackbar.success('Vinculado com sucesso').show();
+      } else {
+        asuka.AsukaSnackbar.alert('Erro ao vincular').show();
+      }
+    } catch (e) {
+      asuka.Asuka.showDialog(
+        barrierColor: Colors.black.withOpacity(0.3),
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text('Erro'),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Ok'),
+            ),
+          ],
+        ),
+      );
       message = e.toString();
     } finally {
       loading = false;

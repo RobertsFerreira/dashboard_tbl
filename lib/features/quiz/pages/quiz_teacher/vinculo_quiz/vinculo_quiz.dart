@@ -4,11 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../../core/components/date_picker/custom_date_picker.dart';
-import '../../../../../core/components/dropdown/custom_dropdown.dart';
-import '../../../controller/vinculo_quiz_controller.dart';
+import '../../../controller/quiz_teacher/vinculo/vinculo_quiz_controller.dart';
 
 class VinculoQuiz extends StatefulWidget {
-  const VinculoQuiz({Key? key}) : super(key: key);
+  const VinculoQuiz({super.key});
 
   @override
   State<VinculoQuiz> createState() => _VinculoQuizState();
@@ -21,158 +20,74 @@ class _VinculoQuizState extends State<VinculoQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vinculo Quiz'),
+        title: const Text('Quizzes Liberados'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                CustomButtonDefault(
+                  width: 140,
+                  icon: Icons.search,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const VinculoQuiz(),
+                      ),
+                    );
+                  },
+                  text: 'Liberar Quiz',
+                ),
+                const SizedBox(width: 20),
                 Row(
                   children: [
-                    CustomDropDown(
-                      text: 'Turmas',
-                      items: controller.turmas,
-                      onChanged: (String? value) async {
-                        controller.setTurma(value);
-                        await controller.getGroups();
-                      },
-                    ),
-                    const SizedBox(width: 10),
                     Observer(
                       builder: (_) {
-                        final dateQuiz = controller.dateQuiz;
+                        final dataIni = controller.dataIni;
                         return CustomButtonDefault(
-                          width: 230,
-                          height: 60,
                           icon: Icons.calendar_month,
-                          text: 'Data do Quiz: ${dateQuiz.toStringFormatted()}',
+                          text: dataIni.toStringFormatted(),
                           onTap: () async {
                             final date = await customDatePicker(
                               context,
-                              initialDate: dateQuiz,
+                              initialDate: dataIni,
                             );
-                            controller.setDateQuiz(date);
+                            controller.setDataIni(date);
                           },
                         );
                       },
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 5),
+                    Observer(
+                      builder: (_) {
+                        final dataFim = controller.dataFim;
+                        return CustomButtonDefault(
+                          icon: Icons.calendar_month,
+                          text: dataFim.toStringFormatted(),
+                          onTap: () async {
+                            final date = await customDatePicker(
+                              context,
+                              initialDate: dataFim,
+                            );
+                            controller.setDataFim(date);
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Observer(
-                  builder: (_) {
-                    final quizDropDown = controller.quizzesDropdown;
-                    return CustomDropDown(
-                      text: 'Quiz',
-                      items: quizDropDown,
-                      onChanged: (String? value) async {
-                        controller.setIdQuiz(value);
-                      },
-                    );
-                  },
-                ),
               ],
             ),
-          ),
-          const Divider(),
-          const SizedBox(height: 10),
-          Observer(
-            builder: (_) {
-              final groups = controller.groups;
-              final loading = controller.loading;
-              if (loading) {
-                return const Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: groups.length,
-                  itemBuilder: (_, index) {
-                    final group = groups[index];
-                    return Card(
-                      child: ListTile(
-                        title: Text('Grupo: ${group.reference}'),
-                        subtitle: Text('Líder: ${group.userLeader.name}'),
-                        onTap: () => controller.addGroup(group, index),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          const Divider(),
-          const SizedBox(height: 10),
-          Expanded(
-            child: Column(
-              children: [
-                Text(
-                  'Grupos selecionados',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                const SizedBox(height: 10),
-                Observer(
-                  builder: (_) {
-                    final groupsQuiz = controller.groupsQuiz;
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: groupsQuiz.length,
-                        itemBuilder: (_, index) {
-                          final group = groupsQuiz[index];
-                          return Card(
-                            child: ListTile(
-                              title: Text('Grupo: ${group.reference}'),
-                              subtitle: Text('Líder: ${group.userLeader.name}'),
-                              onTap: () => controller.removeGroup(group),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Divider(),
-          const SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Observer(
-                builder: (_) {
-                  // final isValidCadaster = controller.isValidCadaster;
-                  return const CustomButtonDefault(
-                    text: 'Proximo',
-                    // onTap: isValidCadaster
-                    //     ? () async {
-                    //         controller.createQuiz();
-                    //         Navigator.pushAndRemoveUntil(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (_) => CadasterQuestionPage(
-                    //               newQuiz: controller.newQuiz,
-                    //             ),
-                    //           ),
-                    //           (route) => false,
-                    //         );
-                    //       }
-                    //     : null,
-                  );
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 20),
+            const Divider(),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

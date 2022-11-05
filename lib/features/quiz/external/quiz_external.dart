@@ -1,7 +1,9 @@
 import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
+import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
 import 'package:map_fields/map_fields.dart';
 
 import '../../../core/interfaces/clients/client_http.dart';
+import '../../group/models/group_model.dart';
 import '../models/new_quiz_model.dart';
 
 class QuizExternal {
@@ -27,6 +29,37 @@ class QuizExternal {
         }
         throw Exception(
           'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> vinculeQuiz(
+    String idCompany,
+    List<GroupModel> groups,
+    String idQuiz,
+    DateTime date,
+  ) async {
+    try {
+      final body = {
+        'groups': groups.map((e) => e.toMap()).toList(),
+        'id_quiz': idQuiz,
+        'date': date.toDateHasuraWithoutTime(),
+        'id_company': idCompany,
+      };
+      final response = await _client.post(
+        '/quizzes/vincule',
+        body: body,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        throw Exception(
+          'Erro ao vincular quiz -- Status: $statusCode -- Message: $message',
         );
       }
     } catch (e) {

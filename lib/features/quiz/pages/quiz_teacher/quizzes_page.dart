@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/components/buttons/custom_button_default.dart';
-import '../../controller/quizzes_controller.dart';
+import '../../controller/quiz_teacher/quizzes_controller.dart';
+import '../../models/question/question_default_model.dart';
+import '../../models/quiz_model.dart';
 import 'cadaster_quiz/quiz_cadaster_page.dart';
-import 'vinculo_quiz/vinculo_quiz.dart';
 
 class QuizzesPage extends StatefulWidget {
   const QuizzesPage({Key? key}) : super(key: key);
@@ -44,19 +45,21 @@ class _QuizzesPageState extends State<QuizzesPage> {
                   Row(
                     children: [
                       CustomButtonDefault(
-                        width: 120,
-                        icon: Icons.search,
+                        width: 140,
+                        icon: Icons.add_to_queue_outlined,
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const VinculoQuiz(),
+                              builder: (ctx) {
+                                return const QuizCadasterPage();
+                              },
                             ),
                           );
                         },
-                        text: 'Liberar Quiz',
+                        text: 'Cadastrar Quiz',
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 10),
                       CustomButtonDefault(
                         width: 120,
                         icon: Icons.search,
@@ -103,14 +106,20 @@ class _QuizzesPageState extends State<QuizzesPage> {
                     itemBuilder: (_, index) {
                       final quiz = quizzes[index];
                       return Card(
-                        child: ListTile(
-                          title: Text(
-                            quiz.title,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
+                        child: ExpansionTile(
+                          title: Text(quiz.title),
                           subtitle: Text(
                             'Número de questões: ${quiz.numberQuestion}',
                           ),
+                          children: [
+                            for (final question in quiz.questions)
+                              ListTile(
+                                title: Text(titleQuestion(quiz, question)),
+                                subtitle: Text(
+                                  'Número de Respostas: ${question.numberAnswer}',
+                                ),
+                              ),
+                          ],
                         ),
                       );
                     },
@@ -121,23 +130,14 @@ class _QuizzesPageState extends State<QuizzesPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) {
-                return const QuizCadasterPage();
-              },
-            ),
-          );
-        },
-        child: const Icon(Icons.add_to_queue_outlined),
-      ),
     );
   }
 
   void getQuizzesForDate() async {
     await controller.getAllQuizzes();
+  }
+
+  String titleQuestion(QuizModel quiz, QuestionDefaultModel question) {
+    return '${quiz.questions.indexWhere((q) => q.description == question.description) + 1} - ${question.description}';
   }
 }

@@ -1,8 +1,8 @@
-import 'package:dashboard_tbl/features/quiz/controller/quizzes_cadaster_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../core/components/buttons/custom_button_default.dart';
+import '../../../controller/quiz_teacher/quizzes_cadaster_controller.dart';
 import 'cadaster_question/cadaster_question_page.dart';
 
 class QuizCadasterPage extends StatefulWidget {

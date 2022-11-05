@@ -2,10 +2,10 @@ import 'package:dashboard_tbl/features/quiz/models/new_quiz_model.dart';
 import 'package:dashboard_tbl/features/types_user/models/types_user_model.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../core/infra/clients/dio_client.dart';
-import '../../../core/infra/global/user_global.dart';
-import '../../group/external/group_external.dart';
-import '../../users/models/user_model.dart';
+import '../../../../core/infra/clients/dio_client.dart';
+import '../../../../core/infra/global/user_global.dart';
+import '../../../group/external/group_external.dart';
+import '../../../users/models/user_model.dart';
 
 part 'quizzes_cadaster_controller.g.dart';
 
@@ -79,8 +79,7 @@ abstract class _QuizzesCadasterControllerBase with Store {
   }
 
   @computed
-  bool get canPop =>
-      titleQuiz.isEmpty && numberQuestion == 0 && idProfessor.isEmpty;
+  bool get canPop => titleQuiz.isEmpty && numberQuestion == 0;
 
   @action
   void createQuiz() {

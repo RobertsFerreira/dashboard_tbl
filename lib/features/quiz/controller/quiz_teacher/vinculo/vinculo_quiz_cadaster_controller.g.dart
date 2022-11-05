@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'vinculo_quiz_controller.dart';
+part of 'vinculo_quiz_cadaster_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,9 +8,18 @@ part of 'vinculo_quiz_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
+mixin _$VinculoQuizCadasterController
+    on _VinculoQuizCadasterControllerBase, Store {
+  Computed<bool>? _$validVinculoComputed;
+
+  @override
+  bool get validVinculo =>
+      (_$validVinculoComputed ??= Computed<bool>(() => super.validVinculo,
+              name: '_VinculoQuizCadasterControllerBase.validVinculo'))
+          .value;
+
   late final _$turmasAtom =
-      Atom(name: '_VinculoQuizControllerBase.turmas', context: context);
+      Atom(name: '_VinculoQuizCadasterControllerBase.turmas', context: context);
 
   @override
   List<DropdownMenuItem<String>> get turmas {
@@ -26,7 +35,8 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
   }
 
   late final _$quizzesDropdownAtom = Atom(
-      name: '_VinculoQuizControllerBase.quizzesDropdown', context: context);
+      name: '_VinculoQuizCadasterControllerBase.quizzesDropdown',
+      context: context);
 
   @override
   List<DropdownMenuItem<String>> get quizzesDropdown {
@@ -41,8 +51,8 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$idTurmaAtom =
-      Atom(name: '_VinculoQuizControllerBase.idTurma', context: context);
+  late final _$idTurmaAtom = Atom(
+      name: '_VinculoQuizCadasterControllerBase.idTurma', context: context);
 
   @override
   String get idTurma {
@@ -57,8 +67,8 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$dateQuizAtom =
-      Atom(name: '_VinculoQuizControllerBase.dateQuiz', context: context);
+  late final _$dateQuizAtom = Atom(
+      name: '_VinculoQuizCadasterControllerBase.dateQuiz', context: context);
 
   @override
   DateTime get dateQuiz {
@@ -74,7 +84,7 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
   }
 
   late final _$idQuizAtom =
-      Atom(name: '_VinculoQuizControllerBase.idQuiz', context: context);
+      Atom(name: '_VinculoQuizCadasterControllerBase.idQuiz', context: context);
 
   @override
   String get idQuiz {
@@ -89,8 +99,8 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$groupsQuizAtom =
-      Atom(name: '_VinculoQuizControllerBase.groupsQuiz', context: context);
+  late final _$groupsQuizAtom = Atom(
+      name: '_VinculoQuizCadasterControllerBase.groupsQuiz', context: context);
 
   @override
   List<GroupModel> get groupsQuiz {
@@ -105,8 +115,9 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$groupsBackupAtom =
-      Atom(name: '_VinculoQuizControllerBase.groupsBackup', context: context);
+  late final _$groupsBackupAtom = Atom(
+      name: '_VinculoQuizCadasterControllerBase.groupsBackup',
+      context: context);
 
   @override
   List<GroupModel> get groupsBackup {
@@ -122,7 +133,7 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
   }
 
   late final _$groupsAtom =
-      Atom(name: '_VinculoQuizControllerBase.groups', context: context);
+      Atom(name: '_VinculoQuizCadasterControllerBase.groups', context: context);
 
   @override
   List<GroupModel> get groups {
@@ -137,8 +148,8 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$loadingAtom =
-      Atom(name: '_VinculoQuizControllerBase.loading', context: context);
+  late final _$loadingAtom = Atom(
+      name: '_VinculoQuizCadasterControllerBase.loading', context: context);
 
   @override
   bool get loading {
@@ -153,8 +164,8 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$messageAtom =
-      Atom(name: '_VinculoQuizControllerBase.message', context: context);
+  late final _$messageAtom = Atom(
+      name: '_VinculoQuizCadasterControllerBase.message', context: context);
 
   @override
   String get message {
@@ -169,77 +180,94 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
-  late final _$getGroupsAsyncAction =
-      AsyncAction('_VinculoQuizControllerBase.getGroups', context: context);
+  late final _$getGroupsAsyncAction = AsyncAction(
+      '_VinculoQuizCadasterControllerBase.getGroups',
+      context: context);
 
   @override
   Future<void> getGroups() {
     return _$getGroupsAsyncAction.run(() => super.getGroups());
   }
 
-  late final _$getQuizzesAsyncAction =
-      AsyncAction('_VinculoQuizControllerBase.getQuizzes', context: context);
+  late final _$getQuizzesAsyncAction = AsyncAction(
+      '_VinculoQuizCadasterControllerBase.getQuizzes',
+      context: context);
 
   @override
   Future<void> getQuizzes() {
     return _$getQuizzesAsyncAction.run(() => super.getQuizzes());
   }
 
-  late final _$_VinculoQuizControllerBaseActionController =
-      ActionController(name: '_VinculoQuizControllerBase', context: context);
+  late final _$vincularQuizAsyncAction = AsyncAction(
+      '_VinculoQuizCadasterControllerBase.vincularQuiz',
+      context: context);
+
+  @override
+  Future<void> vincularQuiz() {
+    return _$vincularQuizAsyncAction.run(() => super.vincularQuiz());
+  }
+
+  late final _$_VinculoQuizCadasterControllerBaseActionController =
+      ActionController(
+          name: '_VinculoQuizCadasterControllerBase', context: context);
 
   @override
   void setTurma(String? value) {
-    final _$actionInfo = _$_VinculoQuizControllerBaseActionController
-        .startAction(name: '_VinculoQuizControllerBase.setTurma');
+    final _$actionInfo = _$_VinculoQuizCadasterControllerBaseActionController
+        .startAction(name: '_VinculoQuizCadasterControllerBase.setTurma');
     try {
       return super.setTurma(value);
     } finally {
-      _$_VinculoQuizControllerBaseActionController.endAction(_$actionInfo);
+      _$_VinculoQuizCadasterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setDateQuiz(DateTime? value) {
-    final _$actionInfo = _$_VinculoQuizControllerBaseActionController
-        .startAction(name: '_VinculoQuizControllerBase.setDateQuiz');
+    final _$actionInfo = _$_VinculoQuizCadasterControllerBaseActionController
+        .startAction(name: '_VinculoQuizCadasterControllerBase.setDateQuiz');
     try {
       return super.setDateQuiz(value);
     } finally {
-      _$_VinculoQuizControllerBaseActionController.endAction(_$actionInfo);
+      _$_VinculoQuizCadasterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void setIdQuiz(String? value) {
-    final _$actionInfo = _$_VinculoQuizControllerBaseActionController
-        .startAction(name: '_VinculoQuizControllerBase.setIdQuiz');
+    final _$actionInfo = _$_VinculoQuizCadasterControllerBaseActionController
+        .startAction(name: '_VinculoQuizCadasterControllerBase.setIdQuiz');
     try {
       return super.setIdQuiz(value);
     } finally {
-      _$_VinculoQuizControllerBaseActionController.endAction(_$actionInfo);
+      _$_VinculoQuizCadasterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void addGroup(GroupModel group, dynamic index) {
-    final _$actionInfo = _$_VinculoQuizControllerBaseActionController
-        .startAction(name: '_VinculoQuizControllerBase.addGroup');
+    final _$actionInfo = _$_VinculoQuizCadasterControllerBaseActionController
+        .startAction(name: '_VinculoQuizCadasterControllerBase.addGroup');
     try {
       return super.addGroup(group, index);
     } finally {
-      _$_VinculoQuizControllerBaseActionController.endAction(_$actionInfo);
+      _$_VinculoQuizCadasterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
   @override
   void removeGroup(GroupModel group) {
-    final _$actionInfo = _$_VinculoQuizControllerBaseActionController
-        .startAction(name: '_VinculoQuizControllerBase.removeGroup');
+    final _$actionInfo = _$_VinculoQuizCadasterControllerBaseActionController
+        .startAction(name: '_VinculoQuizCadasterControllerBase.removeGroup');
     try {
       return super.removeGroup(group);
     } finally {
-      _$_VinculoQuizControllerBaseActionController.endAction(_$actionInfo);
+      _$_VinculoQuizCadasterControllerBaseActionController
+          .endAction(_$actionInfo);
     }
   }
 
@@ -255,7 +283,8 @@ groupsQuiz: ${groupsQuiz},
 groupsBackup: ${groupsBackup},
 groups: ${groups},
 loading: ${loading},
-message: ${message}
+message: ${message},
+validVinculo: ${validVinculo}
     ''';
   }
 }
