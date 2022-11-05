@@ -193,7 +193,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                       onTap: canSave
                           ? saveQuestion
                               ? () async {
-                                  controller.saveQuiz();
+                                  await controller.saveQuiz();
                                   if (messageError.isEmpty) {
                                     Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(

@@ -89,22 +89,6 @@ mixin _$QuizzesController on _QuizzesControllerBase, Store {
     });
   }
 
-  late final _$idClassAtom =
-      Atom(name: '_QuizzesControllerBase.idClass', context: context);
-
-  @override
-  String get idClass {
-    _$idClassAtom.reportRead();
-    return super.idClass;
-  }
-
-  @override
-  set idClass(String value) {
-    _$idClassAtom.reportWrite(value, super.idClass, () {
-      super.idClass = value;
-    });
-  }
-
   late final _$idCompanyAtom =
       Atom(name: '_QuizzesControllerBase.idCompany', context: context);
 
@@ -162,7 +146,6 @@ message: ${message},
 quizzes: ${quizzes},
 dataInicial: ${dataInicial},
 dataFinal: ${dataFinal},
-idClass: ${idClass},
 idCompany: ${idCompany}
     ''';
   }
