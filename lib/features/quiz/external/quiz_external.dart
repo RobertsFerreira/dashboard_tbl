@@ -5,6 +5,7 @@ import 'package:map_fields/map_fields.dart';
 import '../../../core/interfaces/clients/client_http.dart';
 import '../../group/models/group_model.dart';
 import '../models/new_quiz_model.dart';
+import '../models/vincule_quiz/vinculo_quiz_model.dart';
 
 class QuizExternal {
   final ClientHttp _client;
@@ -34,6 +35,42 @@ class QuizExternal {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<List<VinculoQuizModel>> getVinculosQuizzes(
+    DateTime initDate,
+    DateTime finalDate,
+  ) async {
+    List<VinculoQuizModel> quizzesVinculos = [];
+    try {
+      final queryParameters = {
+        'data_ini': initDate.toString(),
+        'data_fim': finalDate.toString(),
+      };
+      final response = await _client.get(
+        '/quizzes/group/linked',
+        queryParameters: queryParameters,
+      );
+
+      if (response.statusCode == 200) {
+        final map = MapFields.load(response.data);
+        final listQuizzes = map.getList<Map<String, dynamic>>('quizzes');
+        quizzesVinculos =
+            listQuizzes.map((e) => VinculoQuizModel.fromMap(e)).toList();
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        if (statusCode == 204) {
+          return [];
+        }
+        throw Exception(
+          'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return quizzesVinculos;
   }
 
   Future<bool> vinculeQuiz(

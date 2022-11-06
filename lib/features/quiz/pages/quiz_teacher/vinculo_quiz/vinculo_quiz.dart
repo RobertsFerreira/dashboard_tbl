@@ -1,3 +1,4 @@
+import 'package:dashboard_tbl/features/quiz/pages/quiz_teacher/vinculo_quiz/vinculo_quiz_cadaster.dart';
 import 'package:dashboard_tbl/utils/extensions/custom_extension_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -37,7 +38,7 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const VinculoQuiz(),
+                        builder: (context) => const VinculoQuizCadaster(),
                       ),
                     );
                   },
@@ -79,6 +80,12 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                         );
                       },
                     ),
+                    const SizedBox(width: 5),
+                    CustomButtonDefault(
+                      icon: Icons.search,
+                      text: 'Buscar',
+                      onTap: controller.getAll,
+                    ),
                   ],
                 ),
               ],
@@ -86,6 +93,47 @@ class _VinculoQuizState extends State<VinculoQuiz> {
             const SizedBox(height: 20),
             const Divider(),
             const SizedBox(height: 20),
+            Observer(
+              builder: (_) {
+                final loading = controller.loading;
+                final vinculoQuizzes = controller.vinculoQuizzes;
+                if (loading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (vinculoQuizzes.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'Nenhum quiz liberado',
+                    ),
+                  );
+                }
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: vinculoQuizzes.length,
+                    itemBuilder: (context, index) {
+                      final vinculoQuiz = vinculoQuizzes[index];
+                      return Card(
+                        child: ExpansionTile(
+                          title: Text('Quiz: ${vinculoQuiz.title}'),
+                          trailing: Text(
+                            'Data: ${vinculoQuiz.date.toStringFormatted()}',
+                          ),
+                          children: [
+                            for (final group in vinculoQuiz.groups)
+                              ListTile(
+                                title: Text('Grupo: ${group.reference}'),
+                                trailing: Text('Lider: ${group.nameLeader}'),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),

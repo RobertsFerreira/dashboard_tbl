@@ -1,4 +1,3 @@
-import 'package:dashboard_tbl/features/quiz/pages/quiz_teacher/quizzes_page.dart';
 import 'package:dashboard_tbl/utils/extensions/custom_extension_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -168,13 +167,5 @@ class _VinculoQuizCadasterState extends State<VinculoQuizCadaster> {
     );
   }
 
-  goto() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const QuizzesPage(),
-      ),
-      (route) => false,
-    );
-  }
+  goto() => Navigator.pop(context);
 }
