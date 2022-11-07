@@ -1,4 +1,5 @@
 import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
+import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
 import 'package:map_fields/map_fields.dart';
 
 import '../../../../core/infra/global/user_global.dart';
@@ -12,11 +13,18 @@ class QuizStudentsExternal {
 
   Future<List<QuizModel>> getQuizzes(
     String idUser,
-    String idCompany,
+    bool answered,
+    DateTime from,
+    DateTime to,
   ) async {
     try {
       final response = await _client.get(
-        '/quizzes/user/$idCompany/$idUser',
+        '/user/quizzes/$idUser',
+        queryParameters: {
+          'dateI': from.toDateHasuraWithoutTime(),
+          'dateF': to.toDateHasuraWithoutTime(),
+          'answered': answered,
+        },
       );
 
       if (response.statusCode == 200) {

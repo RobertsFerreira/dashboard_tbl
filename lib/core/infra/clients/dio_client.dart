@@ -23,7 +23,7 @@ class DioClient extends ClientHttp {
   @override
   Future get(
     String url, {
-    Map<String, String>? queryParameters,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final result = await _dio.get(
