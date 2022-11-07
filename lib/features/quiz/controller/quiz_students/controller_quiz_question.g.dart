@@ -131,6 +131,15 @@ mixin _$ControllerQuizQuestion on _ControllerQuizQuestionBase, Store {
     });
   }
 
+  late final _$insertAnswersUSerAsyncAction = AsyncAction(
+      '_ControllerQuizQuestionBase.insertAnswersUSer',
+      context: context);
+
+  @override
+  Future<void> insertAnswersUSer() {
+    return _$insertAnswersUSerAsyncAction.run(() => super.insertAnswersUSer());
+  }
+
   late final _$_ControllerQuizQuestionBaseActionController =
       ActionController(name: '_ControllerQuizQuestionBase', context: context);
 

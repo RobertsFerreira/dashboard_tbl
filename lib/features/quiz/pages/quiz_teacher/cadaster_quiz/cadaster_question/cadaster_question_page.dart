@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../components/answer_component.dart';
-import '../../../../controller/cadaster_question_controller.dart';
+import '../../../../controller/quiz_teacher/cadaster_question_controller.dart';
 import '../../quizzes_page.dart';
 
 class CadasterQuestionPage extends StatefulWidget {
@@ -51,6 +51,9 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    textInputAction: TextInputAction.newline,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                     decoration: const InputDecoration(
                       labelText: 'Descrição',
                       border: OutlineInputBorder(),
@@ -193,7 +196,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                       onTap: canSave
                           ? saveQuestion
                               ? () async {
-                                  controller.saveQuiz();
+                                  await controller.saveQuiz();
                                   if (messageError.isEmpty) {
                                     Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(

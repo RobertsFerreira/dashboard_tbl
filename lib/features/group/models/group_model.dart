@@ -8,6 +8,7 @@ import 'group_default.dart';
 class GroupModel extends GroupDefault {
   final String id;
   final UserModel userLeader;
+  final bool selected;
 
   GroupModel({
     required this.id,
@@ -15,6 +16,7 @@ class GroupModel extends GroupDefault {
     required super.reference,
     required this.userLeader,
     required super.users,
+    this.selected = false,
   });
 
   factory GroupModel.fromMap(Map<String, dynamic> json) {

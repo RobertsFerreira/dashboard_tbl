@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
+import 'package:dashboard_tbl/core/infra/global/user_global.dart';
 import 'package:dashboard_tbl/features/quiz/external/quiz_external.dart';
 import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
 import 'package:mobx/mobx.dart';
@@ -11,6 +12,11 @@ class QuizzesController = _QuizzesControllerBase with _$QuizzesController;
 
 abstract class _QuizzesControllerBase with Store {
   final quizExternal = QuizExternal(DioClient());
+
+  _QuizzesControllerBase() {
+    idCompany = UserGlobal.instance.user.idCompany;
+    getAllQuizzes();
+  }
 
   @observable
   bool loading = false;
@@ -42,22 +48,14 @@ abstract class _QuizzesControllerBase with Store {
   }
 
   @observable
-  String idClass = '9a701066-27e2-49d2-ae07-0c0f8fea9524';
-
-  @observable
-  String idCompany = '1566d92f-9119-44d5-830e-9c3f94eb657c';
+  String idCompany = '';
 
   @action
   Future<void> getAllQuizzes() async {
     try {
       loading = true;
       message = '';
-      final quizzesList = await quizExternal.getQuizzes(
-        idClass,
-        idCompany,
-        dataInicial,
-        dataFinal,
-      );
+      final quizzesList = await quizExternal.getQuizzes(idCompany);
       quizzes = quizzesList;
     } catch (e) {
       log(e.toString());

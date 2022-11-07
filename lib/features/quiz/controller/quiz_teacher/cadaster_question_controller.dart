@@ -5,10 +5,10 @@ import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import '../external/quiz_external.dart';
-import '../models/answer/new_answer_model.dart';
-import '../models/new_quiz_model.dart';
-import '../models/question/new_question_model.dart';
+import '../../external/quiz_external.dart';
+import '../../models/answer/new_answer_model.dart';
+import '../../models/new_quiz_model.dart';
+import '../../models/question/new_question_model.dart';
 
 part 'cadaster_question_controller.g.dart';
 

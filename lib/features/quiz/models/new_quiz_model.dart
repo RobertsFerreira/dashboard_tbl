@@ -7,13 +7,11 @@ import '../../group/models/group_model.dart';
 import 'quiz_default_model.dart';
 
 class NewQuizModel extends QuizDefaultModel {
-  final List<GroupModel> groups;
   NewQuizModel({
     required super.teacher,
     required super.numberQuestion,
     required super.idCompany,
     required super.questions,
-    required this.groups,
     required super.title,
   });
 
@@ -40,7 +38,6 @@ class NewQuizModel extends QuizDefaultModel {
       numberQuestion: numberQuestion ?? this.numberQuestion,
       idCompany: idCompany ?? this.idCompany,
       questions: questions ?? this.questions,
-      groups: groups ?? this.groups,
       title: title ?? this.title,
     );
   }
@@ -55,7 +52,6 @@ class NewQuizModel extends QuizDefaultModel {
             (e) => (e as NewQuestionModel).toMap(),
           )
           .toList(),
-      'groups': groups.map((e) => e.toMap()).toList(),
       'title': title,
     };
   }

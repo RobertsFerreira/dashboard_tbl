@@ -4,6 +4,7 @@ class CustomDropDown<T> extends StatelessWidget {
   final String text;
   final T? initValue;
   final void Function(T?)? onChanged;
+  final bool withExpanded;
   final List<DropdownMenuItem<T>> items;
 
   const CustomDropDown({
@@ -12,10 +13,10 @@ class CustomDropDown<T> extends StatelessWidget {
     this.initValue,
     this.onChanged,
     required this.items,
+    this.withExpanded = true,
   });
 
-  @override
-  Widget build(BuildContext context) {
+  Widget expanded() {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -30,5 +31,28 @@ class CustomDropDown<T> extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget normally() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DropdownButtonFormField<T>(
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: text,
+        ),
+        value: initValue,
+        items: items,
+        onChanged: onChanged,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (withExpanded) {
+      return expanded();
+    }
+    return normally();
   }
 }
