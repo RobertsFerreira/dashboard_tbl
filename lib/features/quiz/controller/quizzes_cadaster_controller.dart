@@ -151,7 +151,6 @@ abstract class _QuizzesCadasterControllerBase with Store {
   @observable
   NewQuizModel newQuiz = NewQuizModel(
     title: '',
-    date: DateTime.now(),
     numberQuestion: 0,
     groups: [],
     teacher: UserModel(
@@ -168,7 +167,6 @@ abstract class _QuizzesCadasterControllerBase with Store {
       ),
       isLeaderGroup: false,
     ),
-    idClass: '',
     idCompany: '',
     questions: [],
   );
@@ -194,11 +192,9 @@ abstract class _QuizzesCadasterControllerBase with Store {
   void createQuiz() {
     newQuiz = NewQuizModel(
       title: titleQuiz,
-      date: dateQuiz,
       numberQuestion: numberQuestion,
       groups: groupsQuiz,
       teacher: user,
-      idClass: idTurma,
       idCompany: user.idCompany,
       questions: [],
     );

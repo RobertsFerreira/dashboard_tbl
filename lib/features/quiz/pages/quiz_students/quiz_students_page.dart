@@ -81,6 +81,11 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                         ),
                       );
                     }
+                    if (quizzes.isEmpty) {
+                      return const Center(
+                        child: Text('Nenhum quiz encontrado'),
+                      );
+                    }
                     return Expanded(
                       child: ListView.builder(
                         itemCount: quizzes.length,

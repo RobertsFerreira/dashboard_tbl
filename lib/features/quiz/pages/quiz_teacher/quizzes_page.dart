@@ -115,9 +115,6 @@ class _QuizzesPageState extends State<QuizzesPage> {
                           subtitle: Text(
                             'Número de questões: ${quiz.numberQuestion}',
                           ),
-                          trailing: Text(
-                            'Data: ${quiz.date.toStringFormatted()}',
-                          ),
                         ),
                       );
                     },

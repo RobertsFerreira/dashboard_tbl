@@ -13,16 +13,17 @@ class QuizStudentsExternal {
 
   Future<List<QuizModel>> getQuizzes(
     String idUser,
-    String idCompany,
+    bool answered,
     DateTime from,
     DateTime to,
   ) async {
     try {
       final response = await _client.get(
-        '/quizzes/user/$idCompany/$idUser',
+        '/user/quizzes/$idUser',
         queryParameters: {
-          'from': from.toDateHasuraWithoutTime(),
-          'to': to.toDateHasuraWithoutTime(),
+          'dateI': from.toDateHasuraWithoutTime(),
+          'dateF': to.toDateHasuraWithoutTime(),
+          'answered': answered,
         },
       );
 
