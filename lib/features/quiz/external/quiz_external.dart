@@ -1,3 +1,4 @@
+import 'package:dashboard_tbl/core/infra/global/user_global.dart';
 import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
 import 'package:dashboard_tbl/utils/hasura/helper_extensions.dart';
 import 'package:map_fields/map_fields.dart';
@@ -16,7 +17,8 @@ class QuizExternal {
     String idCompany,
   ) async {
     try {
-      final response = await _client.get('/quizzes/$idCompany');
+      final idUser = UserGlobal.instance.user.id;
+      final response = await _client.get('/quizzes/$idCompany/$idUser');
 
       if (response.statusCode == 200) {
         final map = MapFields.load(response.data);
@@ -44,8 +46,8 @@ class QuizExternal {
     List<VinculoQuizModel> quizzesVinculos = [];
     try {
       final queryParameters = {
-        'data_ini': initDate.toString(),
-        'data_fim': finalDate.toString(),
+        'data_ini': initDate.toDateHasuraWithoutTime(),
+        'data_fim': finalDate.toDateHasuraWithoutTime(),
       };
       final response = await _client.get(
         '/quizzes/group/linked',

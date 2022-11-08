@@ -86,12 +86,10 @@ class _QuizzesPageState extends State<QuizzesPage> {
                 }
                 if (messageError.isNotEmpty) {
                   return Center(
-                    child: Expanded(
-                      child: Text(
-                        messageError,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    child: Text(
+                      messageError,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   );
                 }

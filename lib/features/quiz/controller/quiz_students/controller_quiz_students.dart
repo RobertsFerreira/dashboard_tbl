@@ -46,6 +46,8 @@ abstract class _ControllerQuizStudentsBase with Store {
       final quizzesList = await quizStudentsExternal.getQuizzes(
         _user.id,
         false,
+        from,
+        to,
       );
       quizzes = quizzesList;
     } catch (e) {
