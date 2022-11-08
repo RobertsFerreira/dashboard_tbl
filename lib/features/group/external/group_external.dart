@@ -14,7 +14,8 @@ class GroupExternal {
       if (response.statusCode == 200) {
         final map = MapFields.load(response.data);
         final listGroups = map.getList<Map<String, dynamic>>('groups', []);
-        return listGroups.map((e) => GroupModel.fromMap(e)).toList();
+        final groups = listGroups.map((e) => GroupModel.fromMap(e)).toList();
+        return groups;
       } else {
         final status = response.statusCode;
         final message = response.data;

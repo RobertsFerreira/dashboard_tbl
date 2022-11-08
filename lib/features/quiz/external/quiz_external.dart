@@ -50,7 +50,7 @@ class QuizExternal {
         'data_fim': finalDate.toDateHasuraWithoutTime(),
       };
       final response = await _client.get(
-        '/quizzes/group/linked',
+        '/quiz/group/linked',
         queryParameters: queryParameters,
       );
 
