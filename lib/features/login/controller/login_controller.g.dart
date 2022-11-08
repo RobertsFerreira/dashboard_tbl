@@ -73,6 +73,22 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  late final _$obscurePasswordAtom =
+      Atom(name: '_LoginControllerBase.obscurePassword', context: context);
+
+  @override
+  bool get obscurePassword {
+    _$obscurePasswordAtom.reportRead();
+    return super.obscurePassword;
+  }
+
+  @override
+  set obscurePassword(bool value) {
+    _$obscurePasswordAtom.reportWrite(value, super.obscurePassword, () {
+      super.obscurePassword = value;
+    });
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('_LoginControllerBase.login', context: context);
 
@@ -90,6 +106,17 @@ mixin _$LoginController on _LoginControllerBase, Store {
         name: '_LoginControllerBase.setUserLogged');
     try {
       return super.setUserLogged(user);
+    } finally {
+      _$_LoginControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setObscurePassword() {
+    final _$actionInfo = _$_LoginControllerBaseActionController.startAction(
+        name: '_LoginControllerBase.setObscurePassword');
+    try {
+      return super.setObscurePassword();
     } finally {
       _$_LoginControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -123,7 +150,8 @@ mixin _$LoginController on _LoginControllerBase, Store {
 userLogged: ${userLogged},
 loading: ${loading},
 error: ${error},
-loginModel: ${loginModel}
+loginModel: ${loginModel},
+obscurePassword: ${obscurePassword}
     ''';
   }
 }

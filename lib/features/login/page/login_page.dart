@@ -2,6 +2,7 @@ import 'package:asuka/asuka.dart';
 import 'package:dashboard_tbl/features/home/home_for_studente_page.dart';
 import 'package:dashboard_tbl/features/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../core/infra/global/user_global.dart';
 import '../../users/models/user_model.dart';
@@ -37,12 +38,26 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 10),
             SizedBox(
               width: 400,
-              child: TextFormField(
-                onChanged: controller.setPassword,
-                decoration: const InputDecoration(
-                  labelText: 'Senha',
-                  border: OutlineInputBorder(),
-                ),
+              child: Observer(
+                builder: (_) {
+                  final obscurePassword = controller.obscurePassword;
+                  return TextFormField(
+                    onChanged: controller.setPassword,
+                    obscureText: obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: controller.setObscurePassword,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 20),

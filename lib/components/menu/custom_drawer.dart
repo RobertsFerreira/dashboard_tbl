@@ -3,6 +3,7 @@ import 'package:dashboard_tbl/features/login/page/login_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/components/buttons/custom_button_default.dart';
+import '../../core/infra/global/user_global.dart';
 import '../../features/quiz/pages/quiz_teacher/quizzes_page.dart';
 import '../../features/quiz/pages/quiz_teacher/vinculo_quiz/vinculo_quiz.dart';
 
@@ -74,12 +75,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
           CustomButtonDefault(
             text: 'Logout',
             width: 140,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => const LoginPage(),
-              ),
-            ),
+            onTap: () {
+              UserGlobal.instance.setUser(null);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const LoginPage(),
+                ),
+                (route) => false,
+              );
+            },
             icon: Icons.exit_to_app,
           ),
         ],

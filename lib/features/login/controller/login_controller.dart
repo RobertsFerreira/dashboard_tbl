@@ -32,6 +32,12 @@ abstract class _LoginControllerBase with Store {
   @observable
   LoginModel loginModel = LoginModel.empty();
 
+  @observable
+  bool obscurePassword = true;
+
+  @action
+  void setObscurePassword() => obscurePassword = !obscurePassword;
+
   @action
   void setCpf(String cpf) {
     loginModel = loginModel.copyWith(cpf: cpf);
