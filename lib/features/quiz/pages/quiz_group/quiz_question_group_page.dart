@@ -81,13 +81,12 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
             const SizedBox(height: 15),
             Observer(
               builder: (_) {
+                final answerStudent = controller.answerStudent;
                 return Expanded(
                   child: ListView.builder(
                     itemCount: controller.currentQuestion.numberAnswer,
                     itemBuilder: (_, index) {
-                      final answerStudent = controller.answerStudent;
                       final answer = answerStudent[index];
-                      final showResults = controller.showResults;
                       return Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: AnswerCard(
@@ -99,7 +98,7 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                               controller.validateCorrectQuestion(index),
                           trailing: false,
                           correct: answer.correct,
-                          showResult: showResults[index] ?? false,
+                          showResult: answer.showResult,
                         ),
                       );
                     },
@@ -128,10 +127,7 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                     ),
                     ButtonNavigator(
                       text: 'Salvar',
-                      onPressed: (controller.currentIndex + 1) ==
-                              controller.quiz.numberQuestion
-                          ? null
-                          : controller.saveAnswersStudent,
+                      onPressed: controller.saveAnswersStudent,
                       //testar essa função amanhã
                     ),
                   ],

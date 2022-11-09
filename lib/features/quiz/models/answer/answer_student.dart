@@ -8,6 +8,7 @@ class AnswerStudent {
   final int index;
   final int pointSelect;
   final int scoreValid;
+  final bool showResult;
 
   AnswerStudent({
     required this.id,
@@ -19,6 +20,7 @@ class AnswerStudent {
     required this.index,
     required this.pointSelect,
     this.scoreValid = 0,
+    this.showResult = false,
   });
 
   AnswerStudent copyWith({
@@ -31,6 +33,7 @@ class AnswerStudent {
     int? index,
     int? pointSelect,
     int? scoreValid,
+    bool? showResult,
   }) {
     return AnswerStudent(
       id: id ?? this.id,
@@ -42,6 +45,7 @@ class AnswerStudent {
       index: index ?? this.index,
       pointSelect: pointSelect ?? this.pointSelect,
       scoreValid: scoreValid ?? this.scoreValid,
+      showResult: showResult ?? this.showResult,
     );
   }
 

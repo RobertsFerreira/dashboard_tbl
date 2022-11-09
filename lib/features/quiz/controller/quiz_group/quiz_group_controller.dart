@@ -12,15 +12,18 @@ class QuizGroupController = _QuizGroupControllerBase with _$QuizGroupController;
 abstract class _QuizGroupControllerBase with Store {
   final QuizModel quiz;
 
-  _QuizGroupControllerBase(this.quiz);
-
-  Map<int, bool> showResults = {};
+  _QuizGroupControllerBase(this.quiz) {
+    _init(quiz);
+  }
 
   @observable
   int _limitScoreAnswer = 0;
 
   @observable
   int currentIndex = 0;
+
+  @observable
+  List<int> remainingScore = [];
 
   @action
   void setCurrentIndex(int value) => currentIndex = value;
@@ -45,10 +48,6 @@ abstract class _QuizGroupControllerBase with Store {
     questions = quiz.questions.cast<QuestionModel>();
     currentQuestion = questions[currentIndex];
     answers = currentQuestion.answers.cast<AnswerModel>();
-    for (var answer in answers) {
-      final index = answers.indexOf(answer);
-      showResults[index] = false;
-    }
     final limits =
         currentQuestion.answers.map((e) => (e).score).toSet().toList();
     if (limits.length > 1) {
@@ -59,6 +58,19 @@ abstract class _QuizGroupControllerBase with Store {
       currentQuestion.numberAnswer,
       (index) {
         final answer = answers[index];
+        List<AnswerStudent> containsAnswer = [];
+        if (answersQuestionsStudents.isNotEmpty) {
+          for (var answersQ in answersQuestionsStudents) {
+            containsAnswer = [
+              ...containsAnswer,
+              ...answersQ
+                  .where(
+                    (ans) => ans.id == answer.id,
+                  )
+                  .toList(),
+            ];
+          }
+        }
         return AnswerStudent(
           id: answer.id,
           idCompany: answer.idCompany,
@@ -68,6 +80,9 @@ abstract class _QuizGroupControllerBase with Store {
           pointSelect: 0,
           correct: answer.correct,
           index: index,
+          showResult: containsAnswer.isNotEmpty
+              ? containsAnswer.first.showResult
+              : false,
         );
       },
     );
@@ -76,11 +91,12 @@ abstract class _QuizGroupControllerBase with Store {
   @computed
   String get questionIndex {
     final numberQuestion = currentIndex + 1;
-    return 'Questão $numberQuestion';
+    return 'Questão $numberQuestion - Pontuação Restante: $_limitScoreAnswer';
   }
 
   @action
   void nextQuestion() {
+    saveAnswersStudent();
     if (quiz.numberQuestion > currentIndex + 1) {
       currentIndex++;
       _init(quiz);
@@ -122,7 +138,15 @@ abstract class _QuizGroupControllerBase with Store {
     AnswerStudent answer = answerStudent[index];
     answer = answer.copyWith(pointSelect: _limitScoreAnswer);
     answerStudent[index] = answer;
-    _limitScoreAnswer = -1;
-    showResults[index] = true;
+    if (answer.correct) {
+      answerStudent =
+          answerStudent.map((e) => e.copyWith(showResult: true)).toList();
+    } else {
+      _limitScoreAnswer -= 1;
+      answer = answer.copyWith(showResult: true);
+      answerStudent[index] = answer;
+    }
+    // remainingScore.add(_limitScoreAnswer);
+    answerStudent = answerStudent;
   }
 }

@@ -31,7 +31,11 @@ abstract class _ControllerQuizQuestionBase with Store {
   double progress = 0;
 
   @action
-  void setProgress(double value) => progress = value;
+  void setProgress() {
+    final progressAnswer =
+        answersQuestionsStudents.length / quiz.numberQuestion;
+    progress = progressAnswer;
+  }
 
   @action
   void setCurrentIndex(int value) => currentIndex = value;
@@ -118,6 +122,9 @@ abstract class _ControllerQuizQuestionBase with Store {
       answersQuestionsStudents[index] = answerStudent;
     } else {
       answersQuestionsStudents.add(answerStudent);
+    }
+    if (answerStudent.any((answer) => answer.pointSelect > 0)) {
+      setProgress();
     }
   }
 

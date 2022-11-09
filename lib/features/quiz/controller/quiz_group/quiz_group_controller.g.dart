@@ -49,6 +49,22 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
     });
   }
 
+  late final _$remainingScoreAtom =
+      Atom(name: '_QuizGroupControllerBase.remainingScore', context: context);
+
+  @override
+  List<int> get remainingScore {
+    _$remainingScoreAtom.reportRead();
+    return super.remainingScore;
+  }
+
+  @override
+  set remainingScore(List<int> value) {
+    _$remainingScoreAtom.reportWrite(value, super.remainingScore, () {
+      super.remainingScore = value;
+    });
+  }
+
   late final _$questionsAtom =
       Atom(name: '_QuizGroupControllerBase.questions', context: context);
 
@@ -204,6 +220,7 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
   String toString() {
     return '''
 currentIndex: ${currentIndex},
+remainingScore: ${remainingScore},
 questions: ${questions},
 currentQuestion: ${currentQuestion},
 answers: ${answers},

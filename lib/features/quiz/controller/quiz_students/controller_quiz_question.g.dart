@@ -144,11 +144,11 @@ mixin _$ControllerQuizQuestion on _ControllerQuizQuestionBase, Store {
       ActionController(name: '_ControllerQuizQuestionBase', context: context);
 
   @override
-  void setProgress(double value) {
+  void setProgress() {
     final _$actionInfo = _$_ControllerQuizQuestionBaseActionController
         .startAction(name: '_ControllerQuizQuestionBase.setProgress');
     try {
-      return super.setProgress(value);
+      return super.setProgress();
     } finally {
       _$_ControllerQuizQuestionBaseActionController.endAction(_$actionInfo);
     }
