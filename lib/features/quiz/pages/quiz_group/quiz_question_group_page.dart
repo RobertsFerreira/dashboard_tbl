@@ -1,3 +1,4 @@
+import 'package:dashboard_tbl/features/quiz/controller/quiz_group/quiz_group_controller.dart';
 import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../components/answer_card.dart';
 import '../../../../components/button_navigator.dart';
 import '../../../../components/progress_bar_question.dart';
-import '../../controller/quiz_students/controller_quiz_question.dart';
 
 class QuizQuestionGroupPage extends StatefulWidget {
   final QuizModel quiz;
@@ -18,7 +18,7 @@ class QuizQuestionGroupPage extends StatefulWidget {
 class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
   @override
   Widget build(BuildContext context) {
-    final controller = ControllerQuizQuestion(widget.quiz);
+    final controller = QuizGroupController(widget.quiz);
 
     return Scaffold(
       body: Padding(
@@ -54,16 +54,16 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
             const SizedBox(height: 15),
             Observer(
               builder: (_) {
-                final progress = controller.progress;
+                const progress = 0.0;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Expanded(
                       child: ProgressBarQuestion(
                         percent: progress,
                       ),
                     ),
-                    const SizedBox(width: 5),
+                    SizedBox(width: 5),
                     Text(
                       '${progress * 100}%',
                     )
@@ -87,6 +87,7 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                     itemBuilder: (_, index) {
                       final answerStudent = controller.answerStudent;
                       final answer = answerStudent[index];
+                      final showResults = controller.showResults;
                       return Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: AnswerCard(
@@ -94,9 +95,11 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                           pointSelect: answer.pointSelect,
                           text: answer.description,
                           limitScore: answer.limitScore + 1,
-                          onChanged: (value) =>
-                              controller.setSelectPoint(value, index),
+                          onTap: () =>
+                              controller.validateCorrectQuestion(index),
                           trailing: false,
+                          correct: answer.correct,
+                          showResult: showResults[index] ?? false,
                         ),
                       );
                     },
@@ -127,7 +130,7 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                       text: 'Salvar',
                       onPressed: (controller.currentIndex + 1) ==
                               controller.quiz.numberQuestion
-                          ? controller.insertAnswersUSer
+                          ? null
                           : controller.saveAnswersStudent,
                       //testar essa função amanhã
                     ),

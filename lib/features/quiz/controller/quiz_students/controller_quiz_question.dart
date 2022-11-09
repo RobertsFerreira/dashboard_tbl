@@ -135,31 +135,34 @@ abstract class _ControllerQuizQuestionBase with Store {
           }
         }
       }
-      asuka.Asuka.showDialog(builder: (ctx) {
-        return AlertDialog(
-          title: const Text('Sucesso'),
-          content: const Text(
-            'Respostas salvas com sucesso, esperando todos do grupo terminarem',
-          ),
-          actions: [
-            CustomButtonDefault(
-              text: 'OK',
-              onTap: () {
-                Navigator.of(ctx).pop();
-                Navigator.pushAndRemoveUntil(
-                  ctx,
-                  MaterialPageRoute(
-                    builder: (ctx) {
-                      return QuizQuestionGroupPage(quiz: quiz);
-                    },
-                  ),
-                  (route) => false,
-                );
-              },
+      asuka.Asuka.showDialog(
+        barrierColor: Colors.black.withOpacity(.5),
+        barrierDismissible: false,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('Sucesso'),
+            content: const Text(
+              'Respostas salvas com sucesso, esperando todos do grupo terminarem',
             ),
-          ],
-        );
-      });
+            actions: [
+              CustomButtonDefault(
+                text: 'OK',
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  Navigator.push(
+                    ctx,
+                    MaterialPageRoute(
+                      builder: (ctx) {
+                        return QuizQuestionGroupPage(quiz: quiz);
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
     } catch (e) {
       asuka.Asuka.showSnackBar(
         SnackBar(

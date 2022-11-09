@@ -6,6 +6,7 @@ import '../../../../components/answer_card.dart';
 import '../../../../components/button_navigator.dart';
 import '../../../../components/progress_bar_question.dart';
 import '../../controller/quiz_students/controller_quiz_question.dart';
+import '../quiz_group/quiz_question_group_page.dart';
 
 class QuizQuestionStudentPage extends StatefulWidget {
   final QuizModel quiz;
@@ -126,7 +127,20 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                     text: 'Salvar',
                     onPressed: (controller.currentIndex + 1) ==
                             controller.quiz.numberQuestion
-                        ? controller.insertAnswersUSer
+                        ? () async {
+                            Navigator.pop(context);
+                            await controller.insertAnswersUSer();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) {
+                                  return QuizQuestionGroupPage(
+                                    quiz: widget.quiz,
+                                  );
+                                },
+                              ),
+                            );
+                          }
                         : controller.saveAnswersStudent,
                     //testar essa função amanhã
                   ),

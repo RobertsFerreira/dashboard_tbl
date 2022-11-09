@@ -7,6 +7,9 @@ class AnswerCard extends StatelessWidget {
   final String text;
   final int limitScore;
   final bool trailing;
+  final bool correct;
+  final bool showResult;
+  final Function()? onTap;
   const AnswerCard({
     Key? key,
     required this.index,
@@ -15,6 +18,9 @@ class AnswerCard extends StatelessWidget {
     required this.limitScore,
     this.onChanged,
     this.trailing = true,
+    this.correct = false,
+    this.showResult = false,
+    this.onTap,
   }) : super(key: key);
 
   Widget withTrailing() {
@@ -79,7 +85,7 @@ class AnswerCard extends StatelessWidget {
     return Center(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {},
+        onTap: onTap,
         child: Card(
           child: SizedBox(
             height: 80,
@@ -100,6 +106,21 @@ class AnswerCard extends StatelessWidget {
                       child: Text(
                         text,
                         style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: showResult,
+                    child: Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 23),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            correct ? Icons.check : Icons.close,
+                            color: correct ? Colors.green : Colors.red,
+                          ),
+                        ),
                       ),
                     ),
                   ),
