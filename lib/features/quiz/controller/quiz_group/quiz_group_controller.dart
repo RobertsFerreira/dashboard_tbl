@@ -43,6 +43,9 @@ abstract class _QuizGroupControllerBase with Store {
   @observable
   List<List<AnswerStudent>> answersQuestionsStudents = [];
 
+  @observable
+  double progress = 0;
+
   @action
   void _init(QuizModel quiz) {
     questions = quiz.questions.cast<QuestionModel>();
@@ -112,6 +115,13 @@ abstract class _QuizGroupControllerBase with Store {
   }
 
   @action
+  void setProgress() {
+    final progressAnswer =
+        answersQuestionsStudents.length / quiz.numberQuestion;
+    progress = progressAnswer;
+  }
+
+  @action
   void saveAnswersStudent() {
     int? index;
     for (var answers in answersQuestionsStudents) {
@@ -131,6 +141,7 @@ abstract class _QuizGroupControllerBase with Store {
     } else {
       answersQuestionsStudents.add(answerStudent);
     }
+    setProgress();
   }
 
   @action

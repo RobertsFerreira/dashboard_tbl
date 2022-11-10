@@ -147,6 +147,22 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
     });
   }
 
+  late final _$progressAtom =
+      Atom(name: '_QuizGroupControllerBase.progress', context: context);
+
+  @override
+  double get progress {
+    _$progressAtom.reportRead();
+    return super.progress;
+  }
+
+  @override
+  set progress(double value) {
+    _$progressAtom.reportWrite(value, super.progress, () {
+      super.progress = value;
+    });
+  }
+
   late final _$_QuizGroupControllerBaseActionController =
       ActionController(name: '_QuizGroupControllerBase', context: context);
 
@@ -195,6 +211,17 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
   }
 
   @override
+  void setProgress() {
+    final _$actionInfo = _$_QuizGroupControllerBaseActionController.startAction(
+        name: '_QuizGroupControllerBase.setProgress');
+    try {
+      return super.setProgress();
+    } finally {
+      _$_QuizGroupControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void saveAnswersStudent() {
     final _$actionInfo = _$_QuizGroupControllerBaseActionController.startAction(
         name: '_QuizGroupControllerBase.saveAnswersStudent');
@@ -226,6 +253,7 @@ currentQuestion: ${currentQuestion},
 answers: ${answers},
 answerStudent: ${answerStudent},
 answersQuestionsStudents: ${answersQuestionsStudents},
+progress: ${progress},
 questionIndex: ${questionIndex}
     ''';
   }

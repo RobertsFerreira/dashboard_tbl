@@ -54,16 +54,16 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
             const SizedBox(height: 15),
             Observer(
               builder: (_) {
-                const progress = 0.0;
+                final progress = controller.progress;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Expanded(
                       child: ProgressBarQuestion(
                         percent: progress,
                       ),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
                       '${progress * 100}%',
                     )
