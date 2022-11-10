@@ -81,11 +81,12 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
           const SizedBox(height: 15),
           Observer(
             builder: (_) {
+              final answerStudent = controller.answerStudent;
+              final numberAnswer = controller.currentQuestion.numberAnswer;
               return Expanded(
                 child: ListView.builder(
-                  itemCount: controller.currentQuestion.numberAnswer,
+                  itemCount: numberAnswer,
                   itemBuilder: (_, index) {
-                    final answerStudent = controller.answerStudent;
                     final answer = answerStudent[index];
                     return Padding(
                       padding: const EdgeInsets.only(top: 10),

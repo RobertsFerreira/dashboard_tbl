@@ -76,6 +76,7 @@ abstract class _ControllerQuizQuestionBase with Store {
         );
       },
     );
+    answerStudent = answerStudent;
   }
 
   @action
