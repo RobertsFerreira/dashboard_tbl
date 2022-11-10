@@ -127,7 +127,78 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                     ),
                     ButtonNavigator(
                       text: 'Salvar',
-                      onPressed: controller.saveAnswersStudent,
+                      onPressed: () async {
+                        controller.saveAnswersStudent();
+                        await showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return AlertDialog(
+                              title:
+                                  const Text('Respostas salvas com sucesso!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(ctx);
+                                  },
+                                  child: const Text('Ok'),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                        await showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return Observer(
+                              builder: (_) {
+                                final needApelacao = controller.needApelacao;
+                                final setNeedApelacao =
+                                    controller.setNeedApelacao;
+                                return AlertDialog(
+                                  title: const Text('Deseja fazer apelação'),
+                                  content: Visibility(
+                                    visible: needApelacao,
+                                    child: TextFormField(
+                                      decoration: const InputDecoration(
+                                        labelText: 'Motivo',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      maxLines: null,
+                                      textInputAction: TextInputAction.newline,
+                                      keyboardType: TextInputType.multiline,
+                                    ),
+                                  ),
+                                  actions: [
+                                    Visibility(
+                                      visible: !needApelacao,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(ctx);
+                                        },
+                                        child: const Text('Não'),
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: !needApelacao,
+                                      child: TextButton(
+                                        onPressed: setNeedApelacao,
+                                        child: const Text('Sim'),
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: needApelacao,
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: const Text('Salvar Apelação'),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
                       //testar essa função amanhã
                     ),
                   ],

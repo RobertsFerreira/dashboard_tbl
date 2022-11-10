@@ -46,6 +46,12 @@ abstract class _QuizGroupControllerBase with Store {
   @observable
   double progress = 0;
 
+  @observable
+  bool needApelacao = false;
+
+  @action
+  void setNeedApelacao() => needApelacao = !needApelacao;
+
   @action
   void _init(QuizModel quiz) {
     questions = quiz.questions.cast<QuestionModel>();

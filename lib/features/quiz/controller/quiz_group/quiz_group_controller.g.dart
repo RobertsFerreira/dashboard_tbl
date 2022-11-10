@@ -163,6 +163,22 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
     });
   }
 
+  late final _$needApelacaoAtom =
+      Atom(name: '_QuizGroupControllerBase.needApelacao', context: context);
+
+  @override
+  bool get needApelacao {
+    _$needApelacaoAtom.reportRead();
+    return super.needApelacao;
+  }
+
+  @override
+  set needApelacao(bool value) {
+    _$needApelacaoAtom.reportWrite(value, super.needApelacao, () {
+      super.needApelacao = value;
+    });
+  }
+
   late final _$_QuizGroupControllerBaseActionController =
       ActionController(name: '_QuizGroupControllerBase', context: context);
 
@@ -172,6 +188,17 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
         name: '_QuizGroupControllerBase.setCurrentIndex');
     try {
       return super.setCurrentIndex(value);
+    } finally {
+      _$_QuizGroupControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setNeedApelacao() {
+    final _$actionInfo = _$_QuizGroupControllerBaseActionController.startAction(
+        name: '_QuizGroupControllerBase.setNeedApelacao');
+    try {
+      return super.setNeedApelacao();
     } finally {
       _$_QuizGroupControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -254,6 +281,7 @@ answers: ${answers},
 answerStudent: ${answerStudent},
 answersQuestionsStudents: ${answersQuestionsStudents},
 progress: ${progress},
+needApelacao: ${needApelacao},
 questionIndex: ${questionIndex}
     ''';
   }
