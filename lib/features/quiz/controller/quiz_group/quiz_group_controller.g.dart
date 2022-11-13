@@ -179,6 +179,39 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
     });
   }
 
+  late final _$apelacaoAtom =
+      Atom(name: '_QuizGroupControllerBase.apelacao', context: context);
+
+  @override
+  String get apelacao {
+    _$apelacaoAtom.reportRead();
+    return super.apelacao;
+  }
+
+  @override
+  set apelacao(String value) {
+    _$apelacaoAtom.reportWrite(value, super.apelacao, () {
+      super.apelacao = value;
+    });
+  }
+
+  late final _$insertAnswersUSerAsyncAction = AsyncAction(
+      '_QuizGroupControllerBase.insertAnswersUSer',
+      context: context);
+
+  @override
+  Future<void> insertAnswersUSer() {
+    return _$insertAnswersUSerAsyncAction.run(() => super.insertAnswersUSer());
+  }
+
+  late final _$saveApelacaoAsyncAction =
+      AsyncAction('_QuizGroupControllerBase.saveApelacao', context: context);
+
+  @override
+  Future<bool> saveApelacao() {
+    return _$saveApelacaoAsyncAction.run(() => super.saveApelacao());
+  }
+
   late final _$_QuizGroupControllerBaseActionController =
       ActionController(name: '_QuizGroupControllerBase', context: context);
 
@@ -188,6 +221,17 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
         name: '_QuizGroupControllerBase.setCurrentIndex');
     try {
       return super.setCurrentIndex(value);
+    } finally {
+      _$_QuizGroupControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setApelacao(String value) {
+    final _$actionInfo = _$_QuizGroupControllerBaseActionController.startAction(
+        name: '_QuizGroupControllerBase.setApelacao');
+    try {
+      return super.setApelacao(value);
     } finally {
       _$_QuizGroupControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -282,6 +326,7 @@ answerStudent: ${answerStudent},
 answersQuestionsStudents: ${answersQuestionsStudents},
 progress: ${progress},
 needApelacao: ${needApelacao},
+apelacao: ${apelacao},
 questionIndex: ${questionIndex}
     ''';
   }

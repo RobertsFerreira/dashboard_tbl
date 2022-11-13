@@ -1,5 +1,10 @@
+import 'package:asuka/asuka.dart' as asuka;
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/components/buttons/custom_button_default.dart';
+import '../../../../core/infra/clients/dio_client.dart';
+import '../../external/quiz_student/quiz_student_external.dart';
 import '../../models/answer/answer_model.dart';
 import '../../models/answer/answer_student.dart';
 import '../../models/question/quiz_question_model.dart';
@@ -10,6 +15,8 @@ part 'quiz_group_controller.g.dart';
 class QuizGroupController = _QuizGroupControllerBase with _$QuizGroupController;
 
 abstract class _QuizGroupControllerBase with Store {
+  final quizStudent = QuizStudentsExternal(DioClient());
+
   final QuizModel quiz;
 
   _QuizGroupControllerBase(this.quiz) {
@@ -48,6 +55,12 @@ abstract class _QuizGroupControllerBase with Store {
 
   @observable
   bool needApelacao = false;
+
+  @observable
+  String apelacao = '';
+
+  @action
+  void setApelacao(String value) => apelacao = value;
 
   @action
   void setNeedApelacao() => needApelacao = !needApelacao;
@@ -165,5 +178,73 @@ abstract class _QuizGroupControllerBase with Store {
     }
     // remainingScore.add(_limitScoreAnswer);
     answerStudent = answerStudent;
+  }
+
+  @action
+  Future<void> insertAnswersUSer() async {
+    try {
+      saveAnswersStudent();
+      if (answersQuestionsStudents.isNotEmpty) {
+        for (final answerStudent in answersQuestionsStudents) {
+          final result = await quizStudent.insertAnswersGroup(
+            answerStudent,
+            quiz.id,
+          );
+
+          if (!result) {
+            throw Exception('Erro ao salvar as respostas');
+          }
+        }
+      }
+      await asuka.Asuka.showDialog(
+        barrierColor: Colors.black.withOpacity(.5),
+        barrierDismissible: false,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('Sucesso'),
+            content: const Text(
+              'Respostas salvas com sucesso',
+            ),
+            actions: [
+              CustomButtonDefault(
+                text: 'OK',
+                onTap: () => Navigator.of(ctx).pop(),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      asuka.Asuka.showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+          ),
+        ),
+      );
+    }
+  }
+
+  @action
+  Future<bool> saveApelacao() async {
+    try {
+      if (apelacao.isNotEmpty) {
+        return await quizStudent.insertApelacao(
+          apelacao,
+          quiz.id,
+        );
+      } else {
+        return false;
+      }
+    } catch (e) {
+      asuka.Asuka.showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+          ),
+        ),
+      );
+      return false;
+    }
   }
 }

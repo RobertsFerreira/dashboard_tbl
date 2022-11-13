@@ -1,11 +1,14 @@
-import 'package:dashboard_tbl/features/quiz/controller/quiz_group/quiz_group_controller.dart';
-import 'package:dashboard_tbl/features/quiz/models/quiz_model.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../components/answer_card.dart';
 import '../../../../components/button_navigator.dart';
 import '../../../../components/progress_bar_question.dart';
+import '../../controller/quiz_group/quiz_group_controller.dart';
+import '../../models/quiz_model.dart';
 
 class QuizQuestionGroupPage extends StatefulWidget {
   final QuizModel quiz;
@@ -127,79 +130,83 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                     ),
                     ButtonNavigator(
                       text: 'Salvar',
-                      onPressed: () async {
-                        controller.saveAnswersStudent();
-                        await showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return AlertDialog(
-                              title:
-                                  const Text('Respostas salvas com sucesso!'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(ctx);
-                                  },
-                                  child: const Text('Ok'),
-                                )
-                              ],
-                            );
-                          },
-                        );
-                        await showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return Observer(
-                              builder: (_) {
-                                final needApelacao = controller.needApelacao;
-                                final setNeedApelacao =
-                                    controller.setNeedApelacao;
-                                return AlertDialog(
-                                  title: const Text('Deseja fazer apelação'),
-                                  content: Visibility(
-                                    visible: needApelacao,
-                                    child: TextFormField(
-                                      decoration: const InputDecoration(
-                                        labelText: 'Motivo',
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      maxLines: null,
-                                      textInputAction: TextInputAction.newline,
-                                      keyboardType: TextInputType.multiline,
-                                    ),
-                                  ),
-                                  actions: [
-                                    Visibility(
-                                      visible: !needApelacao,
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(ctx);
-                                        },
-                                        child: const Text('Não'),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: !needApelacao,
-                                      child: TextButton(
-                                        onPressed: setNeedApelacao,
-                                        child: const Text('Sim'),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: needApelacao,
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        child: const Text('Salvar Apelação'),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                      //testar essa função amanhã
+                      onPressed: (controller.currentIndex + 1) !=
+                              controller.quiz.numberQuestion
+                          ? () async => controller.saveAnswersStudent()
+                          : () async {
+                              await controller.insertAnswersUSer();
+                              await showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return Observer(
+                                    builder: (_) {
+                                      final needApelacao =
+                                          controller.needApelacao;
+                                      final setNeedApelacao =
+                                          controller.setNeedApelacao;
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Deseja fazer apelação'),
+                                        content: Visibility(
+                                          visible: needApelacao,
+                                          child: TextFormField(
+                                            decoration: const InputDecoration(
+                                              labelText: 'Motivo',
+                                              border: OutlineInputBorder(),
+                                            ),
+                                            maxLines: null,
+                                            textInputAction:
+                                                TextInputAction.newline,
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            onChanged: controller.setApelacao,
+                                          ),
+                                        ),
+                                        actions: [
+                                          Visibility(
+                                            visible: !needApelacao,
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(ctx);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Não'),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: !needApelacao,
+                                            child: TextButton(
+                                              onPressed: setNeedApelacao,
+                                              child: const Text('Sim'),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: needApelacao,
+                                            child: TextButton(
+                                              onPressed: () async {
+                                                final result = await controller
+                                                    .saveApelacao();
+                                                if (result) {
+                                                  asuka.AsukaSnackbar.success(
+                                                    'Apelação salva com sucesso',
+                                                  ).show();
+                                                  Navigator.pop(ctx);
+                                                  Navigator.pop(context);
+                                                } else {
+                                                  Navigator.pop(ctx);
+                                                }
+                                              },
+                                              child:
+                                                  const Text('Salvar Apelação'),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
                     ),
                   ],
                 );

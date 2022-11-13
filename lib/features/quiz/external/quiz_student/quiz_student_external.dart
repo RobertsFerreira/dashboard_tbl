@@ -5,6 +5,7 @@ import 'package:map_fields/map_fields.dart';
 import '../../../../core/infra/global/user_global.dart';
 import '../../../../core/interfaces/clients/client_http.dart';
 import '../../models/answer/answer_student.dart';
+import '../../models/apelacao/new_apelacao_model.dart';
 
 class QuizStudentsExternal {
   final ClientHttp _client;
@@ -98,6 +99,82 @@ class QuizStudentsExternal {
         final message = response.data;
         throw Exception(
           'Erro ao inserir respostas -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> insertAnswersGroup(
+    List<AnswerStudent> answers,
+    String idQuiz,
+  ) async {
+    try {
+      final userLogged = UserGlobal.instance.user;
+
+      final listAnswers = answers
+          .map<Map<String, dynamic>>(
+            (e) => {
+              'id_answer': e.id,
+              'id_group': "",
+              'id_company': userLogged.idCompany,
+              'score': e.pointSelect,
+            },
+          )
+          .toList();
+
+      final response = await _client.post(
+        '/quizzes/answers/group',
+        body: {
+          'answers': listAnswers,
+          'id_user': userLogged.id,
+          'id_quiz': idQuiz
+        },
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return true;
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        throw Exception(
+          'Erro ao inserir respostas -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> insertApelacao(
+    String apelacao,
+    String idQuiz,
+  ) async {
+    try {
+      final userLogged = UserGlobal.instance.user;
+
+      final apelacaoModel = NewApelacaoModel(
+        apelacao: apelacao,
+        idQuiz: idQuiz,
+        idUser: userLogged.id,
+        idCompany: userLogged.idCompany,
+      );
+
+      final response = await _client.post(
+        '/apelacao',
+        body: {
+          'apelacao': apelacaoModel.toMap(),
+        },
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return true;
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        throw Exception(
+          'Erro ao inserir apelacao -- Status: $statusCode -- Message: $message',
         );
       }
     } catch (e) {
