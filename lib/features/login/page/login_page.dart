@@ -21,56 +21,66 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 400,
-              child: TextFormField(
-                onChanged: controller.setCpf,
-                decoration: const InputDecoration(
-                  labelText: 'CPF',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 400,
-              child: Observer(
-                builder: (_) {
-                  final obscurePassword = controller.obscurePassword;
-                  return TextFormField(
-                    onChanged: controller.setPassword,
-                    obscureText: obscurePassword,
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                        onPressed: controller.setObscurePassword,
-                      ),
+      body: Observer(
+        builder: (_) {
+          final loading = controller.loading;
+          if (loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 400,
+                  child: TextFormField(
+                    onChanged: controller.setCpf,
+                    decoration: const InputDecoration(
+                      labelText: 'CPF',
+                      border: OutlineInputBorder(),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: 400,
+                  child: Observer(
+                    builder: (_) {
+                      final obscurePassword = controller.obscurePassword;
+                      return TextFormField(
+                        onChanged: controller.setPassword,
+                        obscureText: obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              obscurePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: controller.setObscurePassword,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    await controller.login();
+                    final userLogged = UserGlobal.instance.user;
+                    goto(userLogged, controller.error);
+                  },
+                  child: const Text('Login'),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await controller.login();
-                final userLogged = UserGlobal.instance.user;
-                goto(userLogged, controller.error);
-              },
-              child: const Text('Login'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
