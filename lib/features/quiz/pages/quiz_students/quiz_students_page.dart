@@ -16,11 +16,6 @@ class QuizStudentsPage extends StatefulWidget {
 
 class _QuizStudentsPageState extends State<QuizStudentsPage> {
   final controller = ControllerQuizStudents();
-  @override
-  void initState() {
-    super.initState();
-    getAllQuizzes();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +120,5 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
         },
       ),
     );
-  }
-
-  Future<void> getAllQuizzes() async {
-    await controller.getAllQuizzes();
   }
 }
