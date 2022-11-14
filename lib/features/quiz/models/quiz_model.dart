@@ -9,6 +9,7 @@ import 'quiz_default_model.dart';
 class QuizModel extends QuizDefaultModel {
   final String id;
   final String? idGroup;
+  final DateTime? date;
 
   QuizModel({
     required this.id,
@@ -18,6 +19,7 @@ class QuizModel extends QuizDefaultModel {
     required super.questions,
     required super.title,
     required this.idGroup,
+    required this.date,
   });
 
   factory QuizModel.fromMap(Map<String, dynamic> map) {
@@ -32,6 +34,7 @@ class QuizModel extends QuizDefaultModel {
       questions: questionsMap.map((e) => QuestionModel.fromMap(e)).toList(),
       title: mapFields.getString('title'),
       idGroup: mapFields.getString('id_group', ''),
+      date: mapFields.getDateTime('date', DateTime.now()),
     );
   }
 

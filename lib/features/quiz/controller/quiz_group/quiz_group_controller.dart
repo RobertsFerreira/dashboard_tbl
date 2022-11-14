@@ -190,6 +190,7 @@ abstract class _QuizGroupControllerBase with Store {
             answerStudent,
             quiz.id,
             quiz.idGroup ?? '',
+            quiz.date ?? DateTime.now(),
           );
 
           if (!result) {

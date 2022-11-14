@@ -110,6 +110,7 @@ class QuizStudentsExternal {
     List<AnswerStudent> answers,
     String idQuiz,
     String idGroup,
+    DateTime date,
   ) async {
     try {
       final userLogged = UserGlobal.instance.user;
@@ -130,7 +131,8 @@ class QuizStudentsExternal {
         body: {
           'answers': listAnswers,
           'id_user': userLogged.id,
-          'id_quiz': idQuiz
+          'id_quiz': idQuiz,
+          'date': date.toDateHasura(),
         },
       );
 
