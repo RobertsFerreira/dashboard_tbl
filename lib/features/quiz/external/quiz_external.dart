@@ -6,6 +6,7 @@ import 'package:map_fields/map_fields.dart';
 import '../../../core/interfaces/clients/client_http.dart';
 import '../../group/models/group_model.dart';
 import '../models/new_quiz_model.dart';
+import '../models/quiz_result/quiz_result.dart';
 import '../models/vincule_quiz/vinculo_quiz_model.dart';
 
 class QuizExternal {
@@ -123,5 +124,34 @@ class QuizExternal {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<List<QuizResult>> getAllQuizzesResults(String idQuiz) async {
+    List<QuizResult> quizzesResults = <QuizResult>[];
+    try {
+      final response = await _client.get(
+        '/quizzes/results',
+        queryParameters: {
+          'id_quiz': idQuiz,
+        },
+      );
+      if (response.statusCode == 200) {
+        final map = MapFields.load(response.data);
+        final listQuizzes = map.getList<Map<String, dynamic>>('quizzes');
+        quizzesResults = listQuizzes.map((e) => QuizResult.fromMap(e)).toList();
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        if (statusCode == 204) {
+          return [];
+        }
+        throw Exception(
+          'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return quizzesResults;
   }
 }
