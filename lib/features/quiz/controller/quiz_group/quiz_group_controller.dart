@@ -181,7 +181,7 @@ abstract class _QuizGroupControllerBase with Store {
   }
 
   @action
-  Future<void> insertAnswersUSer() async {
+  Future<bool> insertAnswersUSer() async {
     try {
       saveAnswersStudent();
       if (answersQuestionsStudents.isNotEmpty) {
@@ -189,6 +189,7 @@ abstract class _QuizGroupControllerBase with Store {
           final result = await quizStudent.insertAnswersGroup(
             answerStudent,
             quiz.id,
+            quiz.idGroup ?? '',
           );
 
           if (!result) {
@@ -214,6 +215,7 @@ abstract class _QuizGroupControllerBase with Store {
           );
         },
       );
+      return true;
     } catch (e) {
       asuka.Asuka.showSnackBar(
         SnackBar(
@@ -222,6 +224,7 @@ abstract class _QuizGroupControllerBase with Store {
           ),
         ),
       );
+      return false;
     }
   }
 
@@ -232,6 +235,7 @@ abstract class _QuizGroupControllerBase with Store {
         return await quizStudent.insertApelacao(
           apelacao,
           quiz.id,
+          quiz.idGroup ?? '',
         );
       } else {
         return false;

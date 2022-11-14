@@ -109,6 +109,7 @@ class QuizStudentsExternal {
   Future<bool> insertAnswersGroup(
     List<AnswerStudent> answers,
     String idQuiz,
+    String idGroup,
   ) async {
     try {
       final userLogged = UserGlobal.instance.user;
@@ -117,7 +118,7 @@ class QuizStudentsExternal {
           .map<Map<String, dynamic>>(
             (e) => {
               'id_answer': e.id,
-              'id_group': "",
+              'id_group': idGroup,
               'id_company': userLogged.idCompany,
               'score': e.pointSelect,
             },
@@ -150,6 +151,7 @@ class QuizStudentsExternal {
   Future<bool> insertApelacao(
     String apelacao,
     String idQuiz,
+    String idGroup,
   ) async {
     try {
       final userLogged = UserGlobal.instance.user;
@@ -159,6 +161,7 @@ class QuizStudentsExternal {
         idQuiz: idQuiz,
         idUser: userLogged.id,
         idCompany: userLogged.idCompany,
+        idGroup: idGroup,
       );
 
       final response = await _client.post(

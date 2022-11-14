@@ -8,6 +8,7 @@ import 'quiz_default_model.dart';
 
 class QuizModel extends QuizDefaultModel {
   final String id;
+  final String? idGroup;
 
   QuizModel({
     required this.id,
@@ -16,6 +17,7 @@ class QuizModel extends QuizDefaultModel {
     required super.idCompany,
     required super.questions,
     required super.title,
+    required this.idGroup,
   });
 
   factory QuizModel.fromMap(Map<String, dynamic> map) {
@@ -29,6 +31,7 @@ class QuizModel extends QuizDefaultModel {
       idCompany: mapFields.getString('id_company'),
       questions: questionsMap.map((e) => QuestionModel.fromMap(e)).toList(),
       title: mapFields.getString('title'),
+      idGroup: mapFields.getString('id_group', ''),
     );
   }
 

@@ -200,7 +200,7 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
       context: context);
 
   @override
-  Future<void> insertAnswersUSer() {
+  Future<bool> insertAnswersUSer() {
     return _$insertAnswersUSerAsyncAction.run(() => super.insertAnswersUSer());
   }
 
