@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../../core/components/date_picker/custom_date_picker.dart';
+import '../../../../../core/components/dropdown/custom_dropdown.dart';
 import '../../../controller/quiz_teacher/vinculo/vinculo_quiz_controller.dart';
 
 class VinculoQuiz extends StatefulWidget {
@@ -47,6 +48,31 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                 const SizedBox(width: 20),
                 Row(
                   children: [
+                    SizedBox(
+                      height: 80,
+                      width: 300,
+                      child: CustomDropDown<bool>(
+                        withExpanded: false,
+                        initValue: false,
+                        onChanged: (value) {
+                          if (value != null) {
+                            controller.setAnswered(value);
+                          }
+                        },
+                        text: 'Status Quiz',
+                        items: const [
+                          DropdownMenuItem(
+                            value: true,
+                            child: Text('Respondidos'),
+                          ),
+                          DropdownMenuItem(
+                            value: false,
+                            child: Text('Não Respondidos'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 5),
                     Observer(
                       builder: (_) {
                         final dataIni = controller.dataIni;
@@ -125,6 +151,7 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                               ListTile(
                                 title: Text('Grupo: ${group.reference}'),
                                 trailing: Text('Lider: ${group.nameLeader}'),
+                                onTap: () {},
                               ),
                           ],
                         ),

@@ -42,12 +42,14 @@ class QuizExternal {
   Future<List<VinculoQuizModel>> getVinculosQuizzes(
     DateTime initDate,
     DateTime finalDate,
+    bool answered,
   ) async {
     List<VinculoQuizModel> quizzesVinculos = [];
     try {
       final queryParameters = {
         'data_ini': initDate.toDateHasuraWithoutTime(),
         'data_fim': finalDate.toDateHasuraWithoutTime(),
+        'answered': answered,
       };
       final response = await _client.get(
         '/quiz/group/linked',

@@ -17,6 +17,12 @@ abstract class _VinculoQuizControllerBase with Store {
   bool loading = false;
 
   @observable
+  bool answered = false;
+
+  @action
+  bool setAnswered(bool value) => answered = value;
+
+  @observable
   DateTime dataIni = DateTime.now();
 
   @action
@@ -43,7 +49,8 @@ abstract class _VinculoQuizControllerBase with Store {
   Future<void> getAll() async {
     try {
       loading = true;
-      vinculoQuizzes = await quizExternal.getVinculosQuizzes(dataIni, dataFim);
+      vinculoQuizzes =
+          await quizExternal.getVinculosQuizzes(dataIni, dataFim, answered);
       vinculoQuizzes = vinculoQuizzes;
     } catch (e) {
       asuka.AsukaSnackbar.alert(e.toString()).show();

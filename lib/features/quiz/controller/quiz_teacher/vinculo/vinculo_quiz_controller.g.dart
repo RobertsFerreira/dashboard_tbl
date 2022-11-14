@@ -25,6 +25,22 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
+  late final _$answeredAtom =
+      Atom(name: '_VinculoQuizControllerBase.answered', context: context);
+
+  @override
+  bool get answered {
+    _$answeredAtom.reportRead();
+    return super.answered;
+  }
+
+  @override
+  set answered(bool value) {
+    _$answeredAtom.reportWrite(value, super.answered, () {
+      super.answered = value;
+    });
+  }
+
   late final _$dataIniAtom =
       Atom(name: '_VinculoQuizControllerBase.dataIni', context: context);
 
@@ -85,6 +101,17 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
       ActionController(name: '_VinculoQuizControllerBase', context: context);
 
   @override
+  bool setAnswered(bool value) {
+    final _$actionInfo = _$_VinculoQuizControllerBaseActionController
+        .startAction(name: '_VinculoQuizControllerBase.setAnswered');
+    try {
+      return super.setAnswered(value);
+    } finally {
+      _$_VinculoQuizControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setDataIni(DateTime? value) {
     final _$actionInfo = _$_VinculoQuizControllerBaseActionController
         .startAction(name: '_VinculoQuizControllerBase.setDataIni');
@@ -110,6 +137,7 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
   String toString() {
     return '''
 loading: ${loading},
+answered: ${answered},
 dataIni: ${dataIni},
 dataFim: ${dataFim},
 vinculoQuizzes: ${vinculoQuizzes}
