@@ -11,12 +11,10 @@ class AnswerGroup {
 
   factory AnswerGroup.fromMap(Map<String, dynamic> map) {
     final mapFields = MapFields.load(map);
-    final groupMap = mapFields.getMap('group');
-    final groupFields = MapFields.load(groupMap);
 
     return AnswerGroup(
       score: mapFields.getDouble('score'),
-      referenceGroup: groupFields.getString('reference'),
+      referenceGroup: mapFields.getString('group'),
     );
   }
 

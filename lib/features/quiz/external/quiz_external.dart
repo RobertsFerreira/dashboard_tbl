@@ -130,7 +130,7 @@ class QuizExternal {
     List<QuizResult> quizzesResults = <QuizResult>[];
     try {
       final response = await _client.get(
-        '/quizzes/results',
+        '/quizzes/result',
         queryParameters: {
           'id_quiz': idQuiz,
         },

@@ -167,6 +167,7 @@ abstract class _QuizGroupControllerBase with Store {
   void validateCorrectQuestion(int index) {
     AnswerStudent answer = answerStudent[index];
     answer = answer.copyWith(pointSelect: _limitScoreAnswer);
+    answer.setScoreValide();
     answerStudent[index] = answer;
     if (answer.correct) {
       answerStudent =

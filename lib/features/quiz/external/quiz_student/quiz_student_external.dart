@@ -6,6 +6,7 @@ import '../../../../core/infra/global/user_global.dart';
 import '../../../../core/interfaces/clients/client_http.dart';
 import '../../models/answer/answer_student.dart';
 import '../../models/apelacao/new_apelacao_model.dart';
+import '../../models/quiz_result/quiz_result.dart';
 
 class QuizStudentsExternal {
   final ClientHttp _client;
@@ -121,7 +122,7 @@ class QuizStudentsExternal {
               'id_answer': e.id,
               'id_group': idGroup,
               'id_company': userLogged.idCompany,
-              'score': e.pointSelect,
+              'score': e.scoreValid,
             },
           )
           .toList();
@@ -185,5 +186,36 @@ class QuizStudentsExternal {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<List<QuizResult>> getAllQuizzesResults(String idQuiz) async {
+    List<QuizResult> quizzesResults = <QuizResult>[];
+    try {
+      final idUser = UserGlobal.instance.user.id;
+      final response = await _client.get(
+        '/quiz/result/user',
+        queryParameters: {
+          'id_quiz': idQuiz,
+          'id_user': idUser,
+        },
+      );
+      if (response.statusCode == 200) {
+        final map = MapFields.load(response.data);
+        final listQuizzes = map.getList<Map<String, dynamic>>('quizzes');
+        quizzesResults = listQuizzes.map((e) => QuizResult.fromMap(e)).toList();
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        if (statusCode == 204) {
+          return [];
+        }
+        throw Exception(
+          'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return quizzesResults;
   }
 }

@@ -89,12 +89,38 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
+  late final _$quizResultsAtom =
+      Atom(name: '_VinculoQuizControllerBase.quizResults', context: context);
+
+  @override
+  List<QuizResult> get quizResults {
+    _$quizResultsAtom.reportRead();
+    return super.quizResults;
+  }
+
+  @override
+  set quizResults(List<QuizResult> value) {
+    _$quizResultsAtom.reportWrite(value, super.quizResults, () {
+      super.quizResults = value;
+    });
+  }
+
   late final _$getAllAsyncAction =
       AsyncAction('_VinculoQuizControllerBase.getAll', context: context);
 
   @override
   Future<void> getAll() {
     return _$getAllAsyncAction.run(() => super.getAll());
+  }
+
+  late final _$getResultsOfQuizAsyncAction = AsyncAction(
+      '_VinculoQuizControllerBase.getResultsOfQuiz',
+      context: context);
+
+  @override
+  Future<void> getResultsOfQuiz(String idQuiz) {
+    return _$getResultsOfQuizAsyncAction
+        .run(() => super.getResultsOfQuiz(idQuiz));
   }
 
   late final _$_VinculoQuizControllerBaseActionController =
@@ -140,7 +166,8 @@ loading: ${loading},
 answered: ${answered},
 dataIni: ${dataIni},
 dataFim: ${dataFim},
-vinculoQuizzes: ${vinculoQuizzes}
+vinculoQuizzes: ${vinculoQuizzes},
+quizResults: ${quizResults}
     ''';
   }
 }

@@ -33,4 +33,48 @@ class QuestionResult {
           .toList(),
     };
   }
+
+  Map<String, double> get pointsUserOfQuestion {
+    final mapAnswersUser = answersResult
+        .map(
+          (answer) => answer.pointsUser,
+        )
+        .toList();
+
+    Map<String, double> pointsMap = <String, double>{};
+
+    for (var answer in mapAnswersUser) {
+      final keys = answer.keys.toList();
+      for (var key in keys) {
+        double points = 0;
+        points += answer[key]!;
+        final total = pointsMap[key] ?? 0;
+        pointsMap[key] = (total + points);
+      }
+    }
+
+    return pointsMap;
+  }
+
+  Map<String, double> get pointsGroupOfQuestion {
+    final mapAnswersGroup = answersResult
+        .map(
+          (answer) => answer.pointsGroup,
+        )
+        .toList();
+
+    Map<String, double> pointsMap = <String, double>{};
+
+    for (var answer in mapAnswersGroup) {
+      final keys = answer.keys.toList();
+      for (var key in keys) {
+        double points = 0;
+        points += answer[key]!;
+        final total = pointsMap[key] ?? 0;
+        pointsMap[key] = (total + points);
+      }
+    }
+
+    return pointsMap;
+  }
 }

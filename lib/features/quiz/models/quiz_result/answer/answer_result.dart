@@ -58,4 +58,37 @@ class AnswerResult {
           .toList(),
     };
   }
+
+  Map<String, double> get pointsUser {
+    final pointsUser = <String, double>{};
+
+    final users = answersUser.map((e) => e.userName).toList();
+
+    for (var user in users) {
+      final pointsUsers = answersUser
+          .where((answer) => answer.userName == user)
+          .map((answer) => answer.scoredScore)
+          .toList();
+
+      final points = pointsUsers.fold(0.0, (total, value) => total + value);
+      pointsUser[user] = points;
+    }
+    return pointsUser;
+  }
+
+  Map<String, double> get pointsGroup {
+    final pointsGroup = <String, double>{};
+
+    final groups = answersGroup.map((e) => e.referenceGroup).toList();
+
+    for (var group in groups) {
+      final pointsGroups = answersGroup
+          .where((answer) => answer.referenceGroup == group)
+          .map((answer) => answer.score)
+          .toList();
+      final points = pointsGroups.fold(0.0, (total, value) => total + value);
+      pointsGroup[group] = points;
+    }
+    return pointsGroup;
+  }
 }

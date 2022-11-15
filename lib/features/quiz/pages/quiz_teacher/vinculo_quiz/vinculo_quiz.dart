@@ -7,6 +7,7 @@ import '../../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../../core/components/date_picker/custom_date_picker.dart';
 import '../../../../../core/components/dropdown/custom_dropdown.dart';
 import '../../../controller/quiz_teacher/vinculo/vinculo_quiz_controller.dart';
+import '../quiz_result/quiz_result_page.dart';
 
 class VinculoQuiz extends StatefulWidget {
   const VinculoQuiz({super.key});
@@ -140,20 +141,35 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                     itemCount: vinculoQuizzes.length,
                     itemBuilder: (context, index) {
                       final vinculoQuiz = vinculoQuizzes[index];
-                      return Card(
-                        child: ExpansionTile(
-                          title: Text('Quiz: ${vinculoQuiz.title}'),
-                          trailing: Text(
-                            'Data: ${vinculoQuiz.date.toStringFormatted()}',
+                      return GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onDoubleTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return QuizResultPage(
+                                  controller: controller,
+                                  idQuiz: vinculoQuiz.id,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Card(
+                          child: ExpansionTile(
+                            title: Text('Quiz: ${vinculoQuiz.title}'),
+                            trailing: Text(
+                              'Data: ${vinculoQuiz.date.toStringFormatted()}',
+                            ),
+                            children: [
+                              for (final group in vinculoQuiz.groups)
+                                ListTile(
+                                  title: Text('Grupo: ${group.reference}'),
+                                  trailing: Text('Lider: ${group.nameLeader}'),
+                                ),
+                            ],
                           ),
-                          children: [
-                            for (final group in vinculoQuiz.groups)
-                              ListTile(
-                                title: Text('Grupo: ${group.reference}'),
-                                trailing: Text('Lider: ${group.nameLeader}'),
-                                onTap: () {},
-                              ),
-                          ],
                         ),
                       );
                     },

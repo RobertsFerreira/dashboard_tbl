@@ -89,6 +89,38 @@ mixin _$ControllerQuizStudents on _ControllerQuizStudentsBase, Store {
     });
   }
 
+  late final _$answeredAtom =
+      Atom(name: '_ControllerQuizStudentsBase.answered', context: context);
+
+  @override
+  bool get answered {
+    _$answeredAtom.reportRead();
+    return super.answered;
+  }
+
+  @override
+  set answered(bool value) {
+    _$answeredAtom.reportWrite(value, super.answered, () {
+      super.answered = value;
+    });
+  }
+
+  late final _$quizResultsAtom =
+      Atom(name: '_ControllerQuizStudentsBase.quizResults', context: context);
+
+  @override
+  List<QuizResult> get quizResults {
+    _$quizResultsAtom.reportRead();
+    return super.quizResults;
+  }
+
+  @override
+  set quizResults(List<QuizResult> value) {
+    _$quizResultsAtom.reportWrite(value, super.quizResults, () {
+      super.quizResults = value;
+    });
+  }
+
   late final _$getAllQuizzesAsyncAction = AsyncAction(
       '_ControllerQuizStudentsBase.getAllQuizzes',
       context: context);
@@ -98,8 +130,29 @@ mixin _$ControllerQuizStudents on _ControllerQuizStudentsBase, Store {
     return _$getAllQuizzesAsyncAction.run(() => super.getAllQuizzes());
   }
 
+  late final _$getResultsOfQuizAsyncAction = AsyncAction(
+      '_ControllerQuizStudentsBase.getResultsOfQuiz',
+      context: context);
+
+  @override
+  Future<void> getResultsOfQuiz(String idQuiz) {
+    return _$getResultsOfQuizAsyncAction
+        .run(() => super.getResultsOfQuiz(idQuiz));
+  }
+
   late final _$_ControllerQuizStudentsBaseActionController =
       ActionController(name: '_ControllerQuizStudentsBase', context: context);
+
+  @override
+  bool setAnswered(bool value) {
+    final _$actionInfo = _$_ControllerQuizStudentsBaseActionController
+        .startAction(name: '_ControllerQuizStudentsBase.setAnswered');
+    try {
+      return super.setAnswered(value);
+    } finally {
+      _$_ControllerQuizStudentsBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setFrom(DateTime value) {
@@ -130,7 +183,9 @@ loading: ${loading},
 message: ${message},
 from: ${from},
 to: ${to},
-quizzes: ${quizzes}
+quizzes: ${quizzes},
+answered: ${answered},
+quizResults: ${quizResults}
     ''';
   }
 }

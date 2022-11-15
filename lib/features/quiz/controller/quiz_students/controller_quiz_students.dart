@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/infra/global/user_global.dart';
 import '../../external/quiz_student/quiz_student_external.dart';
 import '../../models/quiz_model.dart';
+import '../../models/quiz_result/quiz_result.dart';
 
 part 'controller_quiz_students.g.dart';
 
@@ -30,6 +32,12 @@ abstract class _ControllerQuizStudentsBase with Store {
   @observable
   List<QuizModel> quizzes = [];
 
+  @observable
+  bool answered = false;
+
+  @action
+  bool setAnswered(bool value) => answered = value;
+
   @action
   void setFrom(DateTime value) => from = value;
 
@@ -38,6 +46,9 @@ abstract class _ControllerQuizStudentsBase with Store {
 
   final _user = UserGlobal.instance.user;
 
+  @observable
+  List<QuizResult> quizResults = [];
+
   @action
   Future<void> getAllQuizzes() async {
     try {
@@ -45,7 +56,7 @@ abstract class _ControllerQuizStudentsBase with Store {
       message = '';
       final quizzesList = await quizStudentsExternal.getQuizzes(
         _user.id,
-        false,
+        answered,
         from,
         to,
       );
@@ -53,6 +64,19 @@ abstract class _ControllerQuizStudentsBase with Store {
     } catch (e) {
       log(e.toString());
       message = '$e';
+    } finally {
+      loading = false;
+    }
+  }
+
+  @action
+  Future<void> getResultsOfQuiz(String idQuiz) async {
+    try {
+      loading = true;
+      quizResults = await quizStudentsExternal.getAllQuizzesResults(idQuiz);
+      quizResults = quizResults;
+    } catch (e) {
+      asuka.AsukaSnackbar.alert(e.toString()).show();
     } finally {
       loading = false;
     }

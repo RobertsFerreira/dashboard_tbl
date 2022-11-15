@@ -1,3 +1,4 @@
+import 'package:dashboard_tbl/core/components/dropdown/custom_dropdown.dart';
 import 'package:dashboard_tbl/utils/extensions/custom_extension_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../core/components/date_picker/custom_date_picker.dart';
 import '../../controller/quiz_students/controller_quiz_students.dart';
+import '../quiz_teacher/quiz_result/quiz_result_page.dart';
 import 'quiz_question_student_page.dart';
 
 class QuizStudentsPage extends StatefulWidget {
@@ -60,6 +62,25 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                         await controller.getAllQuizzes();
                       },
                     ),
+                    const Spacer(),
+                    CustomDropDown(
+                      text: 'Status do Quiz',
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.setAnswered(value);
+                        }
+                      },
+                      items: const [
+                        DropdownMenuItem(
+                          value: true,
+                          child: Text('Respondidos'),
+                        ),
+                        DropdownMenuItem(
+                          value: false,
+                          child: Text('Não Respondidos'),
+                        )
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -70,6 +91,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                     final loading = controller.loading;
                     final message = controller.message;
                     final quizzes = controller.quizzes;
+                    final answered = controller.answered;
                     if (loading) {
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -96,16 +118,30 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                             child: ListTile(
                               title: Text(quiz.title),
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (ctx) {
-                                      return QuizQuestionStudentPage(
-                                        quiz: quiz,
-                                      );
-                                    },
-                                  ),
-                                );
+                                if (answered) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (ctx) {
+                                        return QuizResultPage(
+                                          controller: controller,
+                                          idQuiz: quiz.id,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (ctx) {
+                                        return QuizQuestionStudentPage(
+                                          quiz: quiz,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           );

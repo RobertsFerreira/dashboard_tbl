@@ -13,13 +13,10 @@ class AnswerUser {
 
   factory AnswerUser.fromMap(Map<String, dynamic> map) {
     final mapFields = MapFields.load(map);
-    final userMap = mapFields.getMap('user');
-    final userFields = MapFields.load(userMap);
-
     return AnswerUser(
       scoreAnswered: mapFields.getDouble('score_answer'),
       scoredScore: mapFields.getDouble('scored_score'),
-      userName: userFields.getString('name'),
+      userName: mapFields.getString('user'),
     );
   }
 
