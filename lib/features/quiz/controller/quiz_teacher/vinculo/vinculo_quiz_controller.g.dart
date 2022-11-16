@@ -105,6 +105,22 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
     });
   }
 
+  late final _$apelacoesAtom =
+      Atom(name: '_VinculoQuizControllerBase.apelacoes', context: context);
+
+  @override
+  List<ApelacaoModel> get apelacoes {
+    _$apelacoesAtom.reportRead();
+    return super.apelacoes;
+  }
+
+  @override
+  set apelacoes(List<ApelacaoModel> value) {
+    _$apelacoesAtom.reportWrite(value, super.apelacoes, () {
+      super.apelacoes = value;
+    });
+  }
+
   late final _$getAllAsyncAction =
       AsyncAction('_VinculoQuizControllerBase.getAll', context: context);
 
@@ -118,9 +134,17 @@ mixin _$VinculoQuizController on _VinculoQuizControllerBase, Store {
       context: context);
 
   @override
-  Future<void> getResultsOfQuiz(String idQuiz) {
+  Future<void> getResultsOfQuiz(VinculoQuizModel quiz) {
     return _$getResultsOfQuizAsyncAction
-        .run(() => super.getResultsOfQuiz(idQuiz));
+        .run(() => super.getResultsOfQuiz(quiz));
+  }
+
+  late final _$getApelacoesAsyncAction =
+      AsyncAction('_VinculoQuizControllerBase.getApelacoes', context: context);
+
+  @override
+  Future<void> getApelacoes(VinculoQuizModel quiz) {
+    return _$getApelacoesAsyncAction.run(() => super.getApelacoes(quiz));
   }
 
   late final _$_VinculoQuizControllerBaseActionController =
@@ -167,7 +191,8 @@ answered: ${answered},
 dataIni: ${dataIni},
 dataFim: ${dataFim},
 vinculoQuizzes: ${vinculoQuizzes},
-quizResults: ${quizResults}
+quizResults: ${quizResults},
+apelacoes: ${apelacoes}
     ''';
   }
 }

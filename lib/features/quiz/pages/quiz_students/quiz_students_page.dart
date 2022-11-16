@@ -126,7 +126,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                                       builder: (ctx) {
                                         return QuizResultPage(
                                           controller: controller,
-                                          idQuiz: quiz.id,
+                                          quiz: quiz,
                                         );
                                       },
                                     ),

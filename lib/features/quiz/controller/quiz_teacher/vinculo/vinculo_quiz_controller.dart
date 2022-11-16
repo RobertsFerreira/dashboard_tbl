@@ -1,4 +1,5 @@
 import 'package:asuka/asuka.dart' as asuka;
+import 'package:dashboard_tbl/features/quiz/models/apelacao/apelacao_model.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/infra/clients/dio_client.dart';
@@ -64,11 +65,30 @@ abstract class _VinculoQuizControllerBase with Store {
   }
 
   @action
-  Future<void> getResultsOfQuiz(String idQuiz) async {
+  Future<void> getResultsOfQuiz(VinculoQuizModel quiz) async {
     try {
       loading = true;
-      quizResults = await quizExternal.getAllQuizzesResults(idQuiz);
+      quizResults = await quizExternal.getAllQuizzesResults(quiz);
       quizResults = quizResults;
+      await getApelacoes(quiz);
+    } catch (e) {
+      asuka.AsukaSnackbar.alert(e.toString()).show();
+    } finally {
+      loading = false;
+    }
+  }
+
+  @observable
+  List<ApelacaoModel> apelacoes = [];
+
+  @action
+  Future<void> getApelacoes(VinculoQuizModel quiz) async {
+    try {
+      loading = true;
+      final idQuiz = quiz.id;
+      final data = quiz.date;
+      apelacoes = await quizExternal.getApelacoes(idQuiz, data);
+      apelacoes = apelacoes;
     } catch (e) {
       asuka.AsukaSnackbar.alert(e.toString()).show();
     } finally {

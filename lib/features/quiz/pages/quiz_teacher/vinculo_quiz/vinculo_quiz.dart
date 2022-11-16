@@ -150,7 +150,7 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                               builder: (context) {
                                 return QuizResultPage(
                                   controller: controller,
-                                  idQuiz: vinculoQuiz.id,
+                                  quizVincule: vinculoQuiz,
                                 );
                               },
                             ),

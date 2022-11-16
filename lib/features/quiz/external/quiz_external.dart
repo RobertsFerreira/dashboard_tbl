@@ -5,6 +5,7 @@ import 'package:map_fields/map_fields.dart';
 
 import '../../../core/interfaces/clients/client_http.dart';
 import '../../group/models/group_model.dart';
+import '../models/apelacao/apelacao_model.dart';
 import '../models/new_quiz_model.dart';
 import '../models/quiz_result/quiz_result.dart';
 import '../models/vincule_quiz/vinculo_quiz_model.dart';
@@ -126,13 +127,13 @@ class QuizExternal {
     }
   }
 
-  Future<List<QuizResult>> getAllQuizzesResults(String idQuiz) async {
+  Future<List<QuizResult>> getAllQuizzesResults(VinculoQuizModel quiz) async {
     List<QuizResult> quizzesResults = <QuizResult>[];
     try {
       final response = await _client.get(
         '/quizzes/result',
         queryParameters: {
-          'id_quiz': idQuiz,
+          'id_quiz': quiz.id,
         },
       );
       if (response.statusCode == 200) {
@@ -146,12 +147,43 @@ class QuizExternal {
           return [];
         }
         throw Exception(
-          'Erro ao buscar quizzes -- Status: $statusCode -- Message: $message',
+          'Erro ao buscar resultados dos quizzes -- Status: $statusCode -- Message: $message',
         );
       }
     } catch (e) {
       rethrow;
     }
     return quizzesResults;
+  }
+
+  Future<List<ApelacaoModel>> getApelacoes(String idQuiz, DateTime date) async {
+    List<ApelacaoModel> quizzesApelacoes = <ApelacaoModel>[];
+    try {
+      final response = await _client.get(
+        '/apelacao',
+        queryParameters: {
+          'id_quiz': idQuiz,
+          'data': date,
+        },
+      );
+      if (response.statusCode == 200) {
+        final map = MapFields.load(response.data);
+        final listQuizzes = map.getList<Map<String, dynamic>>('apelacoes');
+        quizzesApelacoes =
+            listQuizzes.map((e) => ApelacaoModel.fromMap(e)).toList();
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        if (statusCode == 204) {
+          return [];
+        }
+        throw Exception(
+          'Erro ao buscar apelação -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return quizzesApelacoes;
   }
 }

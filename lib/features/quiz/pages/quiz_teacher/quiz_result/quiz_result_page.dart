@@ -1,17 +1,23 @@
+import 'package:dashboard_tbl/core/components/buttons/custom_button_default.dart';
+import 'package:dashboard_tbl/features/quiz/controller/quiz_teacher/vinculo/vinculo_quiz_controller.dart';
 import 'package:dashboard_tbl/features/quiz/models/quiz_result/quiz_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../components/quiz_result_components/answer_title_component.dart';
 import '../../../components/quiz_result_components/answer_user_component.dart';
+import '../../../models/quiz_model.dart';
+import '../../../models/vincule_quiz/vinculo_quiz_model.dart';
 
 class QuizResultPage extends StatefulWidget {
-  final String idQuiz;
+  final VinculoQuizModel? quizVincule;
+  final QuizModel? quiz;
   final dynamic controller;
   const QuizResultPage({
     Key? key,
-    required this.idQuiz,
     required this.controller,
+    this.quiz,
+    this.quizVincule,
   }) : super(key: key);
 
   @override
@@ -31,6 +37,17 @@ class _QuizResultPageState extends State<QuizResultPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Resultados'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomButtonDefault(
+              text: 'Ver apelação',
+              onTap: () {
+                _showApelacao(context);
+              },
+            ),
+          ),
+        ],
       ),
       body: Observer(
         builder: (_) {
@@ -200,6 +217,57 @@ class _QuizResultPageState extends State<QuizResultPage> {
   }
 
   Future<void> getResults() async {
-    await widget.controller.getResultsOfQuiz(widget.idQuiz);
+    if (widget.quizVincule != null && widget.quiz == null) {
+      await widget.controller.getResultsOfQuiz(widget.quizVincule);
+    } else if (widget.quizVincule == null && widget.quiz != null) {
+      await widget.controller.getResultsOfQuiz(widget.quiz);
+    }
+  }
+
+  void _showApelacao(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final controller = widget.controller as VinculoQuizController;
+        final apelacoes = controller.apelacoes;
+        if (apelacoes.isEmpty) {
+          return const AlertDialog(
+            title: Text('Nenhuma apelação encontrada'),
+          );
+        }
+        return AlertDialog(
+          title: const Text('Apelações'),
+          content: ListView.builder(
+            itemCount: apelacoes.length,
+            itemBuilder: (_, index) {
+              final apelacao = apelacoes[index];
+              return Column(
+                children: [
+                  const ListTile(
+                    title: Text('Apelação: {apelacao.apelacao}'),
+                  ),
+                  const Divider(),
+                  ExpansionTile(
+                    title: Text('Grupo: ${apelacao.group.reference}'),
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: apelacao.group.users.length,
+                        itemBuilder: (_, index) {
+                          final student = apelacao.group.users[index];
+                          return ListTile(
+                            title: Text(student.name),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
