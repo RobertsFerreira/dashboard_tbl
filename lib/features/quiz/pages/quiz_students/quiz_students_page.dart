@@ -70,6 +70,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                           controller.setAnswered(value);
                         }
                       },
+                      initValue: false,
                       items: const [
                         DropdownMenuItem(
                           value: true,
