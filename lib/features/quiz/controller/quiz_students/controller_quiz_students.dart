@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../core/infra/global/user_global.dart';
 import '../../external/quiz_student/quiz_student_external.dart';
+import '../../models/apelacao/apelacao_model.dart';
 import '../../models/quiz_model.dart';
 import '../../models/quiz_result/quiz_result.dart';
 
@@ -75,6 +76,24 @@ abstract class _ControllerQuizStudentsBase with Store {
       loading = true;
       quizResults = await quizStudentsExternal.getAllQuizzesResults(idQuiz);
       quizResults = quizResults;
+    } catch (e) {
+      asuka.AsukaSnackbar.alert(e.toString()).show();
+    } finally {
+      loading = false;
+    }
+  }
+
+  @observable
+  List<ApelacaoModel> apelacoes = [];
+
+  @action
+  Future<void> getApelacoes(QuizModel quiz) async {
+    try {
+      loading = true;
+      final idQuiz = quiz.id;
+      final data = quiz.date ?? DateTime.now();
+      apelacoes = await quizStudentsExternal.getApelacoes(idQuiz, data);
+      apelacoes = apelacoes;
     } catch (e) {
       asuka.AsukaSnackbar.alert(e.toString()).show();
     } finally {

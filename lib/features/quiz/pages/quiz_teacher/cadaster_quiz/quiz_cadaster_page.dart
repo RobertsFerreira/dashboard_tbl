@@ -101,14 +101,14 @@ class _QuizCadasterPageState extends State<QuizCadasterPage> {
                             onTap: isValidCadaster
                                 ? () async {
                                     controller.createQuiz();
-                                    Navigator.pushAndRemoveUntil(
+                                    Navigator.pop(context);
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => CadasterQuestionPage(
                                           newQuiz: controller.newQuiz,
                                         ),
                                       ),
-                                      (route) => false,
                                     );
                                   }
                                 : null,

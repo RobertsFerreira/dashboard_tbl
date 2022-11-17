@@ -173,6 +173,8 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                 builder: (_) {
                   final loading = controller.loading;
                   final isValidSave = controller.isValidSave;
+                  final message = controller.message;
+                  final erro = message.contains('Error');
                   return loading
                       ? const Center(child: CircularProgressIndicator())
                       : Row(
@@ -188,15 +190,17 @@ class _GroupCadasterPageState extends State<GroupCadasterPage> {
                                           builder: ((ctx) {
                                             return AlertDialog(
                                               title: const Text('Resultado'),
-                                              content: const Text(
-                                                'Grupo cadastrado com sucesso',
+                                              content: Text(
+                                                erro
+                                                    ? 'Erro ao inserir'
+                                                    : 'Grupo cadastrado com sucesso',
                                               ),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () {
                                                     Navigator.pop(ctx);
-                                                    if (!controller.message
-                                                        .contains('Error')) {
+                                                    if (!erro) {
+                                                      controller.message = '';
                                                       Navigator.pop(context);
                                                     }
                                                   },

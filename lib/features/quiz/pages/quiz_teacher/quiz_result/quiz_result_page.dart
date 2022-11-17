@@ -1,5 +1,4 @@
 import 'package:dashboard_tbl/core/components/buttons/custom_button_default.dart';
-import 'package:dashboard_tbl/features/quiz/controller/quiz_teacher/vinculo/vinculo_quiz_controller.dart';
 import 'package:dashboard_tbl/features/quiz/models/quiz_result/quiz_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -228,7 +227,7 @@ class _QuizResultPageState extends State<QuizResultPage> {
     showDialog(
       context: context,
       builder: (context) {
-        final controller = widget.controller as VinculoQuizController;
+        final controller = widget.controller;
         final apelacoes = controller.apelacoes;
         if (apelacoes.isEmpty) {
           return const AlertDialog(
@@ -237,34 +236,39 @@ class _QuizResultPageState extends State<QuizResultPage> {
         }
         return AlertDialog(
           title: const Text('Apelações'),
-          content: ListView.builder(
-            itemCount: apelacoes.length,
-            itemBuilder: (_, index) {
-              final apelacao = apelacoes[index];
-              return Column(
-                children: [
-                  const ListTile(
-                    title: Text('Apelação: {apelacao.apelacao}'),
-                  ),
-                  const Divider(),
-                  ExpansionTile(
-                    title: Text('Grupo: ${apelacao.group.reference}'),
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: apelacao.group.users.length,
-                        itemBuilder: (_, index) {
-                          final student = apelacao.group.users[index];
-                          return ListTile(
-                            title: Text(student.name),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
+          content: SizedBox(
+            height: 300,
+            width: 300,
+            child: ListView.builder(
+              itemCount: apelacoes.length,
+              itemBuilder: (_, index) {
+                final apelacao = apelacoes[index];
+                return Column(
+                  children: [
+                    ListTile(
+                      title: const Text('Descrição da Apelação \n'),
+                      subtitle: Text(apelacao.apelacao),
+                    ),
+                    const Divider(),
+                    ExpansionTile(
+                      title: Text('Grupo: ${apelacao.group.reference}'),
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: apelacao.group.users.length,
+                          itemBuilder: (_, index) {
+                            final student = apelacao.group.users[index];
+                            return ListTile(
+                              title: Text(student.name),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         );
       },

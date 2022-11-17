@@ -5,6 +5,7 @@ import 'package:map_fields/map_fields.dart';
 import '../../../../core/infra/global/user_global.dart';
 import '../../../../core/interfaces/clients/client_http.dart';
 import '../../models/answer/answer_student.dart';
+import '../../models/apelacao/apelacao_model.dart';
 import '../../models/apelacao/new_apelacao_model.dart';
 import '../../models/quiz_result/quiz_result.dart';
 
@@ -217,5 +218,36 @@ class QuizStudentsExternal {
       rethrow;
     }
     return quizzesResults;
+  }
+
+  Future<List<ApelacaoModel>> getApelacoes(String idQuiz, DateTime date) async {
+    List<ApelacaoModel> quizzesApelacoes = <ApelacaoModel>[];
+    try {
+      final response = await _client.get(
+        '/apelacao',
+        queryParameters: {
+          'id_quiz': idQuiz,
+          'data': date,
+        },
+      );
+      if (response.statusCode == 200) {
+        final map = MapFields.load(response.data);
+        final listQuizzes = map.getList<Map<String, dynamic>>('apelacoes');
+        quizzesApelacoes =
+            listQuizzes.map((e) => ApelacaoModel.fromMap(e)).toList();
+      } else {
+        final statusCode = response.statusCode;
+        final message = response.data;
+        if (statusCode == 204) {
+          return [];
+        }
+        throw Exception(
+          'Erro ao buscar apelação -- Status: $statusCode -- Message: $message',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return quizzesApelacoes;
   }
 }

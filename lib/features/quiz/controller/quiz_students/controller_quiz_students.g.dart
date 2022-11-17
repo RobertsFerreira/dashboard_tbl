@@ -121,6 +121,22 @@ mixin _$ControllerQuizStudents on _ControllerQuizStudentsBase, Store {
     });
   }
 
+  late final _$apelacoesAtom =
+      Atom(name: '_ControllerQuizStudentsBase.apelacoes', context: context);
+
+  @override
+  List<ApelacaoModel> get apelacoes {
+    _$apelacoesAtom.reportRead();
+    return super.apelacoes;
+  }
+
+  @override
+  set apelacoes(List<ApelacaoModel> value) {
+    _$apelacoesAtom.reportWrite(value, super.apelacoes, () {
+      super.apelacoes = value;
+    });
+  }
+
   late final _$getAllQuizzesAsyncAction = AsyncAction(
       '_ControllerQuizStudentsBase.getAllQuizzes',
       context: context);
@@ -138,6 +154,14 @@ mixin _$ControllerQuizStudents on _ControllerQuizStudentsBase, Store {
   Future<void> getResultsOfQuiz(String idQuiz) {
     return _$getResultsOfQuizAsyncAction
         .run(() => super.getResultsOfQuiz(idQuiz));
+  }
+
+  late final _$getApelacoesAsyncAction =
+      AsyncAction('_ControllerQuizStudentsBase.getApelacoes', context: context);
+
+  @override
+  Future<void> getApelacoes(QuizModel quiz) {
+    return _$getApelacoesAsyncAction.run(() => super.getApelacoes(quiz));
   }
 
   late final _$_ControllerQuizStudentsBaseActionController =
@@ -185,7 +209,8 @@ from: ${from},
 to: ${to},
 quizzes: ${quizzes},
 answered: ${answered},
-quizResults: ${quizResults}
+quizResults: ${quizResults},
+apelacoes: ${apelacoes}
     ''';
   }
 }
