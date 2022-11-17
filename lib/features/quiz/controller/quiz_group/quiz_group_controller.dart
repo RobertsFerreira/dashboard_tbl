@@ -1,8 +1,5 @@
-import 'package:asuka/asuka.dart' as asuka;
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../core/infra/clients/dio_client.dart';
 import '../../external/quiz_student/quiz_student_external.dart';
 import '../../models/answer/answer_model.dart';
@@ -22,6 +19,9 @@ abstract class _QuizGroupControllerBase with Store {
   _QuizGroupControllerBase(this.quiz) {
     _init(quiz);
   }
+
+  @observable
+  String message = '';
 
   @observable
   int _limitScoreAnswer = 0;
@@ -199,33 +199,9 @@ abstract class _QuizGroupControllerBase with Store {
           }
         }
       }
-      await asuka.Asuka.showDialog(
-        barrierColor: Colors.black.withOpacity(.5),
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            title: const Text('Sucesso'),
-            content: const Text(
-              'Respostas salvas com sucesso',
-            ),
-            actions: [
-              CustomButtonDefault(
-                text: 'OK',
-                onTap: () => Navigator.of(ctx).pop(),
-              ),
-            ],
-          );
-        },
-      );
       return true;
     } catch (e) {
-      asuka.Asuka.showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
+      message = e.toString();
       return false;
     }
   }
@@ -243,13 +219,7 @@ abstract class _QuizGroupControllerBase with Store {
         return false;
       }
     } catch (e) {
-      asuka.Asuka.showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
+      message = e.toString();
       return false;
     }
   }

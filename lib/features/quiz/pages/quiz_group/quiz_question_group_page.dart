@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../components/answer_card.dart';
 import '../../../../components/button_navigator.dart';
 import '../../../../components/progress_bar_question.dart';
+import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../controller/quiz_group/quiz_group_controller.dart';
 import '../../models/quiz_model.dart';
 
@@ -112,6 +113,7 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
             const SizedBox(height: 15),
             Observer(
               builder: (_) {
+                final message = controller.message;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -137,6 +139,24 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                               final result =
                                   await controller.insertAnswersUSer();
                               if (result) {
+                                controller.message = '';
+                                await showDialog(
+                                  context: context,
+                                  builder: (ctx) {
+                                    return AlertDialog(
+                                      title: const Text('Sucesso'),
+                                      content: const Text(
+                                        'Respostas salvas com sucesso',
+                                      ),
+                                      actions: [
+                                        CustomButtonDefault(
+                                          text: 'OK',
+                                          onTap: () => Navigator.of(ctx).pop(),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                                 await showDialog(
                                   context: context,
                                   builder: (ctx) {
@@ -148,7 +168,8 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                                             controller.setNeedApelacao;
                                         return AlertDialog(
                                           title: const Text(
-                                              'Deseja fazer apelação'),
+                                            'Deseja fazer apelação',
+                                          ),
                                           content: Visibility(
                                             visible: needApelacao,
                                             child: TextFormField(
@@ -200,12 +221,29 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                                                   }
                                                 },
                                                 child: const Text(
-                                                    'Salvar Apelação'),
+                                                  'Salvar Apelação',
+                                                ),
                                               ),
                                             ),
                                           ],
                                         );
                                       },
+                                    );
+                                  },
+                                );
+                              } else if (message != '') {
+                                await showDialog(
+                                  context: context,
+                                  builder: (ctx) {
+                                    return AlertDialog(
+                                      title: const Text('Erro'),
+                                      content: Text(message),
+                                      actions: [
+                                        CustomButtonDefault(
+                                          text: 'OK',
+                                          onTap: () => Navigator.of(ctx).pop(),
+                                        ),
+                                      ],
                                     );
                                   },
                                 );

@@ -1,4 +1,3 @@
-import 'package:asuka/asuka.dart';
 import 'package:dashboard_tbl/features/home/home_for_studente_page.dart';
 import 'package:dashboard_tbl/features/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +102,24 @@ class _LoginPageState extends State<LoginPage> {
         (route) => false,
       );
     } else {
-      AsukaSnackbar.alert(messaError).show();
+      // AsukaSnackbar.alert(messaError).show();
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('Erro'),
+            content: Text(messaError),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 }
