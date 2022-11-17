@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -166,7 +165,7 @@ abstract class _VinculoQuizCadasterControllerBase with Store {
       idTurma.isNotEmpty && idQuiz.isNotEmpty && groupsQuiz.isNotEmpty;
 
   @action
-  Future<void> vincularQuiz() async {
+  Future<bool> vincularQuiz() async {
     loading = true;
     message = '';
     try {
@@ -176,27 +175,10 @@ abstract class _VinculoQuizCadasterControllerBase with Store {
         idQuiz,
         dateQuiz,
       );
-      if (result) {
-        asuka.AsukaSnackbar.success('Vinculado com sucesso').show();
-      } else {
-        asuka.AsukaSnackbar.alert('Erro ao vincular').show();
-      }
+      return result;
     } catch (e) {
-      asuka.Asuka.showDialog(
-        barrierColor: Colors.black.withOpacity(0.3),
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text('Erro'),
-          content: Text(e.toString()),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Ok'),
-            ),
-          ],
-        ),
-      );
       message = e.toString();
+      return false;
     } finally {
       loading = false;
     }

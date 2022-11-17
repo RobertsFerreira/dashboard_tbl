@@ -17,6 +17,22 @@ mixin _$ControllerQuizQuestion on _ControllerQuizQuestionBase, Store {
               name: '_ControllerQuizQuestionBase.questionIndex'))
           .value;
 
+  late final _$messageAtom =
+      Atom(name: '_ControllerQuizQuestionBase.message', context: context);
+
+  @override
+  String get message {
+    _$messageAtom.reportRead();
+    return super.message;
+  }
+
+  @override
+  set message(String value) {
+    _$messageAtom.reportWrite(value, super.message, () {
+      super.message = value;
+    });
+  }
+
   late final _$currentIndexAtom =
       Atom(name: '_ControllerQuizQuestionBase.currentIndex', context: context);
 
@@ -234,6 +250,7 @@ mixin _$ControllerQuizQuestion on _ControllerQuizQuestionBase, Store {
   @override
   String toString() {
     return '''
+message: ${message},
 currentIndex: ${currentIndex},
 progress: ${progress},
 questions: ${questions},

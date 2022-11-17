@@ -110,6 +110,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                         child: Text('Nenhum quiz encontrado'),
                       );
                     }
+                    controller.message = '';
                     return Expanded(
                       child: ListView.builder(
                         itemCount: quizzes.length,

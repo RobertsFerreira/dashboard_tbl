@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
 import 'package:mobx/mobx.dart';
 
@@ -77,7 +76,7 @@ abstract class _ControllerQuizStudentsBase with Store {
       quizResults = await quizStudentsExternal.getAllQuizzesResults(idQuiz);
       quizResults = quizResults;
     } catch (e) {
-      asuka.AsukaSnackbar.alert(e.toString()).show();
+      message = '$e';
     } finally {
       loading = false;
     }
@@ -95,7 +94,7 @@ abstract class _ControllerQuizStudentsBase with Store {
       apelacoes = await quizStudentsExternal.getApelacoes(idQuiz, data);
       apelacoes = apelacoes;
     } catch (e) {
-      asuka.AsukaSnackbar.alert(e.toString()).show();
+      message = '$e';
     } finally {
       loading = false;
     }

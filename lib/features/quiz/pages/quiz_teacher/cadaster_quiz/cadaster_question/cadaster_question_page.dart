@@ -196,8 +196,27 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                       onTap: canSave
                           ? saveQuestion
                               ? () async {
-                                  await controller.saveQuiz();
-                                  if (messageError.isEmpty) {
+                                  controller.messageError = '';
+                                  final result = await controller.saveQuiz();
+                                  if (result && messageError.isEmpty) {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        return AlertDialog(
+                                          title: const Text('Sucesso'),
+                                          content: const Text(
+                                              'Quiz cadastrado com sucesso'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(ctx);
+                                              },
+                                              child: const Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                     Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                         builder: (ctx) {
@@ -205,6 +224,44 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                                         },
                                       ),
                                       (route) => false,
+                                    );
+                                  } else if (messageError.isNotEmpty) {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        return AlertDialog(
+                                          title: const Text('Erro'),
+                                          content: Text(messageError),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(ctx);
+                                              },
+                                              child: const Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        return AlertDialog(
+                                          title: const Text('Erro'),
+                                          content: const Text(
+                                            'Erro ao cadastrar o quiz',
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(ctx);
+                                              },
+                                              child: const Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
                                   }
                                 }

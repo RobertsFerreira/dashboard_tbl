@@ -5,7 +5,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../components/answer_card.dart';
 import '../../../../components/button_navigator.dart';
 import '../../../../components/progress_bar_question.dart';
+import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../controller/quiz_students/controller_quiz_question.dart';
+import '../quiz_group/quiz_question_group_page.dart';
 
 class QuizQuestionStudentPage extends StatefulWidget {
   final QuizModel quiz;
@@ -107,6 +109,7 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
           const SizedBox(height: 15),
           Observer(
             builder: (_) {
+              final message = controller.message;
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -128,8 +131,56 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                     onPressed: (controller.currentIndex + 1) ==
                             controller.quiz.numberQuestion
                         ? () async {
-                            Navigator.pop(context);
                             await controller.insertAnswersUSer();
+                            if (message.isNotEmpty) {
+                              await showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: const Text('Atenção'),
+                                  content: Text(message),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              controller.message = '';
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return AlertDialog(
+                                    title: const Text('Sucesso'),
+                                    content: const Text(
+                                      'Respostas salvas com sucesso, esperando todos do grupo terminarem',
+                                    ),
+                                    actions: [
+                                      CustomButtonDefault(
+                                        text: 'OK',
+                                        onTap: () {
+                                          Navigator.of(ctx).pop();
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            ctx,
+                                            MaterialPageRoute(
+                                              builder: (ctx) {
+                                                return QuizQuestionGroupPage(
+                                                  quiz: controller.quiz,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           }
                         : controller.saveAnswersStudent,
                     //testar essa função amanhã

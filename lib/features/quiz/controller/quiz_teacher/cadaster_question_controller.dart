@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:asuka/asuka.dart';
 import 'package:dashboard_tbl/core/infra/clients/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -127,50 +126,17 @@ abstract class _CadasterQuestionControllerBase with Store {
     }
   }
 
-  Future<void> saveQuiz() async {
+  Future<bool> saveQuiz() async {
     loading = true;
     messageError = '';
     try {
       if (newQuiz.questions.length < quiz.numberQuestion) addQuestion();
       final result = await quizService.insertQuiz(quiz);
-      if (result) {
-        Asuka.showDialog(
-          builder: (ctx) {
-            return AlertDialog(
-              title: const Text('Sucesso'),
-              content: const Text('Quiz cadastrado com sucesso'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text('Ok'),
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        Asuka.showDialog(
-          builder: (ctx) {
-            return AlertDialog(
-              title: const Text('Erro'),
-              content: const Text('Erro ao cadastrar o quiz'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text('Ok'),
-                ),
-              ],
-            );
-          },
-        );
-      }
+      return result;
     } catch (e) {
       messageError = e.toString();
       log(e.toString());
+      return false;
     } finally {
       loading = false;
     }

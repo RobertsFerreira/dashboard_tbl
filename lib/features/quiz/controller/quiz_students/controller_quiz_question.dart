@@ -1,10 +1,6 @@
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:dashboard_tbl/features/quiz/external/quiz_student/quiz_student_external.dart';
-import 'package:dashboard_tbl/features/quiz/pages/quiz_group/quiz_question_group_page.dart';
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../core/infra/clients/dio_client.dart';
 import '../../models/answer/answer_model.dart';
 import '../../models/answer/answer_student.dart';
@@ -23,6 +19,9 @@ abstract class _ControllerQuizQuestionBase with Store {
   _ControllerQuizQuestionBase(this.quiz) {
     _init(quiz);
   }
+
+  @observable
+  String message = '';
 
   @observable
   int currentIndex = 0;
@@ -143,42 +142,8 @@ abstract class _ControllerQuizQuestionBase with Store {
           }
         }
       }
-      asuka.Asuka.showDialog(
-        barrierColor: Colors.black.withOpacity(.5),
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            title: const Text('Sucesso'),
-            content: const Text(
-              'Respostas salvas com sucesso, esperando todos do grupo terminarem',
-            ),
-            actions: [
-              CustomButtonDefault(
-                text: 'OK',
-                onTap: () {
-                  Navigator.of(ctx).pop();
-                  Navigator.push(
-                    ctx,
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return QuizQuestionGroupPage(quiz: quiz);
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          );
-        },
-      );
     } catch (e) {
-      asuka.Asuka.showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
+      message = e.toString();
     }
   }
 

@@ -147,13 +147,59 @@ class _VinculoQuizCadasterState extends State<VinculoQuizCadaster> {
             children: [
               Observer(
                 builder: (_) {
+                  final message = controller.message;
                   final isValid = controller.validVinculo;
                   return CustomButtonDefault(
                     text: 'Salvar',
                     onTap: isValid
                         ? () async {
-                            await controller.vincularQuiz();
-                            if (controller.message.isEmpty) goto();
+                            final result = await controller.vincularQuiz();
+                            if (!result) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('Erro'),
+                                  content:
+                                      const Text('Erro ao vincular o quiz'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else if (message.isEmpty && result) {
+                              await showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('Sucesso'),
+                                  content:
+                                      const Text('Quiz vinculado com sucesso'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              goto();
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('Error'),
+                                  content: Text(message),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
                           }
                         : null,
                   );

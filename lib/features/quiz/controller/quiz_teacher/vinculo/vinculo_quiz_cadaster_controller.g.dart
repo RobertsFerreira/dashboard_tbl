@@ -203,7 +203,7 @@ mixin _$VinculoQuizCadasterController
       context: context);
 
   @override
-  Future<void> vincularQuiz() {
+  Future<bool> vincularQuiz() {
     return _$vincularQuizAsyncAction.run(() => super.vincularQuiz());
   }
 

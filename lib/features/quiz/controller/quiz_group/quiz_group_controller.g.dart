@@ -17,6 +17,22 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
               name: '_QuizGroupControllerBase.questionIndex'))
           .value;
 
+  late final _$messageAtom =
+      Atom(name: '_QuizGroupControllerBase.message', context: context);
+
+  @override
+  String get message {
+    _$messageAtom.reportRead();
+    return super.message;
+  }
+
+  @override
+  set message(String value) {
+    _$messageAtom.reportWrite(value, super.message, () {
+      super.message = value;
+    });
+  }
+
   late final _$_limitScoreAnswerAtom = Atom(
       name: '_QuizGroupControllerBase._limitScoreAnswer', context: context);
 
@@ -317,6 +333,7 @@ mixin _$QuizGroupController on _QuizGroupControllerBase, Store {
   @override
   String toString() {
     return '''
+message: ${message},
 currentIndex: ${currentIndex},
 remainingScore: ${remainingScore},
 questions: ${questions},
