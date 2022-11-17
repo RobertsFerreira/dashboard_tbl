@@ -19,6 +19,9 @@ class App extends StatelessWidget {
           seedColor: Colors.blue,
         ),
       ),
+      navigatorObservers: [
+        Asuka.asukaHeroController,
+      ],
       home: const LoginPage(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
