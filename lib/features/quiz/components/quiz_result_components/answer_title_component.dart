@@ -16,6 +16,7 @@ class AnswerTitleComponent extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
+          width: MediaQuery.of(context).size.width * 0.4,
           child: Text(
             'Resposta $numberQuestions: $title',
             overflow: TextOverflow.ellipsis,
