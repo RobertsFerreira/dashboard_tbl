@@ -2,16 +2,25 @@ import 'dart:io';
 
 import 'package:dashboard_tbl/core/interfaces/clients/client_http.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class DioClient extends ClientHttp {
-  final String _url =
-      Platform.isLinux ? "http://localhost" : "http://localhost";
+  String _url = '';
+
   // "http://localhost" :
   // "http://robertferreira.ddns.net";
   static const int _port = 17000;
   late Dio _dio;
 
   DioClient() {
+    if (kIsWeb) {
+      _url = 'http://robertferreira.ddns.net';
+    } else {
+      _url = Platform.isLinux
+          ? "http://localhost"
+          : "http://http://robertferreira.ddns.net";
+    }
+
     _dio = Dio(
       BaseOptions(
         baseUrl: '$_url:$_port',

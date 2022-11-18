@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../components/answer_component.dart';
 import '../../../../controller/quiz_teacher/cadaster_question_controller.dart';
-import '../../quizzes_page.dart';
 
 class CadasterQuestionPage extends StatefulWidget {
   final NewQuizModel newQuiz;
@@ -205,7 +204,8 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                                         return AlertDialog(
                                           title: const Text('Sucesso'),
                                           content: const Text(
-                                              'Quiz cadastrado com sucesso'),
+                                            'Quiz cadastrado com sucesso',
+                                          ),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -217,14 +217,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
                                         );
                                       },
                                     );
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                        builder: (ctx) {
-                                          return const QuizzesPage();
-                                        },
-                                      ),
-                                      (route) => false,
-                                    );
+                                    Navigator.pop(context);
                                   } else if (messageError.isNotEmpty) {
                                     await showDialog(
                                       context: context,

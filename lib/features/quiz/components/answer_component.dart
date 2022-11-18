@@ -31,6 +31,9 @@ class AnswerComponent extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: TextFormField(
+            textInputAction: TextInputAction.newline,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
             decoration: const InputDecoration(
               labelText: 'Descrição',
               border: OutlineInputBorder(),
