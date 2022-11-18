@@ -124,6 +124,14 @@ class _VinculoQuizState extends State<VinculoQuiz> {
               builder: (_) {
                 final loading = controller.loading;
                 final vinculoQuizzes = controller.vinculoQuizzes;
+                final message = controller.message;
+                if (message.isNotEmpty) {
+                  return SingleChildScrollView(
+                    child: Center(
+                      child: Text(message),
+                    ),
+                  );
+                }
                 if (loading) {
                   return const Center(
                     child: CircularProgressIndicator(),

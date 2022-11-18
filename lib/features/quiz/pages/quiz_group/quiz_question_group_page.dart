@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -211,9 +210,28 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                                                       await controller
                                                           .saveApelacao();
                                                   if (result) {
-                                                    asuka.AsukaSnackbar.success(
-                                                      'Apelação salva com sucesso',
-                                                    ).show();
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (ctx) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                            'Sucesso',
+                                                          ),
+                                                          content: const Text(
+                                                            'Apelação salva com sucesso',
+                                                          ),
+                                                          actions: [
+                                                            CustomButtonDefault(
+                                                              text: 'OK',
+                                                              onTap: () =>
+                                                                  Navigator.pop(
+                                                                ctx,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
                                                     Navigator.pop(ctx);
                                                     Navigator.pop(context);
                                                   } else {

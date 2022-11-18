@@ -1,9 +1,8 @@
-import 'package:asuka/asuka.dart' as asuka;
-import 'package:dashboard_tbl/features/quiz/models/apelacao/apelacao_model.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../core/infra/clients/dio_client.dart';
 import '../../../external/quiz_external.dart';
+import '../../../models/apelacao/apelacao_model.dart';
 import '../../../models/quiz_result/quiz_result.dart';
 import '../../../models/vincule_quiz/vinculo_quiz_model.dart';
 
@@ -14,6 +13,9 @@ class VinculoQuizController = _VinculoQuizControllerBase
 
 abstract class _VinculoQuizControllerBase with Store {
   final quizExternal = QuizExternal(DioClient());
+
+  @observable
+  String message = "";
 
   @observable
   bool loading = false;
@@ -58,7 +60,7 @@ abstract class _VinculoQuizControllerBase with Store {
           await quizExternal.getVinculosQuizzes(dataIni, dataFim, answered);
       vinculoQuizzes = vinculoQuizzes;
     } catch (e) {
-      asuka.AsukaSnackbar.alert(e.toString()).show();
+      message = e.toString();
     } finally {
       loading = false;
     }
@@ -72,7 +74,7 @@ abstract class _VinculoQuizControllerBase with Store {
       quizResults = quizResults;
       await getApelacoes(quiz);
     } catch (e) {
-      asuka.AsukaSnackbar.alert(e.toString()).show();
+      message = e.toString();
     } finally {
       loading = false;
     }
@@ -90,7 +92,7 @@ abstract class _VinculoQuizControllerBase with Store {
       apelacoes = await quizExternal.getApelacoes(idQuiz, data);
       apelacoes = apelacoes;
     } catch (e) {
-      asuka.AsukaSnackbar.alert(e.toString()).show();
+      message = e.toString();
     } finally {
       loading = false;
     }
