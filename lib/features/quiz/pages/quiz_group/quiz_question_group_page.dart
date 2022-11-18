@@ -210,15 +210,40 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                                                       await controller
                                                           .saveApelacao();
                                                   if (result) {
-                                                    showDialog(
+                                                    await showDialog(
                                                       context: context,
-                                                      builder: (ctx) {
+                                                      builder: (buildCtx) {
                                                         return AlertDialog(
                                                           title: const Text(
                                                             'Sucesso',
                                                           ),
                                                           content: const Text(
                                                             'Apelação salva com sucesso',
+                                                          ),
+                                                          actions: [
+                                                            CustomButtonDefault(
+                                                              text: 'OK',
+                                                              onTap: () =>
+                                                                  Navigator.pop(
+                                                                buildCtx,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                    Navigator.pop(ctx);
+                                                    Navigator.pop(context);
+                                                  } else {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (ctx) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                            'Erro',
+                                                          ),
+                                                          content: const Text(
+                                                            'Erro ao salvar apelação',
                                                           ),
                                                           actions: [
                                                             CustomButtonDefault(
@@ -232,10 +257,6 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
                                                         );
                                                       },
                                                     );
-                                                    Navigator.pop(ctx);
-                                                    Navigator.pop(context);
-                                                  } else {
-                                                    Navigator.pop(ctx);
                                                   }
                                                 },
                                                 child: const Text(

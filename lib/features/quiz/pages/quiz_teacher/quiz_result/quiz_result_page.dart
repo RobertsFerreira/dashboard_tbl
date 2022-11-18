@@ -5,6 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../components/quiz_result_components/answer_title_component.dart';
 import '../../../components/quiz_result_components/answer_user_component.dart';
+import '../../../controller/quiz_students/controller_quiz_students.dart';
+import '../../../controller/quiz_teacher/vinculo/vinculo_quiz_controller.dart';
 import '../../../models/quiz_model.dart';
 import '../../../models/vincule_quiz/vinculo_quiz_model.dart';
 
@@ -217,9 +219,13 @@ class _QuizResultPageState extends State<QuizResultPage> {
 
   Future<void> getResults() async {
     if (widget.quizVincule != null && widget.quiz == null) {
-      await widget.controller.getResultsOfQuiz(widget.quizVincule);
+      final controller = widget.controller as VinculoQuizController;
+      controller.quizResults = [];
+      await controller.getResultsOfQuiz(widget.quizVincule!);
     } else if (widget.quizVincule == null && widget.quiz != null) {
-      await widget.controller.getResultsOfQuiz(widget.quiz);
+      final controller = widget.controller as ControllerQuizStudents;
+      controller.quizResults = [];
+      await controller.getResultsOfQuiz(widget.quiz!.id);
     }
   }
 

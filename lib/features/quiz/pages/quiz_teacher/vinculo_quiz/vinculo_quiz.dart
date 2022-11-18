@@ -152,17 +152,19 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                       return GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onDoubleTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return QuizResultPage(
-                                  controller: controller,
-                                  quizVincule: vinculoQuiz,
-                                );
-                              },
-                            ),
-                          );
+                          if (controller.answered) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return QuizResultPage(
+                                    controller: controller,
+                                    quizVincule: vinculoQuiz,
+                                  );
+                                },
+                              ),
+                            );
+                          }
                         },
                         child: Card(
                           child: ExpansionTile(

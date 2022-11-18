@@ -15,12 +15,15 @@ class AnswerTitleComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Resposta $numberQuestions: $title',
-          style: Theme.of(context).textTheme.headline6!.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
+        SizedBox(
+          child: Text(
+            'Resposta $numberQuestions: $title',
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
         ),
         const Spacer(),
         const Text(
