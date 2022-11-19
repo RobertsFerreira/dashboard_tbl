@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextFormField(
                     onChanged: controller.setCpf,
                     decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.person),
                       labelText: 'CPF',
                       border: OutlineInputBorder(),
                     ),
@@ -52,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                         onChanged: controller.setPassword,
                         obscureText: obscurePassword,
                         decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
                           labelText: 'Senha',
                           border: const OutlineInputBorder(),
                           suffixIcon: IconButton(
