@@ -18,7 +18,7 @@ class DioClient extends ClientHttp {
     } else {
       _url = Platform.isLinux
           ? "http://localhost"
-          : "http://http://robertferreira.ddns.net";
+          : "http://robertferreira.ddns.net";
     }
 
     _dio = Dio(

@@ -94,7 +94,7 @@ class _CadasterQuestionPageState extends State<CadasterQuestionPage> {
             const Divider(),
             const SizedBox(height: 10),
             const Text(
-              'Perguntas a Cadastrar',
+              'Respostas a Cadastrar',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

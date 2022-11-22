@@ -44,6 +44,7 @@ class AnswerComponent extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: TextFormField(
+            initialValue: '4',
             decoration: const InputDecoration(
               labelText: 'Pontuação Máxima',
               border: OutlineInputBorder(),

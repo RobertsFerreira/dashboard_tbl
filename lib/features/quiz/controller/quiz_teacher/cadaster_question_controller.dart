@@ -113,7 +113,8 @@ abstract class _CadasterQuestionControllerBase with Store {
   void incrementNumberAnswers() {
     numberAnswers++;
     controllerNumberAnswers.text = numberAnswers.toString();
-    final answer = NewAnswerModel.empty().copyWith(idCompany: quiz.idCompany);
+    final answer =
+        NewAnswerModel.empty().copyWith(idCompany: quiz.idCompany, score: 4);
     answers.add(answer);
   }
 
