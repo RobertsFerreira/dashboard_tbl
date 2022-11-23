@@ -16,14 +16,17 @@ class AnswerTitleComponent extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.4,
-          child: Text(
-            'Resposta $numberQuestions: $title',
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: Tooltip(
+            message: title,
+            child: Text(
+              'Resposta $numberQuestions: $title',
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headline6!.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
           ),
         ),
         const Spacer(),
