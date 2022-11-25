@@ -10,6 +10,7 @@ class AnswerCard extends StatelessWidget {
   final bool correct;
   final bool showResult;
   final Function()? onTap;
+  final TextEditingController? controller;
   const AnswerCard({
     Key? key,
     required this.index,
@@ -21,6 +22,7 @@ class AnswerCard extends StatelessWidget {
     this.correct = false,
     this.showResult = false,
     this.onTap,
+    this.controller,
   }) : super(key: key);
 
   Widget withTrailing() {
@@ -53,24 +55,44 @@ class AnswerCard extends StatelessWidget {
                   height: 80,
                   width: 60,
                   child: Center(
-                    child: DropdownButtonFormField<int>(
-                      value: pointSelect,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      onTap: () {
+                        if (controller != null) {
+                          controller!.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: controller!.text.length,
+                          );
+                        }
+                      },
+                      controller: controller,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                       ),
-                      items: List.generate(
-                        limitScore,
-                        (index) {
-                          return DropdownMenuItem<int>(
-                            value: index,
-                            child: Text(
-                              index.toString(),
-                            ),
-                          );
-                        },
-                      ),
-                      onChanged: onChanged,
+                      onChanged: (value) {
+                        onChanged!(
+                          int.tryParse(value),
+                        );
+                      },
                     ),
+                    // DropdownButtonFormField<int>(
+                    //   value: pointSelect,
+                    //   decoration: const InputDecoration(
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    //   items: List.generate(
+                    //     limitScore,
+                    //     (index) {
+                    //       return DropdownMenuItem<int>(
+                    //         value: index,
+                    //         child: Text(
+                    //           index.toString(),
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    //   onChanged: onChanged,
+                    // ),
                   ),
                 ),
               ],

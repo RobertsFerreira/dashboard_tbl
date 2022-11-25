@@ -7,6 +7,7 @@ import '../../../../components/button_navigator.dart';
 import '../../../../components/progress_bar_question.dart';
 import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../controller/quiz_students/controller_quiz_question.dart';
+import '../../models/answer/answer_student.dart';
 import '../quiz_group/quiz_question_group_page.dart';
 
 class QuizQuestionStudentPage extends StatefulWidget {
@@ -90,7 +91,7 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                   child: ListView.builder(
                     itemCount: numberAnswer,
                     itemBuilder: (_, index) {
-                      final answer = answerStudent[index];
+                      AnswerStudent answer = answerStudent[index];
                       return Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: AnswerCard(
@@ -98,6 +99,9 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                           pointSelect: answer.pointSelect,
                           text: answer.description,
                           limitScore: answer.limitScore + 1,
+                          controller: TextEditingController(
+                            text: answer.pointSelect.toString(),
+                          ),
                           onChanged: (value) =>
                               controller.setSelectPoint(value, index),
                         ),

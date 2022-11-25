@@ -16,6 +16,7 @@ class App extends StatelessWidget {
         appBarTheme: AppBarTheme.of(context).copyWith(elevation: 20),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
+          // brightness: Brightness.dark,
         ),
       ),
       home: const LoginPage(),

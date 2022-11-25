@@ -99,8 +99,8 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                       );
                     }
                     if (message.isNotEmpty) {
-                      return SingleChildScrollView(
-                        child: Center(
+                      return Expanded(
+                        child: SingleChildScrollView(
                           child: Text(message),
                         ),
                       );

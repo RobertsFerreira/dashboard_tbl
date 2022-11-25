@@ -11,16 +11,18 @@ class HomePageForStudent extends StatefulWidget {
 class _HomePageForStudentState extends State<HomePageForStudent> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const CustomDrawerStudent(),
-        const SizedBox(width: 20),
-        const VerticalDivider(),
-        const SizedBox(width: 20),
-        Expanded(
-          child: Container(),
-        ),
-      ],
+    return Scaffold(
+      body: Row(
+        children: [
+          const CustomDrawerStudent(),
+          const SizedBox(width: 20),
+          const VerticalDivider(),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 }
