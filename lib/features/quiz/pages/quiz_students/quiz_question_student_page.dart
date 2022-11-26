@@ -8,7 +8,6 @@ import '../../../../components/progress_bar_question.dart';
 import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../controller/quiz_students/controller_quiz_question.dart';
 import '../../models/answer/answer_student.dart';
-import '../quiz_group/quiz_question_group_page.dart';
 
 class QuizQuestionStudentPage extends StatefulWidget {
   final QuizModel quiz;
@@ -169,16 +168,16 @@ class _QuizQuestionStudentPageState extends State<QuizQuestionStudentPage> {
                                           onTap: () {
                                             Navigator.of(ctx).pop();
                                             Navigator.pop(context);
-                                            Navigator.push(
-                                              ctx,
-                                              MaterialPageRoute(
-                                                builder: (ctx) {
-                                                  return QuizQuestionGroupPage(
-                                                    quiz: controller.quiz,
-                                                  );
-                                                },
-                                              ),
-                                            );
+                                            // Navigator.push(
+                                            //   ctx,
+                                            //   MaterialPageRoute(
+                                            //     builder: (ctx) {
+                                            //       return QuizQuestionGroupPage(
+                                            //         quiz: controller.quiz,
+                                            //       );
+                                            //     },
+                                            //   ),
+                                            // );
                                           },
                                         ),
                                       ],
