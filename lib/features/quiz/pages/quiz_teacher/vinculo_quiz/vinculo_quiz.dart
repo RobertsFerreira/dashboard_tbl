@@ -30,8 +30,8 @@ class _VinculoQuizState extends State<VinculoQuiz> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
               children: [
                 CustomButtonDefault(
                   width: 140,
@@ -47,7 +47,7 @@ class _VinculoQuizState extends State<VinculoQuiz> {
                   text: 'Liberar Quiz',
                 ),
                 const SizedBox(width: 20),
-                Row(
+                Wrap(
                   children: [
                     SizedBox(
                       height: 80,

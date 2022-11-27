@@ -35,7 +35,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Row(
+                Wrap(
                   children: [
                     CustomButtonDefault(
                       text: 'Data: ${dataIni.toStringFormatted()}',

@@ -11,13 +11,14 @@ class CustomButtonDefault extends StatelessWidget {
     required this.text,
     this.onTap,
     this.icon,
-    this.height = 40,
-    this.width = 120,
+    this.height = 50,
+    this.width = 140,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: onTap != null
             ? Theme.of(context).colorScheme.primary
@@ -29,8 +30,8 @@ class CustomButtonDefault extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.translucent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Wrap(
+          alignment: WrapAlignment.center,
           children: [
             if (icon != null)
               Center(

@@ -1,8 +1,5 @@
 import 'package:dashboard_tbl/components/menu/custom_drawer_student.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../../core/components/buttons/custom_button_default.dart';
 
 class HomePageForStudent extends StatefulWidget {
   const HomePageForStudent({super.key});
@@ -16,25 +13,25 @@ class _HomePageForStudentState extends State<HomePageForStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
-        children: [
-          const CustomDrawerStudent(),
-          const SizedBox(width: 20),
-          const VerticalDivider(),
-          const SizedBox(width: 20),
-          Expanded(
-              child: Center(
-            child: CustomButtonDefault(
-              width: 200,
-              text: 'Pesquisa de Satisfação',
-              onTap: () async {
-                final url = Uri.parse(
-                  'https://docs.google.com/forms/d/e/1FAIpQLScJgbGIhtFDDxbndV-H3ESbWm-oGWmHzxEKmAmTReTFkvtEfQ/viewform?usp=sf_link',
-                );
-                await launchUrl(url);
-              },
-              icon: Icons.rate_review,
-            ),
-          )),
+        children: const [
+          CustomDrawerStudent(),
+          SizedBox(width: 20),
+          VerticalDivider(),
+          SizedBox(width: 20),
+          // Expanded(
+          //     child: Center(
+          //   child: CustomButtonDefault(
+          //     width: 200,
+          //     text: 'Pesquisa de Satisfação',
+          //     onTap: () async {
+          //       final url = Uri.parse(
+          //         'https://docs.google.com/forms/d/e/1FAIpQLScJgbGIhtFDDxbndV-H3ESbWm-oGWmHzxEKmAmTReTFkvtEfQ/viewform?usp=sf_link',
+          //       );
+          //       await launchUrl(url);
+          //     },
+          //     icon: Icons.rate_review,
+          //   ),
+          // )),
         ],
       ),
     );

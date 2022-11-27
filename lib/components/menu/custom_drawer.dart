@@ -17,77 +17,85 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.15,
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          const CustomButtonDefault(
-            text: 'Alunos',
-            width: 140,
-            onTap: null,
-            icon: Icons.person,
-          ),
-          const SizedBox(height: 20),
-          CustomButtonDefault(
-            text: 'Grupos',
-            width: 140,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => const GroupPage(),
-              ),
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.18,
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            const CustomButtonDefault(
+              text: 'Alunos',
+              width: 140,
+              height: 50,
+              onTap: null,
+              icon: Icons.person,
             ),
-            icon: Icons.group,
-          ),
-          const SizedBox(height: 20),
-          const CustomButtonDefault(
-            text: 'Turmas',
-            width: 140,
-            onTap: null,
-            icon: Icons.class_,
-          ),
-          const SizedBox(height: 20),
-          CustomButtonDefault(
-            text: 'Quizzes',
-            width: 140,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => const QuizzesPage(),
-              ),
-            ),
-            icon: Icons.question_mark,
-          ),
-          const SizedBox(height: 20),
-          CustomButtonDefault(
-            text: 'Quizzes Ativos',
-            width: 140,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => const VinculoQuiz(),
-              ),
-            ),
-            icon: Icons.question_mark,
-          ),
-          const SizedBox(height: 20),
-          CustomButtonDefault(
-            text: 'Logout',
-            width: 140,
-            onTap: () {
-              UserGlobal.instance.setUser(null);
-              Navigator.pushAndRemoveUntil(
+            const SizedBox(height: 20),
+            CustomButtonDefault(
+              text: 'Grupos',
+              width: 140,
+              height: 50,
+              onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (ctx) => const LoginPage(),
+                  builder: (ctx) => const GroupPage(),
                 ),
-                (route) => false,
-              );
-            },
-            icon: Icons.exit_to_app,
-          ),
-        ],
+              ),
+              icon: Icons.group,
+            ),
+            const SizedBox(height: 20),
+            const CustomButtonDefault(
+              text: 'Turmas',
+              width: 140,
+              height: 50,
+              onTap: null,
+              icon: Icons.class_,
+            ),
+            const SizedBox(height: 20),
+            CustomButtonDefault(
+              text: 'Quizzes',
+              width: 140,
+              height: 50,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const QuizzesPage(),
+                ),
+              ),
+              icon: Icons.question_mark,
+            ),
+            const SizedBox(height: 20),
+            CustomButtonDefault(
+              text: 'Quizzes Ativos',
+              width: 140,
+              height: 70,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => const VinculoQuiz(),
+                ),
+              ),
+              icon: Icons.question_mark,
+            ),
+            const SizedBox(height: 20),
+            CustomButtonDefault(
+              text: 'Logout',
+              width: 140,
+              height: 50,
+              onTap: () {
+                UserGlobal.instance.setUser(null);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => const LoginPage(),
+                  ),
+                  (route) => false,
+                );
+              },
+              icon: Icons.exit_to_app,
+            ),
+          ],
+        ),
       ),
     );
   }
