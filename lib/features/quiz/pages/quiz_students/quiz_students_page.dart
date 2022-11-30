@@ -158,7 +158,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                                       CustomButtonDefault(
                                         text: 'Responder Sozinho',
                                         width: 150,
-                                        onTap: !answered
+                                        onTap: answered
                                             ? null
                                             : () {
                                                 Navigator.push(
@@ -177,7 +177,7 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                                       CustomButtonDefault(
                                         text: 'Responder Em grupo',
                                         width: 150,
-                                        onTap: !answered
+                                        onTap: answered
                                             ? null
                                             : () {
                                                 Navigator.push(
