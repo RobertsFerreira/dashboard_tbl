@@ -15,7 +15,7 @@ class AnswerUserComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
+        Wrap(
           children: [
             const Text(
               'Resposta do Aluno: ',
@@ -23,7 +23,7 @@ class AnswerUserComponent extends StatelessWidget {
             const SizedBox(width: 10),
             Text(userName),
             const SizedBox(width: 8),
-            const Spacer(),
+            // const Spacer(),
             const SizedBox(width: 8),
             const Text(
               'Pontuação respondida:',

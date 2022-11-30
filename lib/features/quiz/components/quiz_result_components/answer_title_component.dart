@@ -13,7 +13,7 @@ class AnswerTitleComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.7,
@@ -29,7 +29,7 @@ class AnswerTitleComponent extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
+        // const Spacer(),
         const Text(
           'Resposta Correta: ',
           style: TextStyle(

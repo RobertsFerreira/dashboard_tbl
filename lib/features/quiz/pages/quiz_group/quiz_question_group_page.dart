@@ -34,12 +34,19 @@ class _QuizQuestionGroupPageState extends State<QuizQuestionGroupPage> {
               children: [
                 Observer(
                   builder: (_) {
-                    return Text(
-                      controller.questionIndex,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      child: Tooltip(
+                        message: controller.questionIndex,
+                        child: Text(
+                          controller.questionIndex,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     );
                   },

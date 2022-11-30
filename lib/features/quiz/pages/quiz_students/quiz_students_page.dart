@@ -1,4 +1,3 @@
-import 'package:dashboard_tbl/core/components/dropdown/custom_dropdown.dart';
 import 'package:dashboard_tbl/features/quiz/pages/quiz_students/quiz_question_student_page.dart';
 import 'package:dashboard_tbl/utils/extensions/custom_extension_date.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/components/buttons/custom_button_default.dart';
 import '../../../../core/components/date_picker/custom_date_picker.dart';
+import '../../../../core/components/dropdown/custom_dropdown.dart';
 import '../../controller/quiz_students/controller_quiz_students.dart';
 import '../quiz_group/quiz_question_group_page.dart';
 import '../quiz_teacher/quiz_result/quiz_result_page.dart';
@@ -22,6 +22,10 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final isWidthGreatHeight = width > height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quizzes'),
@@ -36,35 +40,41 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
               children: [
                 const SizedBox(height: 20),
                 Wrap(
+                  runSpacing: 20,
                   children: [
-                    CustomButtonDefault(
-                      text: 'Data: ${dataIni.toStringFormatted()}',
-                      onTap: () async {
-                        final date = await customDatePicker(context);
-                        if (date != null) {
-                          controller.setFrom(date);
-                        }
-                      },
+                    Wrap(
+                      runSpacing: 5,
+                      children: [
+                        CustomButtonDefault(
+                          text: 'Data: ${dataIni.toStringFormatted()}',
+                          onTap: () async {
+                            final date = await customDatePicker(context);
+                            if (date != null) {
+                              controller.setFrom(date);
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 20),
+                        CustomButtonDefault(
+                          text: 'Data: ${dataFim.toStringFormatted()}',
+                          onTap: () async {
+                            final date = await customDatePicker(context);
+                            if (date != null) {
+                              controller.setTo(date);
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 20),
+                        CustomButtonDefault(
+                          text: 'Buscar',
+                          onTap: () async {
+                            await controller.getAllQuizzes();
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 20),
-                    CustomButtonDefault(
-                      text: 'Data: ${dataFim.toStringFormatted()}',
-                      onTap: () async {
-                        final date = await customDatePicker(context);
-                        if (date != null) {
-                          controller.setTo(date);
-                        }
-                      },
-                    ),
-                    const SizedBox(width: 20),
-                    CustomButtonDefault(
-                      text: 'Buscar',
-                      onTap: () async {
-                        await controller.getAllQuizzes();
-                      },
-                    ),
-                    const Spacer(),
                     CustomDropDown(
+                      withExpanded: false,
                       text: 'Status do Quiz',
                       onChanged: (value) {
                         if (value != null) {
@@ -141,42 +151,49 @@ class _QuizStudentsPageState extends State<QuizStudentsPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 20),
-                                CustomButtonDefault(
-                                  text: 'Responder Sozinho',
-                                  width: 150,
-                                  onTap: answered
-                                      ? null
-                                      : () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (ctx) {
-                                                return QuizQuestionStudentPage(
-                                                  quiz: quiz,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      CustomButtonDefault(
+                                        text: 'Responder Sozinho',
+                                        width: 150,
+                                        onTap: !answered
+                                            ? null
+                                            : () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (ctx) {
+                                                      return QuizQuestionStudentPage(
+                                                        quiz: quiz,
+                                                      );
+                                                    },
+                                                  ),
                                                 );
                                               },
-                                            ),
-                                          );
-                                        },
-                                ),
-                                const SizedBox(width: 20),
-                                CustomButtonDefault(
-                                  text: 'Responder Em grupo',
-                                  width: 150,
-                                  onTap: answered
-                                      ? null
-                                      : () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (ctx) {
-                                                return QuizQuestionGroupPage(
-                                                  quiz: quiz,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      CustomButtonDefault(
+                                        text: 'Responder Em grupo',
+                                        width: 150,
+                                        onTap: !answered
+                                            ? null
+                                            : () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (ctx) {
+                                                      return QuizQuestionGroupPage(
+                                                        quiz: quiz,
+                                                      );
+                                                    },
+                                                  ),
                                                 );
                                               },
-                                            ),
-                                          );
-                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(width: 20),
                               ],
